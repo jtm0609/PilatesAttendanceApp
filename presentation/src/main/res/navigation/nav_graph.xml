@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/attendanceMainFragment">
+
+    <fragment
+        android:id="@+id/attendanceMainFragment"
+        android:name="com.example.cmong_pilates_attendance_project.view.AttendanceMainFragment"
+        android:label="AttendanceMainFragment" >
+        <action
+            android:id="@+id/action_attendanceMainFragment_to_attendanceCompleteFragment"
+            app:destination="@id/attendanceCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/attendanceCompleteFragment"
+        android:name="com.example.cmong_pilates_attendance_project.view.AttendanceCompleteFragment"
+        android:label="AttendanceCompleteFragment" />
+</navigation>
