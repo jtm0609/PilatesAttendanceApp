@@ -56,4 +56,7 @@ dependencies {
     testImplementation ("androidx.room:room-testing:$roomVersion")
     kapt ("androidx.room:room-compiler:$roomVersion")
     implementation ("androidx.room:room-ktx:$roomVersion")
+
+    // Logger
+    implementation("com.orhanobut:logger:2.2.0")
 }
