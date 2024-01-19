@@ -5,4 +5,7 @@
     <string name="msg_input_phone_number">010을 제외한 전화번호 8자리를 입력해주세요</string>
     <string name="msg_info_pilates">늙어서 운동을 그만두는 게 아니라 운동을 그만두기 때문에 늙는 것이다.
          \n\n편하게 누워있는 시간이 늘어날수록 병고로 누워있는 시간도 늘어난다.</string>
+    <string name="msg_complete_attendance">출석완료!</string>
+    <string name="msg_add_mileage">마일리지 적립되셨습니다^^</string>
+    <string name="msg_current_mileage">현재 보유중인 마일리지</string>
 </resources>

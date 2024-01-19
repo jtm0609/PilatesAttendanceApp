@@ -105,8 +105,6 @@ class AttendanceMainFragment :
     @Preview(showBackground = true)
     @Composable
     fun mainView(){
-
-
         Row(modifier = Modifier
             .fillMaxSize()
             .clipToBounds()
