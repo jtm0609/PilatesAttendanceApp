@@ -12,27 +12,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.cmong_pilates_attendance_project.R
 
-abstract class BaseFragment<B : ViewDataBinding>
-    (@LayoutRes val layoutId: Int) : Fragment() {
-    protected lateinit var binding: B
+abstract class BaseFragment
+     : Fragment() {
     protected lateinit var mContext: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this
     }
 
     protected fun showToast(msg: String) {

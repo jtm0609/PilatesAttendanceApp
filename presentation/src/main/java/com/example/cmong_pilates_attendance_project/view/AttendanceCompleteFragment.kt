@@ -11,7 +11,7 @@ import com.example.cmong_pilates_attendance_project.databinding.FragmentAttendan
 
 
 class AttendanceCompleteFragment :
-    BaseFragment<FragmentAttendanceCompleteBinding>(R.layout.fragment_attendance_complete) {
+    BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
