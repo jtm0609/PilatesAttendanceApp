@@ -8,4 +8,9 @@
     <string name="msg_complete_attendance">출석완료!</string>
     <string name="msg_add_mileage">마일리지 적립되셨습니다^^</string>
     <string name="msg_current_mileage">현재 보유중인 마일리지</string>
+
+    <string name="title_admin_menu">관리자 메뉴</string>
+    <string name="text_menu_register_user">신규 회원 등록</string>
+    <string name="text_menu_manage_user">회원 관리</string>
+    <string name="text_menu_change_attendance_count">출석 횟수 변경</string>
 </resources>
