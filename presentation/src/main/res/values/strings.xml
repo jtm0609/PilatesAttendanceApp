@@ -18,4 +18,9 @@
     <string name="title_manage_user">회원 관리</string>
     <string name="text_menu_re_register_user">회원 재등록</string>
     <string name="text_menu_change_mileage">마일리지 변경</string>
+    <string name="text_max_attendance_count">하루 최대 출석 횟수</string>
+    <string name="text_user_mileage">%s님의 마일리지</string>
+    <string name="text_user_score">%d점</string>
+    <string name="text_next_button">다음</string>
+    <string name="text_save_button">저장</string>
 </resources>

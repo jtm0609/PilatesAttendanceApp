@@ -98,7 +98,7 @@ class InputPhoneNumberFragment : BaseFragment() {
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
             navigationIcon = {
-                IconButton(onClick = {}) {
+                IconButton(onClick = {findNavController().popBackStack()}) {
                     Icon(
                         Icons.Filled.ArrowBack, "backIcon", tint = Color.White
                     )
@@ -191,7 +191,7 @@ class InputPhoneNumberFragment : BaseFragment() {
                             },
                     ) {
                         textView(
-                            text = "다음",
+                            text = stringResource(R.string.text_next_button),
                             color = Color.White,
                             fontSize = 20.sp,
                             textAlign = TextAlign.Center,

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -87,7 +88,7 @@ class AdminMenuFragment : BaseFragment() {
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
             navigationIcon = {
-                IconButton(onClick = {}) {
+                IconButton(onClick = {activity?.finish()}) {
                     Icon(
                         Icons.Filled.ArrowBack, "backIcon", tint = Color.White
                     )
@@ -106,7 +107,7 @@ class AdminMenuFragment : BaseFragment() {
                     color = Color(0xFF333333),
                     shape = RoundedCornerShape(16.dp)
                 )
-                .padding(6.dp)
+                .padding(6.dp).clickable { movePage(clickItem) }
         ) {
             Row(
                 modifier = Modifier
