@@ -13,4 +13,9 @@
     <string name="text_menu_register_user">신규 회원 등록</string>
     <string name="text_menu_manage_user">회원 관리</string>
     <string name="text_menu_change_attendance_count">출석 횟수 변경</string>
+    <string name="text_title_input_phone_number">전화번호 입력</string>
+    <string name="text_guide_input_phone_number">관리를 할 회원의 휴대폰 번호를 입력해주세요.</string>
+    <string name="title_manage_user">회원 관리</string>
+    <string name="text_menu_re_register_user">회원 재등록</string>
+    <string name="text_menu_change_mileage">마일리지 변경</string>
 </resources>

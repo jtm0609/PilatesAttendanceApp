@@ -37,13 +37,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
+import com.example.cmong_pilates_attendance_project.utils.Constant.CHANGE_ATTENDANCE_MENU_CLICK
+import com.example.cmong_pilates_attendance_project.utils.Constant.MANAGE_USER_MENU_CLICK
+import com.example.cmong_pilates_attendance_project.utils.Constant.REGISTER_MENU_CLICK
 
 
 class AdminMenuFragment : BaseFragment() {
 
-    private val REGISTER_MENU_CLICK = 1
-    private val MANAGE_USER_MENU_CLICK = 2
-    private val CHANGE_ATTENDANCE_MENU_CLICK = 3
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -175,7 +175,7 @@ class AdminMenuFragment : BaseFragment() {
             }
 
             MANAGE_USER_MENU_CLICK -> {
-                findNavController().navigate(R.id.action_adminMenuFragment_to_manageUserFragment)
+                findNavController().navigate(R.id.action_adminMenuFragment_to_inputPhoneNumberFragment)
             }
 
             else -> {

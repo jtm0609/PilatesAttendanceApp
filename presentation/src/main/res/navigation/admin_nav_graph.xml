@@ -17,8 +17,9 @@
             android:id="@+id/action_adminMenuFragment_to_changeAttendanceCountFragment"
             app:destination="@id/changeAttendanceCountFragment" />
         <action
-            android:id="@+id/action_adminMenuFragment_to_manageUserFragment"
-            app:destination="@id/manageUserFragment" />
+            android:id="@+id/action_adminMenuFragment_to_inputPhoneNumberFragment"
+            app:destination="@id/inputPhoneNumberFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/registerUserFragment"
@@ -35,9 +36,13 @@
         android:name="com.example.cmong_pilates_attendance_project.view.admin.ManageUserFragment"
         android:label="fragment_manage_user"
         tools:layout="@layout/fragment_manage_user" >
+
         <action
-            android:id="@+id/action_manageUserFragment_to_inputPhoneNumberFragment"
-            app:destination="@id/inputPhoneNumberFragment" />
+            android:id="@+id/action_manageUserFragment_to_reregisterUserFragment"
+            app:destination="@id/reregisterUserFragment" />
+        <action
+            android:id="@+id/action_manageUserFragment_to_changeUserMileageFragment"
+            app:destination="@id/changeUserMileageFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeUserMileageFragment"
@@ -49,12 +54,10 @@
         android:name="com.example.cmong_pilates_attendance_project.view.admin.InputPhoneNumberFragment"
         android:label="fragment_input_phone_number"
         tools:layout="@layout/fragment_input_phone_number" >
+
         <action
-            android:id="@+id/action_inputPhoneNumberFragment_to_changeUserMileageFragment"
-            app:destination="@id/changeUserMileageFragment" />
-        <action
-            android:id="@+id/action_inputPhoneNumberFragment_to_reregisterUserFragment"
-            app:destination="@id/reregisterUserFragment" />
+            android:id="@+id/action_inputPhoneNumberFragment_to_manageUserFragment"
+            app:destination="@id/manageUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/reregisterUserFragment"
