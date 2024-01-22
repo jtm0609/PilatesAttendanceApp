@@ -15,4 +15,6 @@ class ReregisterUserFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_reregister_user, container, false)
     }
+
+
 }

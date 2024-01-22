@@ -23,4 +23,12 @@
     <string name="text_user_score">%d점</string>
     <string name="text_next_button">다음</string>
     <string name="text_save_button">저장</string>
+    <string name="text_setting_button">설정</string>
+
+    <string name="text_input_name">성명</string>
+    <string name="text_input_phone_number">전화번호</string>
+    <string name="text_input_duration">이용 기간</string>
+    <string name="text_input_start_date">이용 시작일</string>
+    <string name="text_input_hint_name">홍길동</string>
+    <string name="text_input_hint_phone_number">01012345678</string>
 </resources>

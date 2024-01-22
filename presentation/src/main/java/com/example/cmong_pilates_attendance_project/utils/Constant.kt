@@ -9,4 +9,9 @@ object Constant {
 
     val UP_ATTENDANCE_COUNT = 6
     val DOWN_ATTENDANCE_COUNT = 7
+
+    val INPUT_NAME = 8
+    val INPUT_PHONE_NUMBER = 9
+    val INPUT_DURATION = 10
+    val INPUT_START_DATE = 11
 }
