@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -92,7 +93,7 @@ class InputPhoneNumberFragment : BaseFragment() {
                 textView(
                     text = "",
                     Color.White,
-                    20.sp,
+                    30.sp,
                     TextAlign.Center
                 )
             },
@@ -155,37 +156,37 @@ class InputPhoneNumberFragment : BaseFragment() {
                             text = stringResource(
                                 id = R.string.text_title_input_phone_number
                             ),
-                            color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(top = 16.dp, start = 20.dp, bottom = 10.dp)
+                            color = Color.White, fontSize = 40.sp, textAlign = TextAlign.Start,
+                            modifier = Modifier.padding(top = 16.dp, start = 30.dp, bottom = 20.dp)
                         )
                         textView(
                             text = stringResource(
                                 id = R.string.text_guide_input_phone_number
                             ),
-                            color = Color.Gray, fontSize = 14.sp, textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(start = 20.dp)
+                            color = Color.Gray, fontSize = 25.sp, textAlign = TextAlign.Start,
+                            modifier = Modifier.padding(start = 30.dp)
                         )
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(40.dp))
 
                         textView(
                             text = "대한민국(Repulbic of Korea)",
                             color = Color.White,
-                            fontSize = 14.sp,
+                            fontSize = 20.sp,
                             textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
+                            modifier = Modifier.padding(start = 30.dp, top = 10.dp, bottom = 20.dp)
                         )
 
                         editText(
                             hint = stringResource(id = R.string.text_title_input_phone_number),
-                            modifier = Modifier.padding(start = 20.dp, bottom = 20.dp)
+                            modifier = Modifier.padding(start = 30.dp, bottom = 20.dp).width(400.dp)
                         )
                     }
 
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(15.dp)
+                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
                             .clickable {
                                 clickNextButton()
                             },
@@ -193,11 +194,11 @@ class InputPhoneNumberFragment : BaseFragment() {
                         textView(
                             text = stringResource(R.string.text_next_button),
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 30.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp)
+                                .height(50.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)

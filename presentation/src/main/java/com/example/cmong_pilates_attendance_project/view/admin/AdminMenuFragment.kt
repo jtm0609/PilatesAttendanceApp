@@ -82,7 +82,7 @@ class AdminMenuFragment : BaseFragment() {
                 textView(
                     text = stringResource(id = R.string.title_admin_menu),
                     Color.White,
-                    20.sp,
+                    30.sp,
                     TextAlign.Center
                 )
             },
@@ -112,14 +112,14 @@ class AdminMenuFragment : BaseFragment() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(start=20.dp, end=20.dp,top=10.dp,bottom=10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 textView(
                     text = getMenuTitle(clickItem),
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 22.sp,
                     textAlign = TextAlign.Left,
                     modifier = Modifier.weight(1f)
                 )

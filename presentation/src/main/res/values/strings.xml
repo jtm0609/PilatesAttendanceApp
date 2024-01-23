@@ -31,4 +31,5 @@
     <string name="text_input_start_date">이용 시작일</string>
     <string name="text_input_hint_name">홍길동</string>
     <string name="text_input_hint_phone_number">01012345678</string>
+    <string name="text_start_date">%d-%02d-%02d</string>
 </resources>

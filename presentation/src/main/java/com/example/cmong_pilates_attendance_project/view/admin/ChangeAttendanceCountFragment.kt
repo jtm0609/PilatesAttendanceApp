@@ -93,7 +93,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                 textView(
                     text = stringResource(id = R.string.text_menu_change_attendance_count),
                     Color.White,
-                    20.sp,
+                    30.sp,
                     TextAlign.Center
                 )
             },
@@ -145,12 +145,12 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
                                 )
-                                .padding(30.dp)
+                                .padding(60.dp)
                         ) {
                             textView(
                                 text = stringResource(R.string.text_max_attendance_count),
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 40.sp,
                                 textAlign = TextAlign.Center
                             )
 
@@ -159,7 +159,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                 textView(
                                     text = "3회",
                                     color = Color.White,
-                                    fontSize = 60.sp,
+                                    fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -167,7 +167,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                 textView(
                                     "↑",
                                     Color.White,
-                                    fontSize = 50.sp,
+                                    fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.clickable {
                                         changeMileage(UP_ATTENDANCE_COUNT)
@@ -177,7 +177,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                 textView(
                                     "↓",
                                     Color.White,
-                                    fontSize = 50.sp,
+                                    fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.clickable {
                                         changeMileage(DOWN_ATTENDANCE_COUNT)
@@ -198,7 +198,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(15.dp)
+                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -206,11 +206,11 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                         textView(
                             text = stringResource(R.string.text_save_button),
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 30.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp)
+                                .height(50.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)

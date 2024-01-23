@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.view
+package com.example.cmong_pilates_attendance_project.view.attendance
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

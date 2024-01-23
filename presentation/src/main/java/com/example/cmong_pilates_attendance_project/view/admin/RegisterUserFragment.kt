@@ -1,9 +1,12 @@
 package com.example.cmong_pilates_attendance_project.view.admin
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -58,6 +61,9 @@ import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_NAME
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_PHONE_NUMBER
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_START_DATE
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
+import com.orhanobut.logger.Logger
+import java.util.Calendar
+import java.util.GregorianCalendar
 
 
 class RegisterUserFragment : BaseFragment() {
@@ -68,16 +74,9 @@ class RegisterUserFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         //뒤로가기 처리 (프래그먼트)
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if(viewModel.durationVisibility){
-                    viewModel.setVisibilityDuration(false)
-                }else{
-                    findNavController().popBackStack()
-                }
-            }
-        }
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
 
         // Inflate the layout for this fragment
         return ComposeView(mContext).apply {
@@ -112,7 +111,7 @@ class RegisterUserFragment : BaseFragment() {
                 textView(
                     text = stringResource(id = R.string.text_menu_register_user),
                     Color.White,
-                    20.sp,
+                    30.sp,
                     TextAlign.Center
                 )
             },
@@ -182,14 +181,14 @@ class RegisterUserFragment : BaseFragment() {
         textView(
             text = titleText!!,
             color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
-            modifier = Modifier.padding(top = 20.dp, start = 20.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 30.dp, bottom = 10.dp)
         )
         editText(
             hint = hintText!!,
             keyboardType!!,
             modifier = Modifier
-                .padding(start = 20.dp)
-                .width(300.dp)
+                .padding(start = 30.dp)
+                .width(400.dp)
                 .height(50.dp)
                 .background(Color(0XFFE7E7E7))
         )
@@ -215,19 +214,19 @@ class RegisterUserFragment : BaseFragment() {
                     id = R.string.text_input_start_date
                 )
                 imageVector = Icons.Filled.DateRange
-                contentText=""
+                contentText= viewModel.startDateText
             }
         }
 
         textView(
             text = titleText!!,
             color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
-            modifier = Modifier.padding(top = 20.dp, start = 20.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 30.dp, bottom = 10.dp)
         )
         Box(
             modifier = Modifier
-                .padding(start = 20.dp)
-                .width(300.dp)
+                .padding(start = 30.dp)
+                .width(400.dp)
                 .height(50.dp)
                 .background(Color(0xFFE8E0ED))
         ) {
@@ -288,7 +287,7 @@ class RegisterUserFragment : BaseFragment() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(15.dp)
+                    .padding(bottom=15.dp, start=30.dp, end=30.dp)
                     .clickable {
                         clickDurationSettingButton(state)
                     },
@@ -296,11 +295,11 @@ class RegisterUserFragment : BaseFragment() {
                 textView(
                     text = stringResource(R.string.text_setting_button),
                     color = Color.White,
-                    fontSize = 20.sp,
+                    fontSize = 30.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp)
+                        .height(50.dp)
                         .background(
                             Color(0xFF333333),
                             shape = RoundedCornerShape(12.dp)
@@ -342,7 +341,7 @@ class RegisterUserFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(15.dp)
+                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -350,11 +349,11 @@ class RegisterUserFragment : BaseFragment() {
                         textView(
                             text = stringResource(R.string.text_save_button),
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 30.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp)
+                                .height(50.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
@@ -388,7 +387,32 @@ class RegisterUserFragment : BaseFragment() {
         if(iconType == INPUT_DURATION){
             viewModel.setVisibilityDuration(true)
         }else{
+            showDateDialog()
+        }
+    }
 
+    private fun showDateDialog(){
+        val today = GregorianCalendar()
+        val year: Int = today.get(Calendar.YEAR)
+        val month: Int = today.get(Calendar.MONTH)
+        val date: Int = today.get(Calendar.DATE)
+
+        val dlg = DatePickerDialog(mContext,
+            { pView, pYear, pMonth, pDayOfMonth ->
+                viewModel.setStartDateTextText(getString(R.string.text_start_date,pYear,pMonth+1,pDayOfMonth))
+            },
+            year, month, date)
+        dlg.show()
+    }
+
+    //뒤로가기
+    val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if(viewModel.durationVisibility){
+                viewModel.setVisibilityDuration(false)
+            }else{
+                findNavController().popBackStack()
+            }
         }
     }
 

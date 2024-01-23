@@ -1,5 +1,6 @@
-package com.example.cmong_pilates_attendance_project.view
+package com.example.cmong_pilates_attendance_project.view.attendance
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,9 +21,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -50,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.databinding.FragmentAttendanceMainBinding
+import com.example.cmong_pilates_attendance_project.view.admin.AdminActivity
 
 
 class AttendanceMainFragment :
@@ -110,6 +118,11 @@ class AttendanceMainFragment :
             .clipToBounds()
             .background(Color(0xFF2b2b2b)),
         ) {
+            IconButton(onClick = {movePage()}, modifier = Modifier.padding(20.dp).size(100.dp)) {
+                Icon(
+                    Icons.Filled.Person, "backIcon", tint = Color.White
+                )
+            }
             Column(
                 Modifier
                     .fillMaxHeight()
@@ -117,14 +130,15 @@ class AttendanceMainFragment :
                     .clipToBounds(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally){
-                Box(modifier= Modifier.height(200.dp)) {
+                Box(modifier= Modifier.height(350.dp).width(350.dp)) {
                     imageView(R.drawable.app_logo)
                 }
                 textView(
                     text = stringResource(R.string.msg_info_pilates),
                     Color.White,
-                    18.sp,
-                    TextAlign.Center
+                    25.sp,
+                    TextAlign.Center,
+                    modifier = Modifier.padding(top=10.dp)
                 )
             }
 
@@ -184,8 +198,11 @@ class AttendanceMainFragment :
                 }
             }
             marginHeight(10.dp)
-
-
         }
+    }
+
+    fun movePage(){
+        val intent = Intent(mContext, AdminActivity::class.java)
+        activity?.startActivity(intent)
     }
 }

@@ -84,9 +84,9 @@ class ChangeUserMileageFragment : BaseFragment() {
         TopAppBar(
             title = {
                 textView(
-                    text = stringResource(id = R.string.text_menu_change_attendance_count),
+                    text = stringResource(id = R.string.text_menu_change_mileage),
                     Color.White,
-                    20.sp,
+                    30.sp,
                     TextAlign.Center
                 )
             },
@@ -139,12 +139,12 @@ class ChangeUserMileageFragment : BaseFragment() {
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
                                 )
-                                .padding(30.dp)
+                                .padding(60.dp)
                         ) {
                             textView(
                                 text = stringResource(R.string.text_user_mileage, "홍길동"),
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 40.sp,
                                 textAlign = TextAlign.Center
                             )
 
@@ -153,7 +153,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                                 textView(
                                     text = stringResource(R.string.text_user_score, 20),
                                     color = Color.White,
-                                    fontSize = 60.sp,
+                                    fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -161,7 +161,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                                 textView(
                                     "↑",
                                     Color.White,
-                                    fontSize = 50.sp,
+                                    fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.clickable {
                                         changeMileage(Constant.UP_ATTENDANCE_COUNT)
@@ -171,7 +171,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                                 textView(
                                     "↓",
                                     Color.White,
-                                    fontSize = 50.sp,
+                                    fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.clickable {
                                         changeMileage(Constant.DOWN_ATTENDANCE_COUNT)
@@ -182,7 +182,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                             textView(
                                 "-",
                                 Color.White,
-                                fontSize = 50.sp,
+                                fontSize = 60.sp,
                                 textAlign = TextAlign.Center
                             )
 
@@ -191,7 +191,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(15.dp)
+                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -199,11 +199,11 @@ class ChangeUserMileageFragment : BaseFragment() {
                         textView(
                             text = stringResource(R.string.text_save_button),
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 30.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp)
+                                .height(50.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
