@@ -1,7 +1,6 @@
 package com.example.cmong_pilates_attendance_project.view.attendance
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
-import com.example.cmong_pilates_attendance_project.databinding.FragmentAttendanceCompleteBinding
 
 
 class AttendanceCompleteFragment :

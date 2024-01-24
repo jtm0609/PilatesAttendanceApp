@@ -6,6 +6,8 @@ import com.example.data.datasource.local.UserDataSource
 import com.example.data.datasource.local.UserDataSourceImpl
 import com.example.data.db.UserDao
 import com.example.data.db.UserDatabase
+import com.example.data.repository.UserRepository
+import com.example.data.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,5 +39,13 @@ object DataModule {
     @Provides
     fun provideLocalDataSource(userDao: UserDao): UserDataSource{
         return UserDataSourceImpl(userDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(
+        userDataSource: UserDataSource
+    ): UserRepository{
+        return UserRepositoryImpl(userDataSource)
     }
 }

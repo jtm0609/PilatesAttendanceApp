@@ -1,13 +1,15 @@
 package com.example.cmong_pilates_attendance_project.view.admin
 
 import android.app.DatePickerDialog
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -34,15 +36,19 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -51,6 +57,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chargemap.compose.numberpicker.ListItemPicker
@@ -60,14 +67,23 @@ import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_DURATIO
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_NAME
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_PHONE_NUMBER
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_START_DATE
+import com.example.cmong_pilates_attendance_project.utils.LogUtil
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
-import com.orhanobut.logger.Logger
+import com.example.data.data.UserEntity
+import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Calendar
 import java.util.GregorianCalendar
 
 
+@AndroidEntryPoint
 class RegisterUserFragment : BaseFragment() {
     private val viewModel: RegisterUserViewModel  by viewModels<RegisterUserViewModel>()
+    //private val adminViewModel: AdminViewModel by viewModels<AdminViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -128,10 +144,7 @@ class RegisterUserFragment : BaseFragment() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun editText(hint: String, keyboardType: KeyboardType, modifier: Modifier = Modifier) {
-        val textState = remember {
-            mutableStateOf("")
-        }
+    fun editText(hint: String, keyboardType: KeyboardType, textState: MutableState<String> ,modifier: Modifier = Modifier) {
         TextField(
             value = textState.value,
             onValueChange = { textValue -> textState.value = textValue },
@@ -151,11 +164,15 @@ class RegisterUserFragment : BaseFragment() {
         )
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun inputEditItem(inputType: Int) {
         var titleText: String? = null
         var hintText: String? = null
         var keyboardType: KeyboardType? = null
+        var text by remember {
+            mutableStateOf("")
+        }
         when (inputType) {
             INPUT_NAME -> {
                 titleText = stringResource(
@@ -165,6 +182,7 @@ class RegisterUserFragment : BaseFragment() {
                     id = R.string.text_input_hint_name
                 )
                 keyboardType = KeyboardType.Text
+                text= viewModel.name
             }
 
             INPUT_PHONE_NUMBER -> {
@@ -175,6 +193,7 @@ class RegisterUserFragment : BaseFragment() {
                     id = R.string.text_input_hint_phone_number
                 )
                 keyboardType = KeyboardType.Number
+                text = viewModel.phone
             }
         }
 
@@ -183,10 +202,30 @@ class RegisterUserFragment : BaseFragment() {
             color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
             modifier = Modifier.padding(top = 20.dp, start = 30.dp, bottom = 10.dp)
         )
-        editText(
-            hint = hintText!!,
-            keyboardType!!,
-            modifier = Modifier
+
+        TextField(
+            value = text,
+            onValueChange = { textValue ->
+                if(textValue.length<=11)
+                    if(inputType== INPUT_NAME){
+                        viewModel.setNameText(textValue)
+                    }else{
+                        viewModel.setPhoneText(textValue)
+                    }
+                     },
+            placeholder = {
+                Text(
+                    hintText!!,
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize(align = Alignment.CenterStart)
+                )
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = keyboardType!!,
+                imeAction = ImeAction.Done
+            ),             modifier = Modifier
                 .padding(start = 30.dp)
                 .width(400.dp)
                 .height(50.dp)
@@ -195,8 +234,11 @@ class RegisterUserFragment : BaseFragment() {
     }
 
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun inputTextItem(inputType: Int) {
+        val keyboardController = LocalSoftwareKeyboardController.current
+        val focusManager = LocalFocusManager.current
         var titleText: String? = null
         var imageVector: ImageVector? = null
         var contentText: String? =null
@@ -239,7 +281,10 @@ class RegisterUserFragment : BaseFragment() {
             )
 
             IconButton(
-                onClick = { iconClick(inputType) },
+                onClick = { iconClick(inputType)
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                          },
                 modifier = Modifier.align(Alignment.CenterEnd)
             ) {
                 Icon(
@@ -287,7 +332,7 @@ class RegisterUserFragment : BaseFragment() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom=15.dp, start=30.dp, end=30.dp)
+                    .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
                     .clickable {
                         clickDurationSettingButton(state)
                     },
@@ -341,7 +386,7 @@ class RegisterUserFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
+                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -372,8 +417,67 @@ class RegisterUserFragment : BaseFragment() {
     }
 
     //저장 버튼 클릭
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun clickSaveButton() {
+        val userName = viewModel.name
+        val userPhone = viewModel.phone
+        val userDuration = viewModel.durationText
+        val userStartDate = viewModel.startDateText
+
+
+        /*LogUtil.d("userName: $userName")
+        LogUtil.d("userPhone: $userPhone")
+        ///LogUtil.d("duration timeStamp: ${weekToTimestamp(userDuration)}")
+        LogUtil.d("startDate timeStamp: ${dateStringToTimestamp(userStartDate)}")
+        LogUtil.d("after timeStamp: ${getEndDate(dateStringToTimestamp(userStartDate), userDuration)}")*/
+
+        if(userName.isBlank() || userPhone.isBlank() || userDuration.isBlank() || userStartDate.isBlank()){
+            showToast(getString(R.string.msg_text_empty))
+            return
+        }
+
+        val userStartDateTime = dateStringToTimestamp(userStartDate)
+        val userEndDateTime = getEndDate(userStartDateTime, userDuration)
+
+
+        val user = UserEntity(
+            name = userName,
+            phoneNumber = userPhone,
+            startDate =userStartDateTime,
+            endDate = userEndDateTime
+        )
+        viewModel.addUser(user)
         findNavController().popBackStack()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun dateStringToTimestamp(dateString: String): Long {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val localDate = LocalDate.parse(dateString, formatter)
+        return localDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getEndDate(startDate:Long, duration: String): Long{
+        val now = Instant.now()
+        val instant = Instant.ofEpochMilli(startDate)
+        var endDate: Instant? = null
+        when(duration){
+            "2주" ->{
+                endDate = instant.plus(15, ChronoUnit.DAYS)
+            }
+            "4주" ->{
+                endDate = instant.plus(29, ChronoUnit.DAYS)
+            }
+            "8주" ->{
+                endDate = instant.plus(57, ChronoUnit.DAYS)
+            }
+            "12주" ->{
+                endDate = instant.plus(85, ChronoUnit.DAYS)
+            }
+        }
+
+        return endDate?.toEpochMilli()!!
     }
 
     //이용 기간 설정 클릭
@@ -383,7 +487,9 @@ class RegisterUserFragment : BaseFragment() {
     }
 
     //아이콘 클릭 이벤트
+    @OptIn(ExperimentalComposeUiApi::class)
     private fun iconClick(iconType: Int){
+
         if(iconType == INPUT_DURATION){
             viewModel.setVisibilityDuration(true)
         }else{
@@ -404,6 +510,7 @@ class RegisterUserFragment : BaseFragment() {
             year, month, date)
         dlg.show()
     }
+
 
     //뒤로가기
     val callback = object : OnBackPressedCallback(true) {
