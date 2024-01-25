@@ -33,4 +33,6 @@
     <string name="text_input_hint_phone_number">01012345678</string>
     <string name="text_start_date">%d-%02d-%02d</string>
     <string name="msg_text_empty">빈칸을 모두 입력해주세요 !</string>
+    <string name="text_not_exist_user">회원이 존재하지 않습니다.</string>
+    <string name="text_noti_input_phone_number">전화번호를 입력해주세요!</string>
 </resources>

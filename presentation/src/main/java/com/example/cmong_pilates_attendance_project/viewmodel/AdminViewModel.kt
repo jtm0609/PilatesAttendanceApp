@@ -1,5 +1,10 @@
 package com.example.cmong_pilates_attendance_project.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.cmong_pilates_attendance_project.base.BaseViewModel
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
 import com.example.data.data.UserEntity
@@ -9,21 +14,60 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
+@HiltViewModel
 class AdminViewModel @Inject constructor(
     private val repository: UserRepository
 ) : BaseViewModel() {
+    private var _userPhoneNumber by mutableStateOf("") //검색할 회원의 번호
+    val userPhoneNumber get() = _userPhoneNumber
+    private var _user: MutableLiveData<UserEntity> = MutableLiveData<UserEntity>()
+    val user: LiveData<UserEntity> get() = _user
+
+    private var _isExistUser:MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    val isExistUser: LiveData<Boolean> get() = _isExistUser
 
 
-/*    fun addUser(user: UserEntity) {
+    fun setUserPhoneNumber(phoneNumber: String) {
+        _userPhoneNumber = phoneNumber
+    }
+
+    fun getUser(phoneNumber: String) {
         compositeDisposable.add(
-            repository.insertUser(user)
+            repository.getUser(phoneNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .doOnSubscribe { showProgress() }
+                .doOnSuccess { hideProgress() }
+                .subscribe({ it ->
+                    LogUtil.d("user search success! : $it")
+                    _isExistUser?.value = true
+                    _user?.value = it
+
+                },
                     {
-                        LogUtil.d("Inserted Successfully, ${user}")
-                    }
-                )
+                        _isExistUser?.value = false
+                        LogUtil.d("throwable! : ${it.message}")
+
+                    })
+
         )
-    }*/
+    }
+
+    fun clearData(){
+        _isExistUser= MutableLiveData<Boolean>()
+        _userPhoneNumber =""
+    }
+
+    /*    fun addUser(user: UserEntity) {
+            compositeDisposable.add(
+                repository.insertUser(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            LogUtil.d("Inserted Successfully, ${user}")
+                        }
+                    )
+            )
+        }*/
 }

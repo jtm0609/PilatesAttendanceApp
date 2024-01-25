@@ -133,7 +133,7 @@ class RegisterUserFragment : BaseFragment() {
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
             navigationIcon = {
-                IconButton(onClick = { activity?.finish() }) {
+                IconButton(onClick = { findNavController().popBackStack() }) {
                     Icon(
                         Icons.Filled.ArrowBack, "backIcon", tint = Color.White
                     )

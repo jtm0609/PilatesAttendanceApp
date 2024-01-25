@@ -1,17 +1,13 @@
 package com.example.cmong_pilates_attendance_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,8 +29,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,18 +37,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
-import com.example.cmong_pilates_attendance_project.utils.Constant
+import com.example.cmong_pilates_attendance_project.utils.LogUtil
+import com.example.cmong_pilates_attendance_project.viewmodel.AdminViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class InputPhoneNumberFragment : BaseFragment() {
-
+    private val adminViewModel : AdminViewModel by viewModels<AdminViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +60,33 @@ class InputPhoneNumberFragment : BaseFragment() {
         // Inflate the layout for this fragment
         return ComposeView(mContext).apply {
             setContent { mainView() }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDataObserver()
+    }
+
+    private fun setDataObserver(){
+        adminViewModel.user.observe(viewLifecycleOwner){
+            if(it==null) return@observe
+            if(adminViewModel.isExistUser.value==true){
+                LogUtil.d("ASdasdasdas")
+                findNavController().navigate(R.id.action_inputPhoneNumberFragment_to_manageUserFragment)
+            }
+        }
+
+        adminViewModel.isExistUser.observe(viewLifecycleOwner){
+            LogUtil.d("ASdasdasdas2: $it")
+            if(it==null) return@observe
+            if(it==false){
+                if(adminViewModel.userPhoneNumber.isBlank()){
+                    showToast(getString(R.string.text_noti_input_phone_number))
+                }else {
+                    showToast(getString(R.string.text_not_exist_user))
+                }
+            }
         }
     }
 
@@ -99,7 +122,7 @@ class InputPhoneNumberFragment : BaseFragment() {
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
             navigationIcon = {
-                IconButton(onClick = {findNavController().popBackStack()}) {
+                IconButton(onClick = { findNavController().popBackStack() }) {
                     Icon(
                         Icons.Filled.ArrowBack, "backIcon", tint = Color.White
                     )
@@ -111,12 +134,13 @@ class InputPhoneNumberFragment : BaseFragment() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun editText(hint: String, modifier: Modifier = Modifier) {
-        val textState = remember {
-            mutableStateOf("")
-        }
         TextField(
-            value = textState.value,
-            onValueChange = { textValue -> textState.value = textValue },
+            value = adminViewModel.userPhoneNumber,
+            onValueChange = { textValue ->
+                if (textValue.length <= 11) {
+                    adminViewModel.setUserPhoneNumber(textValue)
+                }
+            },
             placeholder = {
                 Text(
                     hint,
@@ -179,14 +203,16 @@ class InputPhoneNumberFragment : BaseFragment() {
 
                         editText(
                             hint = stringResource(id = R.string.text_title_input_phone_number),
-                            modifier = Modifier.padding(start = 30.dp, bottom = 20.dp).width(400.dp)
+                            modifier = Modifier
+                                .padding(start = 30.dp, bottom = 20.dp)
+                                .width(400.dp)
                         )
                     }
 
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
+                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
                             .clickable {
                                 clickNextButton()
                             },
@@ -213,7 +239,13 @@ class InputPhoneNumberFragment : BaseFragment() {
     }
 
     private fun clickNextButton() {
-        findNavController().navigate(R.id.action_inputPhoneNumberFragment_to_manageUserFragment)
+        LogUtil.d("userPhone: ${adminViewModel.userPhoneNumber}")
+        adminViewModel.getUser(adminViewModel.userPhoneNumber)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adminViewModel.clearData()
     }
 
 }
