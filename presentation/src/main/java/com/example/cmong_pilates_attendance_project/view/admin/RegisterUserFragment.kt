@@ -12,6 +12,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -67,7 +69,6 @@ import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_DURATIO
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_NAME
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_PHONE_NUMBER
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_START_DATE
-import com.example.cmong_pilates_attendance_project.utils.LogUtil
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 import com.example.data.data.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -230,9 +231,10 @@ class RegisterUserFragment : BaseFragment() {
                 .width(400.dp)
                 .height(50.dp)
                 .background(Color(0XFFE7E7E7))
+            ,
+            enabled= !viewModel.durationVisibility
         )
     }
-
 
     @OptIn(ExperimentalComposeUiApi::class)
     @Composable
@@ -366,7 +368,10 @@ class RegisterUserFragment : BaseFragment() {
                 Box(
                     modifier = Modifier
                         .padding(it)
-                        .fillMaxSize()
+                        .fillMaxSize().clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                        ) { hideKeyboard()}
                 ) {
                     Column(
                         modifier = Modifier.align(Alignment.TopCenter)
@@ -523,6 +528,12 @@ class RegisterUserFragment : BaseFragment() {
         }
     }
 
-
+    private fun hideKeyboard() {
+        val inputManager = mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(
+            activity?.currentFocus?.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
+    }
 
 }

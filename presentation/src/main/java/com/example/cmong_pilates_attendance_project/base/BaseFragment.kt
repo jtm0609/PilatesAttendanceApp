@@ -13,7 +13,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.cmong_pilates_attendance_project.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 abstract class BaseFragment
      : Fragment() {
     protected lateinit var mContext: Context

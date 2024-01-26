@@ -19,7 +19,7 @@
     <string name="text_menu_re_register_user">회원 재등록</string>
     <string name="text_menu_change_mileage">마일리지 변경</string>
     <string name="text_max_attendance_count">하루 최대 출석 횟수</string>
-    <string name="text_user_mileage">%s님의 마일리지</string>
+    <string name="text_user_mileage">\"%s\"님의 마일리지</string>
     <string name="text_user_score">%d점</string>
     <string name="text_next_button">다음</string>
     <string name="text_save_button">저장</string>
@@ -35,4 +35,5 @@
     <string name="msg_text_empty">빈칸을 모두 입력해주세요 !</string>
     <string name="text_not_exist_user">회원이 존재하지 않습니다.</string>
     <string name="text_noti_input_phone_number">전화번호를 입력해주세요!</string>
+    <string name="text_complete_change_mileage">마일리지 변경 완료!</string>
 </resources>

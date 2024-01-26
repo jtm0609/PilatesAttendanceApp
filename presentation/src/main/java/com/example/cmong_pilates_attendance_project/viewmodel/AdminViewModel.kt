@@ -20,8 +20,8 @@ class AdminViewModel @Inject constructor(
 ) : BaseViewModel() {
     private var _userPhoneNumber by mutableStateOf("") //검색할 회원의 번호
     val userPhoneNumber get() = _userPhoneNumber
-    private var _user: MutableLiveData<UserEntity> = MutableLiveData<UserEntity>()
-    val user: LiveData<UserEntity> get() = _user
+    private var _searchedUser: MutableLiveData<UserEntity> = MutableLiveData<UserEntity>() // 조회한 유저
+    val searchedUser: LiveData<UserEntity> get() = _searchedUser
 
     private var _isExistUser:MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val isExistUser: LiveData<Boolean> get() = _isExistUser
@@ -30,6 +30,12 @@ class AdminViewModel @Inject constructor(
     fun setUserPhoneNumber(phoneNumber: String) {
         _userPhoneNumber = phoneNumber
     }
+
+    fun updateSearchedUserMileage(mileage:Int){
+        _searchedUser.value?.mileage = mileage
+    }
+
+
 
     fun getUser(phoneNumber: String) {
         compositeDisposable.add(
@@ -41,7 +47,7 @@ class AdminViewModel @Inject constructor(
                 .subscribe({ it ->
                     LogUtil.d("user search success! : $it")
                     _isExistUser?.value = true
-                    _user?.value = it
+                    _searchedUser?.value = it
 
                 },
                     {

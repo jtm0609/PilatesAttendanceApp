@@ -1,11 +1,14 @@
 package com.example.cmong_pilates_attendance_project.view.admin
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +32,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
@@ -51,7 +55,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InputPhoneNumberFragment : BaseFragment() {
-    private val adminViewModel : AdminViewModel by viewModels<AdminViewModel>()
+    private val adminViewModel : AdminViewModel by activityViewModels<AdminViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,16 +73,14 @@ class InputPhoneNumberFragment : BaseFragment() {
     }
 
     private fun setDataObserver(){
-        adminViewModel.user.observe(viewLifecycleOwner){
+        adminViewModel.searchedUser.observe(viewLifecycleOwner){
             if(it==null) return@observe
             if(adminViewModel.isExistUser.value==true){
-                LogUtil.d("ASdasdasdas")
                 findNavController().navigate(R.id.action_inputPhoneNumberFragment_to_manageUserFragment)
             }
         }
 
         adminViewModel.isExistUser.observe(viewLifecycleOwner){
-            LogUtil.d("ASdasdasdas2: $it")
             if(it==null) return@observe
             if(it==false){
                 if(adminViewModel.userPhoneNumber.isBlank()){
@@ -165,7 +167,10 @@ class InputPhoneNumberFragment : BaseFragment() {
                 Box(
                     modifier = Modifier
                         .padding(it)
-                        .fillMaxSize()
+                        .fillMaxSize().clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                        ) { hideKeyboard()}
                 ) {
                     Column(
                         modifier = Modifier.align(Alignment.TopCenter)
@@ -241,6 +246,14 @@ class InputPhoneNumberFragment : BaseFragment() {
     private fun clickNextButton() {
         LogUtil.d("userPhone: ${adminViewModel.userPhoneNumber}")
         adminViewModel.getUser(adminViewModel.userPhoneNumber)
+    }
+
+    private fun hideKeyboard() {
+        val inputManager = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(
+            activity?.currentFocus?.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
     }
 
     override fun onStop() {

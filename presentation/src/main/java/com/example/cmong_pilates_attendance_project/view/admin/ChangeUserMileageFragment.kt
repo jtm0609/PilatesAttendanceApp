@@ -1,7 +1,6 @@
 package com.example.cmong_pilates_attendance_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,12 +41,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.utils.Constant
+import com.example.cmong_pilates_attendance_project.utils.LogUtil
+import com.example.cmong_pilates_attendance_project.viewmodel.AdminViewModel
+import com.example.cmong_pilates_attendance_project.viewmodel.ChangeUserMileageViewModel
 
 class ChangeUserMileageFragment : BaseFragment() {
+    private val viewModel: ChangeUserMileageViewModel by viewModels<ChangeUserMileageViewModel>()
+    private val adminViewModel: AdminViewModel by activityViewModels<AdminViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +64,28 @@ class ChangeUserMileageFragment : BaseFragment() {
             setContent { mainView() }
         }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
+        setDataObserver()
+    }
+
+    private fun setDataObserver(){
+        viewModel.isChangeMileage.observe(viewLifecycleOwner){
+            if(it==null) return@observe
+            adminViewModel.updateSearchedUserMileage(viewModel.mileage)
+            showToast(getString(R.string.text_complete_change_mileage))
+            findNavController().popBackStack()
+        }
+
+    }
+
+    private fun init(){
+        viewModel.setMileage(adminViewModel.searchedUser.value?.mileage!!)
+        viewModel.setName(adminViewModel.searchedUser.value?.name!!)
+    }
+
 
     @Composable
     fun textView(
@@ -142,7 +170,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                                 .padding(60.dp)
                         ) {
                             textView(
-                                text = stringResource(R.string.text_user_mileage, "홍길동"),
+                                text = stringResource(R.string.text_user_mileage, viewModel.name),
                                 color = Color.White,
                                 fontSize = 40.sp,
                                 textAlign = TextAlign.Center
@@ -151,7 +179,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                             Spacer(modifier = Modifier.height(10.dp))
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 textView(
-                                    text = stringResource(R.string.text_user_score, 20),
+                                    text = stringResource(R.string.text_user_score, viewModel.mileage),
                                     color = Color.White,
                                     fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
@@ -191,7 +219,7 @@ class ChangeUserMileageFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
+                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -220,16 +248,23 @@ class ChangeUserMileageFragment : BaseFragment() {
     private fun changeMileage(flag: Int) {
         when (flag) {
             Constant.UP_ATTENDANCE_COUNT -> {
-
+                viewModel.apply {
+                    setMileage(mileage+1)
+                }
             }
 
             Constant.DOWN_ATTENDANCE_COUNT -> {
-
+                viewModel.apply {
+                    setMileage(mileage-1)
+                }
             }
         }
     }
 
     private fun clickSaveButton() {
-        findNavController().popBackStack()
+        val phone = adminViewModel.searchedUser.value?.phoneNumber
+        LogUtil.d("user mileage: ${viewModel.mileage}")
+        LogUtil.d("user mileage: $phone")
+        viewModel.changeUserMileage(phone!!, viewModel.mileage)
     }
 }
