@@ -38,4 +38,8 @@
     <string name="text_complete_change_mileage">마일리지 변경 완료 !</string>
     <string name="text_success_re_register_user">회원 재등록 완료 !</string>
     <string name="text_fail_re_register_user">회원 재등록 실패 !</string>
+    <string name="text_attendance_count">%d회</string>
+    <string name="text_complete_change_attendance_count">출석 횟수 변경 완료 !</string>
+    <string name="text_complete_add_user">신규 회원 등록 완료 !</string>
+    <string name="text_duplicate_add_user">이미 등록된 회원 입니다 !</string>
 </resources>

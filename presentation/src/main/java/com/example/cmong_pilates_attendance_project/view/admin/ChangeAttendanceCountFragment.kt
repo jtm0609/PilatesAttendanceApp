@@ -43,16 +43,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.utils.Constant
 import com.example.cmong_pilates_attendance_project.utils.Constant.DOWN_ATTENDANCE_COUNT
 import com.example.cmong_pilates_attendance_project.utils.Constant.UP_ATTENDANCE_COUNT
+import com.example.cmong_pilates_attendance_project.viewmodel.ChangeAttendanceCountViewModel
+import com.example.data.data.AdminEntity
 
 
 class ChangeAttendanceCountFragment : BaseFragment() {
-
+    private val viewModel: ChangeAttendanceCountViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,6 +68,31 @@ class ChangeAttendanceCountFragment : BaseFragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDataObserver()
+        viewModel.getAdminData()
+    }
+    private fun setDataObserver() {
+        viewModel.isEmptyAdminData.observe(viewLifecycleOwner){
+            if(it==true){ //관리자 데이터가 없다면 추가를 해준다.
+                viewModel.addAdminData(AdminEntity(
+                    maxAttendance = 1
+                ))
+            }
+        }
+        viewModel.adminData.observe(viewLifecycleOwner){
+            if(it==null) return@observe
+            viewModel.setAttendanceCount(it.maxAttendance)
+        }
+
+        viewModel.isChangeCount.observe(viewLifecycleOwner){
+            if(it==true){
+                showToast(getString(R.string.text_complete_change_attendance_count))
+                findNavController().popBackStack()
+            }
+        }
+    }
 
     @Composable
     fun textView(
@@ -99,7 +127,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
             navigationIcon = {
-                IconButton(onClick = {findNavController().popBackStack()}) {
+                IconButton(onClick = { findNavController().popBackStack() }) {
                     Icon(
                         Icons.Filled.ArrowBack, "backIcon", tint = Color.White
                     )
@@ -133,7 +161,8 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .fillMaxWidth().padding(bottom=60.dp),
+                            .fillMaxWidth()
+                            .padding(bottom = 60.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -157,7 +186,10 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                             Spacer(modifier = Modifier.height(10.dp))
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 textView(
-                                    text = "3회",
+                                    text = stringResource(
+                                        R.string.text_attendance_count,
+                                        viewModel.attendanceCount
+                                    ),
                                     color = Color.White,
                                     fontSize = 70.sp,
                                     textAlign = TextAlign.Center,
@@ -198,7 +230,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom=15.dp, start=30.dp, end=30.dp)
+                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -227,18 +259,22 @@ class ChangeAttendanceCountFragment : BaseFragment() {
     private fun changeMileage(flag: Int) {
         when (flag) {
             UP_ATTENDANCE_COUNT -> {
-
+                viewModel.apply {
+                    setAttendanceCount(attendanceCount + 1)
+                }
             }
 
             DOWN_ATTENDANCE_COUNT -> {
-
+                viewModel.apply {
+                    if (attendanceCount > 1) {
+                        setAttendanceCount(attendanceCount - 1)
+                    }
+                }
             }
         }
     }
 
     private fun clickSaveButton() {
-        findNavController().popBackStack()
+        viewModel.changeAttendanceCount(viewModel.attendanceCount)
     }
-
-
 }

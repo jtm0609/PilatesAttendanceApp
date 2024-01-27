@@ -103,10 +103,10 @@ class RegisterUserFragment : BaseFragment() {
     private fun setDataObserver(){
         viewModel.isSuccessAddUser.observe(viewLifecycleOwner){
             if(it==true){
-                showToast("신규 회원 등록 완료!")
+                showToast(getString(R.string.text_complete_add_user))
                 findNavController().popBackStack()
             }else{
-                showToast("이미 등록된 회원 입니다!")
+                showToast(getString(R.string.text_duplicate_add_user))
             }
         }
     }
@@ -283,12 +283,12 @@ class RegisterUserFragment : BaseFragment() {
                 .padding(start = 30.dp)
                 .width(400.dp)
                 .height(50.dp)
-                .background(Color(0xFFE8E0ED)).
-                clickable(
+                .background(Color(0xFFE8E0ED))
+                .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    if(!viewModel.durationVisibility) {
+                    if (!viewModel.durationVisibility) {
                         iconClick(inputType)
                         keyboardController?.hide()
                         focusManager.clearFocus()
@@ -390,10 +390,11 @@ class RegisterUserFragment : BaseFragment() {
                 Box(
                     modifier = Modifier
                         .padding(it)
-                        .fillMaxSize().clickable(
+                        .fillMaxSize()
+                        .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
-                        ) { hideKeyboard()}
+                        ) { hideKeyboard() }
                 ) {
                     Column(
                         modifier = Modifier.align(Alignment.TopCenter)
