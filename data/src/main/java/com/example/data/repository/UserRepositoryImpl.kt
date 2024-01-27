@@ -31,4 +31,8 @@ class UserRepositoryImpl @Inject constructor(
                 Logger.d("[DB]SELECT: $it")
         }
     }
+
+    override fun updateUser(user: UserEntity): Completable {
+        return userDataSource.updateUser(user)
+    }
 }

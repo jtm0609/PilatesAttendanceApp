@@ -6,7 +6,9 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface UserDataSource {
-    fun insertUser(user:UserEntity): Completable
-    fun updateUserMileage(phoneNumber:String, mileage:Int): Completable
+    fun insertUser(user: UserEntity): Completable
+    fun updateUserMileage(phoneNumber: String, mileage: Int): Completable
+    fun updateUser(user: UserEntity): Completable
+
     fun getUserFromPhoneNumber(phoneNumber: String): Single<UserEntity>
 }

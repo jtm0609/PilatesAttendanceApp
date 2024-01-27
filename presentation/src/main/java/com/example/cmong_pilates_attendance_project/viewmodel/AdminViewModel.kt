@@ -35,7 +35,13 @@ class AdminViewModel @Inject constructor(
         _searchedUser.value?.mileage = mileage
     }
 
-
+    fun updateSearchedUserUsingDate(pStartDateTime: Long, pEndDateTime: Long, pDuration: String){
+        _searchedUser.value?.apply {
+            startDateTime = pStartDateTime
+            endDateTime = pEndDateTime
+            duration = pDuration
+        }
+    }
 
     fun getUser(phoneNumber: String) {
         compositeDisposable.add(
@@ -64,16 +70,5 @@ class AdminViewModel @Inject constructor(
         _userPhoneNumber =""
     }
 
-    /*    fun addUser(user: UserEntity) {
-            compositeDisposable.add(
-                repository.insertUser(user)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        {
-                            LogUtil.d("Inserted Successfully, ${user}")
-                        }
-                    )
-            )
-        }*/
+
 }

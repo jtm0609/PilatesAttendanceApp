@@ -21,23 +21,24 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun provideRoomDatabase(@ApplicationContext context: Context): UserDatabase{
+    fun provideRoomDatabase(@ApplicationContext context: Context): UserDatabase {
         return Room.databaseBuilder(
             context,
             UserDatabase::class.java,
             "user.db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
     @Singleton
     @Provides
-    fun provideUserDao(userDatabase: UserDatabase):UserDao{
+    fun provideUserDao(userDatabase: UserDatabase): UserDao {
         return userDatabase.userDao()
     }
 
     @Singleton
     @Provides
-    fun provideLocalDataSource(userDao: UserDao): UserDataSource{
+    fun provideLocalDataSource(userDao: UserDao): UserDataSource {
         return UserDataSourceImpl(userDao)
     }
 
@@ -45,7 +46,7 @@ object DataModule {
     @Provides
     fun provideUserRepository(
         userDataSource: UserDataSource
-    ): UserRepository{
+    ): UserRepository {
         return UserRepositoryImpl(userDataSource)
     }
 }

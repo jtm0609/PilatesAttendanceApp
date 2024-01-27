@@ -12,7 +12,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,7 +58,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chargemap.compose.numberpicker.ListItemPicker
@@ -69,16 +67,10 @@ import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_DURATIO
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_NAME
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_PHONE_NUMBER
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_START_DATE
+import com.example.cmong_pilates_attendance_project.utils.Utils
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 import com.example.data.data.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.Calendar
-import java.util.GregorianCalendar
 
 
 @AndroidEntryPoint
@@ -99,6 +91,22 @@ class RegisterUserFragment : BaseFragment() {
         return ComposeView(mContext).apply {
             setContent {
                 mainView()
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDataObserver()
+    }
+
+    private fun setDataObserver(){
+        viewModel.isSuccessAddUser.observe(viewLifecycleOwner){
+            if(it==true){
+                showToast("신규 회원 등록 완료!")
+                findNavController().popBackStack()
+            }else{
+                showToast("이미 등록된 회원 입니다!")
             }
         }
     }
@@ -134,7 +142,10 @@ class RegisterUserFragment : BaseFragment() {
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
             navigationIcon = {
-                IconButton(onClick = { findNavController().popBackStack() }) {
+                IconButton(onClick = {
+                    if(!viewModel.durationVisibility) {
+                        findNavController().popBackStack()
+                    }}) {
                     Icon(
                         Icons.Filled.ArrowBack, "backIcon", tint = Color.White
                     )
@@ -272,7 +283,17 @@ class RegisterUserFragment : BaseFragment() {
                 .padding(start = 30.dp)
                 .width(400.dp)
                 .height(50.dp)
-                .background(Color(0xFFE8E0ED))
+                .background(Color(0xFFE8E0ED)).
+                clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    if(!viewModel.durationVisibility) {
+                        iconClick(inputType)
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    }
+                }
         ) {
             textView(
                 text = contentText!!,
@@ -283,10 +304,13 @@ class RegisterUserFragment : BaseFragment() {
             )
 
             IconButton(
-                onClick = { iconClick(inputType)
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                          },
+                onClick = {
+                    if (!viewModel.durationVisibility) {
+                        iconClick(inputType)
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    }
+                },
                 modifier = Modifier.align(Alignment.CenterEnd)
             ) {
                 Icon(
@@ -304,8 +328,6 @@ class RegisterUserFragment : BaseFragment() {
                 .fillMaxSize()
                 .background(Color(0xFF2b2b2b)),
         ) {
-            val values = listOf("2주", "4주", "8주", "12주")
-            var state by remember { mutableStateOf(values[0]) }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 textView(
@@ -321,9 +343,9 @@ class RegisterUserFragment : BaseFragment() {
 
             ListItemPicker(
                 label = { it },
-                value = state,
-                onValueChange = { state = it },
-                list = values,
+                value = viewModel.durationState,
+                onValueChange = { viewModel.setDurationState(it) },
+                list = viewModel.durationValues,
                 modifier = Modifier
                     .align(Alignment.Center)
                     .width(300.dp),
@@ -336,7 +358,7 @@ class RegisterUserFragment : BaseFragment() {
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
                     .clickable {
-                        clickDurationSettingButton(state)
+                        clickDurationSettingButton(viewModel.durationState)
                     },
             ) {
                 textView(
@@ -441,49 +463,21 @@ class RegisterUserFragment : BaseFragment() {
             return
         }
 
-        val userStartDateTime = dateStringToTimestamp(userStartDate)
-        val userEndDateTime = getEndDate(userStartDateTime, userDuration)
+        val userStartDateTime = Utils.dateStringToTimestamp(userStartDate)
+        val userEndDateTime = Utils.getEndDate(userStartDateTime, userDuration)
 
 
         val user = UserEntity(
             name = userName,
             phoneNumber = userPhone,
-            startDate =userStartDateTime,
-            endDate = userEndDateTime
+            duration = userDuration,
+            startDateTime =userStartDateTime,
+            endDateTime = userEndDateTime
         )
         viewModel.addUser(user)
-        findNavController().popBackStack()
+        //findNavController().popBackStack()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun dateStringToTimestamp(dateString: String): Long {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val localDate = LocalDate.parse(dateString, formatter)
-        return localDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getEndDate(startDate:Long, duration: String): Long{
-        val now = Instant.now()
-        val instant = Instant.ofEpochMilli(startDate)
-        var endDate: Instant? = null
-        when(duration){
-            "2주" ->{
-                endDate = instant.plus(15, ChronoUnit.DAYS)
-            }
-            "4주" ->{
-                endDate = instant.plus(29, ChronoUnit.DAYS)
-            }
-            "8주" ->{
-                endDate = instant.plus(57, ChronoUnit.DAYS)
-            }
-            "12주" ->{
-                endDate = instant.plus(85, ChronoUnit.DAYS)
-            }
-        }
-
-        return endDate?.toEpochMilli()!!
-    }
 
     //이용 기간 설정 클릭
     private fun clickDurationSettingButton(duration: String) {
@@ -503,16 +497,13 @@ class RegisterUserFragment : BaseFragment() {
     }
 
     private fun showDateDialog(){
-        val today = GregorianCalendar()
-        val year: Int = today.get(Calendar.YEAR)
-        val month: Int = today.get(Calendar.MONTH)
-        val date: Int = today.get(Calendar.DATE)
 
         val dlg = DatePickerDialog(mContext,
             { pView, pYear, pMonth, pDayOfMonth ->
+                viewModel.setStartDate(pYear, pMonth, pDayOfMonth)
                 viewModel.setStartDateTextText(getString(R.string.text_start_date,pYear,pMonth+1,pDayOfMonth))
             },
-            year, month, date)
+            viewModel.startYear, viewModel.startMonth, viewModel.startDay)
         dlg.show()
     }
 
