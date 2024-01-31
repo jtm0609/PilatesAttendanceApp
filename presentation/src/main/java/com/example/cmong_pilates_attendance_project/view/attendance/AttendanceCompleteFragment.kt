@@ -1,6 +1,8 @@
 package com.example.cmong_pilates_attendance_project.view.attendance
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,18 +27,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
+import com.example.cmong_pilates_attendance_project.viewmodel.AttendanceViewModel
 
 
 class AttendanceCompleteFragment :
     BaseFragment() {
+    private val viewModel: AttendanceViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,79 +56,103 @@ class AttendanceCompleteFragment :
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Handler().postDelayed( Runnable {
+            findNavController().popBackStack()
+        },3000)
+    }
+
     @Composable
-    fun textView(text: String, color: Color, fontSize: TextUnit, textAlign: TextAlign, modifier: Modifier = Modifier){
+    fun textView(text: String, color: Color, fontSize: TextUnit, textAlign: TextAlign,
+                 fontWeight: FontWeight = FontWeight.Normal,
+                 modifier: Modifier = Modifier){
         Text(
             text = text,
             color =color,
             modifier =modifier,
             textAlign =  textAlign,
-            fontSize = fontSize
+            fontSize = fontSize,
+            fontWeight =fontWeight
         )
     }
 
     @Composable
-    fun imageView(@DrawableRes drawableId: Int){
+    fun imageView(@DrawableRes drawableId: Int, modifier:Modifier=Modifier){
         Image(
             painter= painterResource(id = drawableId),
             contentDescription = "image",
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            modifier = modifier
         )
     }
 
     @Composable
     fun marginHeight(height: Dp){
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(height))
     }
 
-    @Preview
     @Composable
     fun mainView(){
-        Box(modifier = Modifier.fillMaxSize().background(Color(0xFF2b2b2b))) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF2b2b2b))) {
             Column(
                 modifier= Modifier.align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 textView(
-                    text = "홍길동 님",
+                    text = "\"${viewModel.searchedUser.value?.name}\"님",
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 55.sp,
                     textAlign = TextAlign.Center
 
                 )
                 textView(
                     text = stringResource(R.string.msg_complete_attendance),
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 55.sp,
                     textAlign = TextAlign.Center
                 )
-                marginHeight(20.dp)
+                marginHeight(40.dp)
                 textView(
                     text = stringResource(R.string.msg_add_mileage),
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 55.sp,
                     textAlign = TextAlign.Center
                 )
-                marginHeight(20.dp)
+                marginHeight(40.dp)
                 textView(
                     text = stringResource(R.string.msg_current_mileage),
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 55.sp,
                     textAlign = TextAlign.Center
                 )
                 marginHeight(10.dp)
-                textView(
-                    text = "12",
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Center,
-                    Modifier.border(1.dp, Color.White)
-                )
+                Box(Modifier
+                    .border(1.dp, Color.White)
+                    .padding(15.dp)) {
+                    textView(
+                        text = viewModel.searchedUser.value?.mileage.toString(),
+                        color = Color.White,
+                        fontSize = 55.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+
             }
 
-            Column(modifier= Modifier.height(50.dp).width(50.dp).align(Alignment.BottomEnd)) {
+            Box(
+                modifier = Modifier
+                    .height(200.dp)
+                    .width(200.dp)
+                    .align(Alignment.BottomEnd)
+            ) {
                 imageView(R.drawable.app_logo)
             }
+
         }
     }
 }

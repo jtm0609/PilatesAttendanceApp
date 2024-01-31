@@ -15,15 +15,15 @@ interface UserDao {
     @Insert()
     fun insertUser(user: UserEntity): Completable
 
-    //회원 수정 (출석체크)
+/*    //회원 수정 (출석체크)
     @Query("UPDATE user SET attendance=1 WHERE phoneNumber=:phoneNumber")
-    fun updateAttendance(phoneNumber: String): Completable
+    fun updateAttendance(phoneNumber: String): Completable*/
 
-    //회원 수정 (마일리지 변경)
+    //회원 수정 (출석체크, 마일리지 변경)
     @Query("UPDATE user SET mileage=:mileage WHERE phoneNumber=:phoneNumber")
     fun updateMileage(phoneNumber: String, mileage: Int): Completable
 
-    //회원 수정 (기간 재등록)
+    //회원 수정 (기간 재등록, 회원 출석 정보(출석날짜, 출석횟수) 변경)
     @Update
     fun updateUser(user: UserEntity): Completable
 

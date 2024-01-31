@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -129,7 +130,8 @@ class ChangeAttendanceCountFragment : BaseFragment() {
             navigationIcon = {
                 IconButton(onClick = { findNavController().popBackStack() }) {
                     Icon(
-                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White
+                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
+                        modifier = Modifier.size(50.dp).padding(end = 10.dp)
                     )
                 }
             },
@@ -191,7 +193,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                         viewModel.attendanceCount
                                     ),
                                     color = Color.White,
-                                    fontSize = 70.sp,
+                                    fontSize = 80.sp,
                                     textAlign = TextAlign.Center,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -199,7 +201,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                 textView(
                                     "↑",
                                     Color.White,
-                                    fontSize = 70.sp,
+                                    fontSize = 110.sp,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.clickable {
                                         changeMileage(UP_ATTENDANCE_COUNT)
@@ -209,7 +211,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                                 textView(
                                     "↓",
                                     Color.White,
-                                    fontSize = 70.sp,
+                                    fontSize = 110.sp,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.clickable {
                                         changeMileage(DOWN_ATTENDANCE_COUNT)
@@ -220,7 +222,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                             textView(
                                 "-",
                                 Color.White,
-                                fontSize = 50.sp,
+                                fontSize = 60.sp,
                                 textAlign = TextAlign.Center
                             )
 
@@ -230,7 +232,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
+                            .padding(bottom = 30.dp, start = 60.dp, end = 60.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -242,7 +244,7 @@ class ChangeAttendanceCountFragment : BaseFragment() {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
+                                .height(60.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)

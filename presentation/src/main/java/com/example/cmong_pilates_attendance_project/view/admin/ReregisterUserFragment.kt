@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,12 +54,12 @@ import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.utils.Constant
 import com.example.cmong_pilates_attendance_project.utils.Utils
-import com.example.cmong_pilates_attendance_project.viewmodel.AdminViewModel
+import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
 import com.example.cmong_pilates_attendance_project.viewmodel.ReregisterUserViewModel
 
 class ReregisterUserFragment : BaseFragment() {
     private val viewModel: ReregisterUserViewModel by viewModels<ReregisterUserViewModel>()
-    private val adminViewModel: AdminViewModel by activityViewModels<AdminViewModel>()
+    private val userViewModel: UserViewModel by activityViewModels<UserViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,12 +81,12 @@ class ReregisterUserFragment : BaseFragment() {
 
     private fun init(){
         //이용 기간 UI 데이터 업데이트
-        val duration = adminViewModel.searchedUser.value?.duration
+        val duration = userViewModel.searchedUser.value?.duration
         viewModel.setDurationState(duration!!)
         viewModel.setDurationText(duration)
 
         //이용 시작일 UI 데이터 업데이트
-        val userStartDateTime = adminViewModel.searchedUser.value?.startDateTime
+        val userStartDateTime = userViewModel.searchedUser.value?.startDateTime
         val userStartDateTimeStr = Utils.convertTimeStampToDateString(userStartDateTime!!)
         updateUserStartDate(userStartDateTimeStr)
         viewModel.setStartDateText(userStartDateTimeStr)
@@ -147,7 +148,8 @@ class ReregisterUserFragment : BaseFragment() {
                         findNavController().popBackStack()
                 }) {
                     Icon(
-                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White
+                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
+                        modifier = Modifier.size(50.dp).padding(end = 10.dp)
                     )
                 }
             },
@@ -181,13 +183,13 @@ class ReregisterUserFragment : BaseFragment() {
         textView(
             text = titleText!!,
             color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
-            modifier = Modifier.padding(top = 20.dp, start = 30.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 70.dp, bottom = 10.dp)
         )
         Box(
             modifier = Modifier
-                .padding(start = 30.dp)
-                .width(400.dp)
-                .height(50.dp)
+                .padding(start = 70.dp, end=70.dp)
+                .fillMaxWidth()
+                .height(60.dp)
                 .background(Color(0xFFE8E0ED))
                 .clickable(
                     indication = null,
@@ -256,7 +258,7 @@ class ReregisterUserFragment : BaseFragment() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
+                    .padding(bottom = 30.dp, start = 60.dp, end = 60.dp)
                     .clickable {
                         clickDurationSettingButton(viewModel.durationState)
                     },
@@ -268,7 +270,7 @@ class ReregisterUserFragment : BaseFragment() {
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
+                        .height(60.dp)
                         .background(
                             Color(0xFF333333),
                             shape = RoundedCornerShape(12.dp)
@@ -308,7 +310,7 @@ class ReregisterUserFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
+                            .padding(bottom = 30.dp, start = 60.dp, end = 60.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -320,7 +322,7 @@ class ReregisterUserFragment : BaseFragment() {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
+                                .height(60.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
@@ -345,8 +347,8 @@ class ReregisterUserFragment : BaseFragment() {
         val userDuration = viewModel.durationState
         val userStartDateTime = Utils.dateStringToTimestamp(userStartDate)
         val userEndDateTime = Utils.getEndDate(userStartDateTime, userDuration)
-        adminViewModel.updateSearchedUserUsingDate(userStartDateTime, userEndDateTime, userDuration)
-        viewModel.reRegisterUser(adminViewModel.searchedUser.value!!)
+        userViewModel.updateSearchedUserUsingDate(userStartDateTime, userEndDateTime, userDuration)
+        viewModel.reRegisterUser(userViewModel.searchedUser.value!!)
     }
 
     //이용 기간 설정 클릭

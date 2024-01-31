@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,13 +50,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
-import com.example.cmong_pilates_attendance_project.viewmodel.AdminViewModel
+import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class InputPhoneNumberFragment : BaseFragment() {
-    private val adminViewModel : AdminViewModel by activityViewModels<AdminViewModel>()
+    private val userViewModel : UserViewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,17 +74,17 @@ class InputPhoneNumberFragment : BaseFragment() {
     }
 
     private fun setDataObserver(){
-        adminViewModel.searchedUser.observe(viewLifecycleOwner){
+        userViewModel.searchedUser.observe(viewLifecycleOwner){
             if(it==null) return@observe
-            if(adminViewModel.isExistUser.value==true){
+            if(userViewModel.isExistUser.value==true){
                 findNavController().navigate(R.id.action_inputPhoneNumberFragment_to_manageUserFragment)
             }
         }
 
-        adminViewModel.isExistUser.observe(viewLifecycleOwner){
+        userViewModel.isExistUser.observe(viewLifecycleOwner){
             if(it==null) return@observe
             if(it==false){
-                if(adminViewModel.userPhoneNumber.isBlank()){
+                if(userViewModel.userPhoneNumber.isBlank()){
                     showToast(getString(R.string.text_noti_input_phone_number))
                 }else {
                     showToast(getString(R.string.text_not_exist_user))
@@ -126,7 +127,8 @@ class InputPhoneNumberFragment : BaseFragment() {
             navigationIcon = {
                 IconButton(onClick = { findNavController().popBackStack() }) {
                     Icon(
-                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White
+                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
+                        modifier = Modifier.size(50.dp).padding(end = 10.dp)
                     )
                 }
             },
@@ -137,10 +139,10 @@ class InputPhoneNumberFragment : BaseFragment() {
     @Composable
     fun editText(hint: String, modifier: Modifier = Modifier) {
         TextField(
-            value = adminViewModel.userPhoneNumber,
+            value = userViewModel.userPhoneNumber,
             onValueChange = { textValue ->
                 if (textValue.length <= 11) {
-                    adminViewModel.setUserPhoneNumber(textValue)
+                    userViewModel.setUserPhoneNumber(textValue)
                 }
             },
             placeholder = {
@@ -186,38 +188,40 @@ class InputPhoneNumberFragment : BaseFragment() {
                                 id = R.string.text_title_input_phone_number
                             ),
                             color = Color.White, fontSize = 40.sp, textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(top = 16.dp, start = 30.dp, bottom = 20.dp)
+                            modifier = Modifier.padding(top = 100.dp, start = 70.dp, bottom = 20.dp)
                         )
                         textView(
                             text = stringResource(
                                 id = R.string.text_guide_input_phone_number
                             ),
                             color = Color.Gray, fontSize = 25.sp, textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(start = 30.dp)
+                            modifier = Modifier.padding(start = 70.dp)
                         )
 
-                        Spacer(modifier = Modifier.height(40.dp))
+                        Spacer(modifier = Modifier.height(30.dp))
 
                         textView(
                             text = "대한민국(Repulbic of Korea)",
                             color = Color.White,
                             fontSize = 20.sp,
                             textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(start = 30.dp, top = 10.dp, bottom = 20.dp)
+                            modifier = Modifier.padding(start = 70.dp, top = 10.dp, bottom = 20.dp)
                         )
 
                         editText(
                             hint = stringResource(id = R.string.text_title_input_phone_number),
                             modifier = Modifier
-                                .padding(start = 30.dp, bottom = 20.dp)
-                                .width(400.dp)
+                                .padding(start = 70.dp, bottom = 20.dp, end=70.dp)
+                                .fillMaxWidth()
+                                .height(60.dp)
                         )
                     }
 
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
+                            .padding(bottom = 30.dp, start = 60.dp, end = 60.dp,
+                                top=30.dp)
                             .clickable {
                                 clickNextButton()
                             },
@@ -229,7 +233,7 @@ class InputPhoneNumberFragment : BaseFragment() {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
+                                .height(60.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
@@ -244,8 +248,8 @@ class InputPhoneNumberFragment : BaseFragment() {
     }
 
     private fun clickNextButton() {
-        LogUtil.d("userPhone: ${adminViewModel.userPhoneNumber}")
-        adminViewModel.getUser(adminViewModel.userPhoneNumber)
+        LogUtil.d("userPhone: ${userViewModel.userPhoneNumber}")
+        userViewModel.getUser(userViewModel.userPhoneNumber)
     }
 
     private fun hideKeyboard() {
@@ -258,7 +262,7 @@ class InputPhoneNumberFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        adminViewModel.clearData()
+        userViewModel.clearData()
     }
 
 }

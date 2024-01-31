@@ -64,7 +64,7 @@ object DataModule {
         return Room.databaseBuilder(
             context,
             AdminDatabase::class.java,
-            "user.db"
+            "admin.db"
         ).fallbackToDestructiveMigration()
             .build()
     }

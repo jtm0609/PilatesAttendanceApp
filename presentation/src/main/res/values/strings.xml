@@ -3,10 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="msg_input_phone_number">010을 제외한 전화번호 8자리를 입력해주세요</string>
-    <string name="msg_info_pilates">늙어서 운동을 그만두는 게 아니라 운동을 그만두기 때문에 늙는 것이다.
-         \n\n편하게 누워있는 시간이 늘어날수록 병고로 누워있는 시간도 늘어난다.</string>
+    <string name="msg_info_pilates">늙어서 운동을 그만두는 게 아니라\n운동을 그만두기 때문에 늙는 것이다.
+         \n\n편하게 누워있는 시간이 늘어날수록\n병고로 누워있는 시간도 늘어난다.</string>
     <string name="msg_complete_attendance">출석완료!</string>
-    <string name="msg_add_mileage">마일리지 적립되셨습니다^^</string>
+    <string name="msg_add_mileage">1 마일리지 적립되셨습니다^^</string>
     <string name="msg_current_mileage">현재 보유중인 마일리지</string>
 
     <string name="title_admin_menu">관리자 메뉴</string>
@@ -33,6 +33,7 @@
     <string name="text_input_hint_phone_number">01012345678</string>
     <string name="text_start_date">%d-%02d-%02d</string>
     <string name="msg_text_empty">빈칸을 모두 입력해주세요 !</string>
+    <string name="msg_text_not_valid_phone_number">전화번호 형식이 올바르지 않습니다!</string>
     <string name="text_not_exist_user">회원이 존재하지 않습니다.</string>
     <string name="text_noti_input_phone_number">전화번호를 입력해주세요 !</string>
     <string name="text_complete_change_mileage">마일리지 변경 완료 !</string>
@@ -42,4 +43,6 @@
     <string name="text_complete_change_attendance_count">출석 횟수 변경 완료 !</string>
     <string name="text_complete_add_user">신규 회원 등록 완료 !</string>
     <string name="text_duplicate_add_user">이미 등록된 회원 입니다 !</string>
+    <string name="text_noti_already_attendance_user">오늘 이미 출석을 하셨네요 !</string>
+    <string name="text_noti_retry_phone_number">회원번호를 다시 입력해주세요 !</string>
 </resources>

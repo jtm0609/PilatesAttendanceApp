@@ -10,12 +10,13 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
+import java.util.regex.Pattern
 
 object Utils {
 
     //타임스탬프 -> 문자열(yyyy-MM-dd)
-    fun convertTimeStampToDateString(timeStamp:Long)
-            :String{
+    fun convertTimeStampToDateString(timeStamp: Long)
+            : String {
         val date = Date(timeStamp)
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return sdf.format(date)
@@ -31,25 +32,38 @@ object Utils {
 
     //끝나는 날짜 변환() = 시작날짜 + 기간
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getEndDate(startDate:Long, duration: String): Long{
+    fun getEndDate(startDate: Long, duration: String): Long {
         val now = Instant.now()
         val instant = Instant.ofEpochMilli(startDate)
         var endDate: Instant? = null
-        when(duration){
-            "2주" ->{
+        when (duration) {
+            "2주" -> {
                 endDate = instant.plus(15, ChronoUnit.DAYS)
             }
-            "4주" ->{
+
+            "4주" -> {
                 endDate = instant.plus(29, ChronoUnit.DAYS)
             }
-            "8주" ->{
+
+            "8주" -> {
                 endDate = instant.plus(57, ChronoUnit.DAYS)
             }
-            "12주" ->{
+
+            "12주" -> {
                 endDate = instant.plus(85, ChronoUnit.DAYS)
             }
         }
 
         return endDate?.toEpochMilli()!!
+    }
+
+    fun isValidPhoneNumber(cellphoneNumber: String): Boolean {
+        var returnValue = false;
+        var regex = Regex("^010[0-9]{8}\$")
+        if (regex.matches(cellphoneNumber)) {
+            return true
+        }
+
+        return returnValue
     }
 }

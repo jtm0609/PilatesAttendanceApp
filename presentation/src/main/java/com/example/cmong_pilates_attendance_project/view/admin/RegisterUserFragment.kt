@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -147,7 +148,8 @@ class RegisterUserFragment : BaseFragment() {
                         findNavController().popBackStack()
                     }}) {
                     Icon(
-                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White
+                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
+                        modifier = Modifier.size(50.dp).padding(end = 10.dp)
                     )
                 }
             },
@@ -212,7 +214,7 @@ class RegisterUserFragment : BaseFragment() {
         textView(
             text = titleText!!,
             color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
-            modifier = Modifier.padding(top = 20.dp, start = 30.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 70.dp, bottom = 10.dp)
         )
 
         TextField(
@@ -222,7 +224,11 @@ class RegisterUserFragment : BaseFragment() {
                     if(inputType== INPUT_NAME){
                         viewModel.setNameText(textValue)
                     }else{
+                        if(textValue.contains(",") || textValue.contains("-")){
+                            return@TextField
+                        }
                         viewModel.setPhoneText(textValue)
+
                     }
                      },
             placeholder = {
@@ -238,9 +244,9 @@ class RegisterUserFragment : BaseFragment() {
                 keyboardType = keyboardType!!,
                 imeAction = ImeAction.Done
             ),             modifier = Modifier
-                .padding(start = 30.dp)
-                .width(400.dp)
-                .height(50.dp)
+                .padding(start = 70.dp, end=70.dp)
+                .fillMaxWidth()
+                .height(60.dp)
                 .background(Color(0XFFE7E7E7))
             ,
             enabled= !viewModel.durationVisibility
@@ -276,13 +282,13 @@ class RegisterUserFragment : BaseFragment() {
         textView(
             text = titleText!!,
             color = Color.White, fontSize = 30.sp, textAlign = TextAlign.Start,
-            modifier = Modifier.padding(top = 20.dp, start = 30.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 70.dp, bottom = 10.dp)
         )
         Box(
             modifier = Modifier
-                .padding(start = 30.dp)
-                .width(400.dp)
-                .height(50.dp)
+                .padding(start = 70.dp, end=70.dp)
+                .fillMaxWidth()
+                .height(60.dp)
                 .background(Color(0xFFE8E0ED))
                 .clickable(
                     indication = null,
@@ -356,7 +362,7 @@ class RegisterUserFragment : BaseFragment() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
+                    .padding(bottom = 30.dp, start = 60.dp, end = 60.dp)
                     .clickable {
                         clickDurationSettingButton(viewModel.durationState)
                     },
@@ -368,7 +374,7 @@ class RegisterUserFragment : BaseFragment() {
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
+                        .height(60.dp)
                         .background(
                             Color(0xFF333333),
                             shape = RoundedCornerShape(12.dp)
@@ -414,7 +420,7 @@ class RegisterUserFragment : BaseFragment() {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(bottom = 15.dp, start = 30.dp, end = 30.dp)
+                            .padding(bottom = 30.dp, start = 60.dp, end = 60.dp)
                             .clickable {
                                 clickSaveButton()
                             },
@@ -426,7 +432,7 @@ class RegisterUserFragment : BaseFragment() {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
+                                .height(60.dp)
                                 .background(
                                     Color(0xFF333333),
                                     shape = RoundedCornerShape(12.dp)
@@ -461,6 +467,11 @@ class RegisterUserFragment : BaseFragment() {
 
         if(userName.isBlank() || userPhone.isBlank() || userDuration.isBlank() || userStartDate.isBlank()){
             showToast(getString(R.string.msg_text_empty))
+            return
+        }
+
+        if(!Utils.isValidPhoneNumber(userPhone)){
+            showToast(getString(R.string.msg_text_not_valid_phone_number))
             return
         }
 
