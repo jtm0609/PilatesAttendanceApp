@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -91,7 +92,7 @@ class RegisterUserFragment : BaseFragment() {
         // Inflate the layout for this fragment
         return ComposeView(mContext).apply {
             setContent {
-                mainView()
+                RegisterUserScreen()
             }
         }
     }
@@ -180,7 +181,7 @@ class RegisterUserFragment : BaseFragment() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun inputEditItem(inputType: Int) {
+    fun inputEditItem(inputType: Int, modifier: Modifier =Modifier) {
         var titleText: String? = null
         var hintText: String? = null
         var keyboardType: KeyboardType? = null
@@ -243,11 +244,7 @@ class RegisterUserFragment : BaseFragment() {
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = keyboardType!!,
                 imeAction = ImeAction.Done
-            ),             modifier = Modifier
-                .padding(start = 70.dp, end=70.dp)
-                .fillMaxWidth()
-                .height(60.dp)
-                .background(Color(0XFFE7E7E7))
+            ),             modifier = modifier
             ,
             enabled= !viewModel.durationVisibility
         )
@@ -261,6 +258,7 @@ class RegisterUserFragment : BaseFragment() {
         var titleText: String? = null
         var imageVector: ImageVector? = null
         var contentText: String? =null
+        var testTag:String?=null
         when (inputType) {
             INPUT_DURATION -> {
                 titleText = stringResource(
@@ -268,6 +266,7 @@ class RegisterUserFragment : BaseFragment() {
                 )
                 imageVector = Icons.Filled.List
                 contentText = viewModel.durationText
+                testTag = "DURATION_TEXT"
             }
 
             INPUT_START_DATE -> {
@@ -276,6 +275,7 @@ class RegisterUserFragment : BaseFragment() {
                 )
                 imageVector = Icons.Filled.DateRange
                 contentText= viewModel.startDateText
+                testTag = "START_DATE_TEXT"
             }
         }
 
@@ -290,6 +290,7 @@ class RegisterUserFragment : BaseFragment() {
                 .fillMaxWidth()
                 .height(60.dp)
                 .background(Color(0xFFE8E0ED))
+                .testTag(testTag!!)
                 .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
@@ -380,6 +381,7 @@ class RegisterUserFragment : BaseFragment() {
                             shape = RoundedCornerShape(12.dp)
                         )
                         .wrapContentSize(align = Alignment.Center)
+                        .testTag("DURATION_SELECT_COMPLETE")
                 )
             }
         }
@@ -387,8 +389,9 @@ class RegisterUserFragment : BaseFragment() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun mainView() {
+    fun RegisterUserScreen() {
         Scaffold(
+            modifier=Modifier.testTag("REGISTER_USER_SCREEN"),
             containerColor = Color(0xFF2b2b2b),
             topBar = { toolbar() },
             content = {
@@ -410,8 +413,18 @@ class RegisterUserFragment : BaseFragment() {
                             thickness = 1.dp,
                             modifier = Modifier.padding(bottom = 15.dp)
                         )
-                        inputEditItem(inputType = INPUT_NAME)
-                        inputEditItem(inputType = INPUT_PHONE_NUMBER)
+                        inputEditItem(inputType = INPUT_NAME, modifier= Modifier
+                            .padding(start = 70.dp, end=70.dp)
+                            .fillMaxWidth()
+                            .height(60.dp)
+                            .background(Color(0XFFE7E7E7))
+                            .testTag("ID_TEXT_FIELD") )
+                        inputEditItem(inputType = INPUT_PHONE_NUMBER, modifier = Modifier
+                            .padding(start = 70.dp, end=70.dp)
+                            .fillMaxWidth()
+                            .height(60.dp)
+                            .background(Color(0XFFE7E7E7))
+                            .testTag("PHONE_NUMBER_TEXT_FIELD"))
                         inputTextItem(inputType = INPUT_DURATION)
                         inputTextItem(inputType = INPUT_START_DATE)
                     }
