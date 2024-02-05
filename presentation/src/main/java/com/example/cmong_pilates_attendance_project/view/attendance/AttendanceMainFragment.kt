@@ -182,7 +182,7 @@ class AttendanceMainFragment :
                     .fillMaxHeight()
                     .weight(1f)
                     .clipToBounds()
-                    .padding(top=55.dp),
+                    .padding(top=5.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
@@ -206,7 +206,7 @@ class AttendanceMainFragment :
                     .fillMaxHeight()
                     .weight(1f)
                     .clipToBounds()
-                    .padding(top=100.dp),
+                    .padding(top=40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 marginHeight(20.dp)
@@ -244,25 +244,25 @@ class AttendanceMainFragment :
                     modifier = Modifier
                         .border(2.dp, Color.White)
                         .padding(10.dp)
-                        .width(450.dp)
+                        .width(400.dp)
                 ) {
                     Row() {
-                        textView(text = "7", Color.White, 90.sp, TextAlign.Center,
+                        textView(text = "7", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("7") })
                         textView(text = "8", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("8") })
                         textView(text = "9", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("9") })
                     }
@@ -270,19 +270,19 @@ class AttendanceMainFragment :
                         textView(text = "4", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("4") })
                         textView(text = "5", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("5") })
                         textView(text = "6", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("6") })
                     }
@@ -290,27 +290,27 @@ class AttendanceMainFragment :
                         textView(text = "1", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("1") })
                         textView(text = "2", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("2") })
                         textView(text = "3", Color.White, 100.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
                                 .clickable { onClickNumber("3") })
                     }
-                    Row() {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(
                             onClick = { onClickDelete() }, modifier = Modifier
                                 .width(120.dp)
-                                .height(130.dp)
+                                .height(110.dp)
                         ) {
                             Icon(
                                 Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
@@ -326,27 +326,27 @@ class AttendanceMainFragment :
                                 .clickable { onClickDelete()})*/
                         textView(text = "0", Color.White, 100.sp, TextAlign.Center,
                             Modifier
+                                .wrapContentSize(Alignment.Center)
                                 .width(120.dp)
-                                .height(130.dp)
-                                .wrapContentSize(align = Alignment.Center)
+                                .align(Alignment.CenterVertically)
                                 .clickable { onClickNumber("0") })
 
-                        IconButton(
+                        /*IconButton(
                             onClick = { onClickOk() }, modifier = Modifier
                                 .width(120.dp)
                                 .height(130.dp)
                         ) {
                             Icon(
-                                Icons.Filled.CheckCircle, "OK", tint = Color.White,
+                                Icons.Filled.CheckCircle, "입장", tint = Color.White,
                                 modifier = Modifier.width(100.dp).height(100.dp).align(Alignment.CenterVertically)
                             )
-                        }
-                        /*textView(text = "OK", Color.White, 50.sp, TextAlign.Center,
+                        }*/
+                        textView(text = "입장", Color.White, 65.sp, TextAlign.Center,
                             Modifier
-                                .width(100.dp)
-                                .height(100.dp)
                                 .wrapContentSize(align = Alignment.Center)
-                                .clickable { onClickOk() })*/
+                                .width(120.dp)
+                                .align(Alignment.CenterVertically)
+                                .clickable { onClickOk() })
                     }
                 }
             }
