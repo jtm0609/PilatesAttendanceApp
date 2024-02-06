@@ -70,6 +70,7 @@ import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_NAME
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_PHONE_NUMBER
 import com.example.cmong_pilates_attendance_project.utils.Constant.INPUT_START_DATE
 import com.example.cmong_pilates_attendance_project.utils.Utils
+import com.example.cmong_pilates_attendance_project.view.admin.ui.RegisterUserScreen
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 import com.example.data.data.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,6 +81,7 @@ class RegisterUserFragment : BaseFragment() {
     private val viewModel: RegisterUserViewModel  by viewModels<RegisterUserViewModel>()
     //private val adminViewModel: AdminViewModel by viewModels<AdminViewModel>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,18 +94,19 @@ class RegisterUserFragment : BaseFragment() {
         // Inflate the layout for this fragment
         return ComposeView(mContext).apply {
             setContent {
-                RegisterUserScreen()
+                RegisterUserScreen(viewModel, findNavController())
             }
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setDataObserver()
     }
 
     private fun setDataObserver(){
-        viewModel.isSuccessAddUser.observe(viewLifecycleOwner){
+        viewModel.isSuccessAddUser.observe(this){
             if(it==true){
                 showToast(getString(R.string.text_complete_add_user))
                 findNavController().popBackStack()
@@ -111,9 +114,14 @@ class RegisterUserFragment : BaseFragment() {
                 showToast(getString(R.string.text_duplicate_add_user))
             }
         }
+
+        viewModel.isClickStartDate.observe(this){
+            if(it==false) return@observe
+            showDateDialog()
+        }
     }
 
-    @Composable
+/*    @Composable
     fun textView(
         text: String,
         color: Color,
@@ -231,7 +239,7 @@ class RegisterUserFragment : BaseFragment() {
                         viewModel.setPhoneText(textValue)
 
                     }
-                     },
+            },
             placeholder = {
                 Text(
                     hintText!!,
@@ -472,11 +480,11 @@ class RegisterUserFragment : BaseFragment() {
         val userStartDate = viewModel.startDateText
 
 
-        /*LogUtil.d("userName: $userName")
+        *//*LogUtil.d("userName: $userName")
         LogUtil.d("userPhone: $userPhone")
         ///LogUtil.d("duration timeStamp: ${weekToTimestamp(userDuration)}")
         LogUtil.d("startDate timeStamp: ${dateStringToTimestamp(userStartDate)}")
-        LogUtil.d("after timeStamp: ${getEndDate(dateStringToTimestamp(userStartDate), userDuration)}")*/
+        LogUtil.d("after timeStamp: ${getEndDate(dateStringToTimestamp(userStartDate), userDuration)}")*//*
 
         if(userName.isBlank() || userPhone.isBlank() || userDuration.isBlank() || userStartDate.isBlank()){
             showToast(getString(R.string.msg_text_empty))
@@ -520,7 +528,7 @@ class RegisterUserFragment : BaseFragment() {
             showDateDialog()
         }
     }
-
+*/
     private fun showDateDialog(){
 
         val dlg = DatePickerDialog(mContext,

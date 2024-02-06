@@ -52,6 +52,8 @@ class RegisterUserViewModel@Inject constructor(
     private var _isSuccessAddUser = MutableLiveData<Boolean>()
     val isSuccessAddUser : LiveData<Boolean> get() = _isSuccessAddUser
 
+    private var _isClickStartDate = MutableLiveData<Boolean>()
+    val isClickStartDate : LiveData<Boolean> get() = _isClickStartDate
     fun setVisibilityDuration(visible: Boolean){
         _durationVisibility = visible
     }
@@ -101,6 +103,10 @@ class RegisterUserViewModel@Inject constructor(
                     }
                 )
         )
+    }
+
+    fun clickStartDate(){
+        _isClickStartDate.value =true
     }
 
 
