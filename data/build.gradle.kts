@@ -35,9 +35,12 @@ android {
 }
 
 dependencies {
+    implementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
     val hiltVersion = "2.44"
     val roomVersion = "2.4.2"
     val nav_version = "2.2.0-rc03"
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -45,6 +48,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation ("org.robolectric:robolectric:4.5.1")
 
     // hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
