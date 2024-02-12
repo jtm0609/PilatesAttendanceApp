@@ -94,7 +94,7 @@ class RegisterUserFragment : BaseFragment() {
         // Inflate the layout for this fragment
         return ComposeView(mContext).apply {
             setContent {
-                RegisterUserScreen(viewModel, findNavController())
+                RegisterUserScreen(viewModel, findNavController(), mContext)
             }
         }
     }

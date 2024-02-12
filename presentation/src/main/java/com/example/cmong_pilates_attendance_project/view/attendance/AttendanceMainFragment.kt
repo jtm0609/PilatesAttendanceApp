@@ -144,17 +144,6 @@ class AttendanceMainFragment :
         )
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun editText() {
-        val textState = remember {
-            mutableStateOf("")
-        }
-        TextField(
-            value = textState.value,
-            onValueChange = { textValue -> textState.value = textValue })
-    }
-
     @Composable
     fun marginHeight(height: Dp) {
         Spacer(modifier = Modifier.height(10.dp))

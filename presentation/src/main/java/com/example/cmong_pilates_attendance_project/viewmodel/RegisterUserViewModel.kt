@@ -108,6 +108,4 @@ class RegisterUserViewModel@Inject constructor(
     fun clickStartDate(){
         _isClickStartDate.value =true
     }
-
-
 }

@@ -1,7 +1,10 @@
 package com.example.cmong_pilates_attendance_project.view.admin.ui
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Build
+import android.widget.DatePicker
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -201,7 +204,7 @@ fun inputEditItem(inputType: Int, modifier: Modifier =Modifier, viewModel: Regis
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun inputTextItem(inputType: Int, viewModel: RegisterUserViewModel) {
+fun inputTextItem(inputType: Int, viewModel: RegisterUserViewModel, mContext: Context) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     var titleText: String? = null
@@ -245,7 +248,7 @@ fun inputTextItem(inputType: Int, viewModel: RegisterUserViewModel) {
                 interactionSource = remember { MutableInteractionSource() }
             ) {
                 if (!viewModel.durationVisibility) {
-                    iconClick(inputType, viewModel)
+                    iconClick(inputType, viewModel, mContext)
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 }
@@ -262,7 +265,7 @@ fun inputTextItem(inputType: Int, viewModel: RegisterUserViewModel) {
         IconButton(
             onClick = {
                 if (!viewModel.durationVisibility) {
-                    iconClick(inputType, viewModel)
+                    iconClick(inputType, viewModel, mContext)
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 }
@@ -339,7 +342,7 @@ fun durationSettingView (viewModel: RegisterUserViewModel){
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterUserScreen(viewModel: RegisterUserViewModel, navController: NavController) {
+fun RegisterUserScreen(viewModel: RegisterUserViewModel, navController: NavController, mContext: Context) {
     Scaffold(
         modifier=Modifier.testTag("REGISTER_USER_SCREEN"),
         containerColor = Color(0xFF2b2b2b),
@@ -376,8 +379,8 @@ fun RegisterUserScreen(viewModel: RegisterUserViewModel, navController: NavContr
                         .height(60.dp)
                         .background(Color(0XFFE7E7E7))
                         .testTag("PHONE_NUMBER_TEXT_FIELD") ,viewModel)
-                    inputTextItem(inputType = Constant.INPUT_DURATION, viewModel)
-                    inputTextItem(inputType = Constant.INPUT_START_DATE, viewModel)
+                    inputTextItem(inputType = Constant.INPUT_DURATION, viewModel, mContext)
+                    inputTextItem(inputType = Constant.INPUT_START_DATE, viewModel, mContext)
                 }
 
                 //저장 버튼
@@ -385,8 +388,9 @@ fun RegisterUserScreen(viewModel: RegisterUserViewModel, navController: NavContr
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = 30.dp, start = 60.dp, end = 60.dp)
+                        .testTag("SAVE_BOX")
                         .clickable {
-                            clickSaveButton(viewModel)
+                            clickSaveButton(viewModel, navController, mContext)
                         },
                 ) {
                     textView(
@@ -416,26 +420,19 @@ fun RegisterUserScreen(viewModel: RegisterUserViewModel, navController: NavContr
 
 //저장 버튼 클릭
 @RequiresApi(Build.VERSION_CODES.O)
-private fun clickSaveButton(viewModel: RegisterUserViewModel) {
+private fun clickSaveButton(viewModel: RegisterUserViewModel, navController: NavController, mContext: Context) {
     val userName = viewModel.name
     val userPhone = viewModel.phone
     val userDuration = viewModel.durationText
     val userStartDate = viewModel.startDateText
 
-
-    /*LogUtil.d("userName: $userName")
-    LogUtil.d("userPhone: $userPhone")
-    ///LogUtil.d("duration timeStamp: ${weekToTimestamp(userDuration)}")
-    LogUtil.d("startDate timeStamp: ${dateStringToTimestamp(userStartDate)}")
-    LogUtil.d("after timeStamp: ${getEndDate(dateStringToTimestamp(userStartDate), userDuration)}")*/
-
     if(userName.isBlank() || userPhone.isBlank() || userDuration.isBlank() || userStartDate.isBlank()){
-        //showToast(getString(R.string.msg_text_empty))
+        showToast(mContext.getString(R.string.msg_text_empty),mContext)
         return
     }
 
     if(!Utils.isValidPhoneNumber(userPhone)){
-        //showToast(getString(R.string.msg_text_not_valid_phone_number))
+        showToast(mContext.getString(R.string.msg_text_not_valid_phone_number),mContext)
         return
     }
 
@@ -451,7 +448,7 @@ private fun clickSaveButton(viewModel: RegisterUserViewModel) {
         endDateTime = userEndDateTime
     )
     viewModel.addUser(user)
-    //findNavController().popBackStack()
+    //navController.popBackStack()
 }
 
 
@@ -463,12 +460,28 @@ private fun clickDurationSettingButton(duration: String, viewModel: RegisterUser
 
 //아이콘 클릭 이벤트
 @OptIn(ExperimentalComposeUiApi::class)
-private fun iconClick(iconType: Int, viewModel: RegisterUserViewModel){
+private fun iconClick(iconType: Int, viewModel: RegisterUserViewModel, mContext: Context){
 
     if(iconType == Constant.INPUT_DURATION){
         viewModel.setVisibilityDuration(true)
     }else{
         viewModel.clickStartDate()
+        //showDateDialog(viewModel, mContext)
     }
+}
+
+private fun showDateDialog(viewModel: RegisterUserViewModel, mContext: Context){
+
+    val dlg = DatePickerDialog(mContext,
+        { pView, pYear, pMonth, pDayOfMonth ->
+            viewModel.setStartDate(pYear, pMonth, pDayOfMonth)
+            viewModel.setStartDateTextText(mContext.getString(R.string.text_start_date,pYear,pMonth+1,pDayOfMonth))
+        },
+        viewModel.startYear, viewModel.startMonth, viewModel.startDay)
+    dlg.show()
+}
+
+private fun showToast(msg: String, mContext: Context) {
+    Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
 }
 
