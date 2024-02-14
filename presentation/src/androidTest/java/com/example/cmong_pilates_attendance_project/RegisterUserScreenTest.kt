@@ -1,51 +1,28 @@
 package com.example.cmong_pilates_attendance_project
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.test.assertIsNotDisplayed
-import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.hasAnyDescendant
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.isDialog
-import androidx.compose.ui.test.isFocused
-import androidx.compose.ui.test.isPopup
-import androidx.compose.ui.test.isRoot
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.test.printToLog
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavHostController
-import androidx.test.espresso.Espresso
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
-import com.example.cmong_pilates_attendance_project.hilt.DataModule
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.example.cmong_pilates_attendance_project.utils.Utils
-import com.example.cmong_pilates_attendance_project.view.admin.AdminActivity
 import com.example.cmong_pilates_attendance_project.view.admin.RegisterUserFragment
-import com.example.cmong_pilates_attendance_project.view.admin.ui.RegisterUserScreen
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 import com.example.data.data.UserEntity
 import com.example.data.repository.UserRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -54,25 +31,42 @@ class RegisterUserScreenTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
+
     @get: Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+
+    private lateinit var navController: TestNavHostController
 
     // RegisterUserViewModel 을 생성시 Repository가 필요하기 때문에 Repository inject가 필요.
     @Inject
     lateinit var repository: UserRepository
     lateinit var viewModel: RegisterUserViewModel
-
     @Before
     fun init() {
         hiltRule.inject()
         viewModel = createViewModel()
-        composeTestRule.setContent {
-            RegisterUserScreen(
-                viewModel = viewModel,
-                navController = NavHostController(LocalContext.current),
-                mContext = composeTestRule.activity
-            )
+
+        // NavController도 주입해주어야 합니다.
+        UiThreadStatement.runOnUiThread {
+            navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+            navController.setGraph(R.navigation.admin_nav_graph)
         }
+
+        // 해결 : fragment를 생성해야 onCreate를 실행하고 setDataObserver 통해 livedata를 연결합니다.
+        // 문제원인 : 기존 composeTestRule을 통해서 뷰를 생성하게 되면 fragment의 setDataObserver로 livedata를 연결하지 못하여,
+        // dialog가 노출되지 않았습니다.
+
+        /**
+         * 빈 액티비티에 fragment 호출시 사용
+         * https://developer.android.com/training/dependency-injection/hilt-testing?hl=ko#launchfragment */
+        launchFragmentInHiltContainer<RegisterUserFragment>(navHostController = navController) {}
+//        composeTestRule.setContent {
+//            RegisterUserScreen(
+//                viewModel = viewModel,
+//                navController = rememberNavController(),
+//                mContext = composeTestRule.activity
+//            )
+//        }
     }
 
     @Test
@@ -87,11 +81,13 @@ class RegisterUserScreenTest {
             .performClick()
         composeTestRule.onNodeWithTag(testTag = "START_DATE_TEXT")
             .performClick()
+
         onView(withId(android.R.id.button1)).perform(click());
+
         composeTestRule.onNodeWithTag(testTag = "SAVE_BOX")
             .performClick()
 
-        //입력한 값이 정상적으로 화면에 표시가 되었는지 체크
+        //  입력한 값이 정상적으로 화면에 표시가 되었는지 체크
         composeTestRule.onNodeWithText("홍길동").assertExists() //이름이 입력되었다면 pass
         composeTestRule.onNodeWithText("01012345678").assertExists() //휴대폰 번호가 입력되었다면 pass
         composeTestRule.onNodeWithText("2주").assertExists() //picker 화면을 성공적으로 띄우고 설정 버튼을 클릭했다면 pass

@@ -115,6 +115,7 @@ dependencies {
     //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    androidTestImplementation("androidx.navigation:navigation-testing:2.5.3")
 
     //compose
     // Integration with activities
