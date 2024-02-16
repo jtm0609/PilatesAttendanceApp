@@ -105,6 +105,7 @@ dependencies {
     // Logger
     implementation("com.orhanobut:logger:2.2.0")
 
+
     // Room
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-rxjava2:$roomVersion")

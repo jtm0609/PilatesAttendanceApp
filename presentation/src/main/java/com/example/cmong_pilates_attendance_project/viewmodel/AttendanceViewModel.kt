@@ -70,11 +70,10 @@ class AttendanceViewModel
             repository.getUser(phoneNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { showProgress() }
-                .doOnSuccess { hideProgress() }
                 .subscribe({ it ->
                     //등록된 기간 범위안에 있지 않은 회원이라면
                     if (!checkRegisterDate(it)) {
+                        LogUtil.d("user not register date")
                         _isNoExistUser.value = true
                         return@subscribe
                     }
@@ -114,6 +113,9 @@ class AttendanceViewModel
     private fun checkRegisterDate(user: UserEntity): Boolean {
         val calendar = Calendar.getInstance()
         val currentTime = calendar.timeInMillis
+        LogUtil.d("startDateTime: ${user.startDateTime}")
+        LogUtil.d("currentTime: $currentTime")
+        LogUtil.d("endDateTime: ${user.endDateTime}")
         //등록된 기간 범위안에 있는 회원이라면
         return user.startDateTime <= currentTime && currentTime <= user.endDateTime
     }

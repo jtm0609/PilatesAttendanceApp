@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project
+package com.example.cmong_pilates_attendance_project.test
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -12,6 +12,8 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.launchFragmentInHiltContainer
 import com.example.cmong_pilates_attendance_project.utils.Utils
 import com.example.cmong_pilates_attendance_project.view.admin.RegisterUserFragment
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
@@ -43,23 +45,26 @@ class RegisterUserScreenTest {
     lateinit var viewModel: RegisterUserViewModel
     @Before
     fun init() {
+        /** repository 주입 && viewModel 생성 */
         hiltRule.inject()
         viewModel = createViewModel()
 
-        // NavController도 주입해주어야 합니다.
+        /** NavController 주입 */
         UiThreadStatement.runOnUiThread {
             navController = TestNavHostController(ApplicationProvider.getApplicationContext())
             navController.setGraph(R.navigation.admin_nav_graph)
         }
 
-        // 해결 : fragment를 생성해야 onCreate를 실행하고 setDataObserver 통해 livedata를 연결합니다.
-        // 문제원인 : 기존 composeTestRule을 통해서 뷰를 생성하게 되면 fragment의 setDataObserver로 livedata를 연결하지 못하여,
-        // dialog가 노출되지 않았습니다.
-
         /**
-         * 빈 액티비티에 fragment 호출시 사용
-         * https://developer.android.com/training/dependency-injection/hilt-testing?hl=ko#launchfragment */
+         * Fragment의 전반적인 테스트를 하고 싶을 때 아래 코드 사용
+         * fragment를 생성해야 onCreate를 실행하고 setDataObserver 통해 livedata를 연결한다.
+         * 기존 composeTestRule을 통해서 뷰를 생성하게 되면 fragment의 setDataObserver로 livedata를 연결하지 못하여,
+         *  dialog를 표시하는 코드가 실행되지 않는다.
+         */
         launchFragmentInHiltContainer<RegisterUserFragment>(navHostController = navController) {}
+
+
+        /** COMPOSE UI만 테스트하고 싶을 때 아래 코드 사용  */
 //        composeTestRule.setContent {
 //            RegisterUserScreen(
 //                viewModel = viewModel,
@@ -69,6 +74,7 @@ class RegisterUserScreenTest {
 //        }
     }
 
+    //유저 등록 UI 동작 확인
     @Test
     fun `신규_유저_등록_UI_테스트`() {
         composeTestRule.onNodeWithTag(testTag = "ID_TEXT_FIELD")
@@ -94,6 +100,7 @@ class RegisterUserScreenTest {
         composeTestRule.onNodeWithText(getCurrentDate()).assertExists() //datepicker를 성공적으로 띄우고 ok버튼을 클릭했다면 pass
     }
 
+    //실제 뷰모델의 기능(function)이 잘 동작 되는지 확인
     @Test
     fun `신규_유저_등록_기능_테스트`(){
         viewModel.addUser(

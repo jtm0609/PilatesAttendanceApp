@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project
+package com.example.cmong_pilates_attendance_project.test
 
 import android.util.Log
 import androidx.room.Room
@@ -65,6 +65,7 @@ class UserRoomDatabaseTest {
 
         val result = userDao.selectUsers().blockingGet()
         Log.d("data", "result => ${result[0].name}")
+        Log.d("data", "result => ${result[0].phoneNumber}")
 
 //        test.assertValue { it[0].name == data.name }
     }

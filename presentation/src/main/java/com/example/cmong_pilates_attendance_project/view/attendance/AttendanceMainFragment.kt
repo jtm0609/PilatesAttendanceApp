@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -155,6 +156,7 @@ class AttendanceMainFragment :
             modifier = Modifier
                 .fillMaxSize()
                 .clipToBounds()
+                .testTag("MAIN_VIEW")
                 .background(Color(0xFF2b2b2b)),
         ) {
             IconButton(
@@ -221,6 +223,7 @@ class AttendanceMainFragment :
                         letterSpacing = 1.5.sp,
                         textAlign = TextAlign.Center,
                         fontSize = 30.sp,
+                        modifier = Modifier.testTag("PHONE_NUMBER_TEXT")
                     )
 
 
@@ -236,63 +239,72 @@ class AttendanceMainFragment :
                         .width(400.dp)
                 ) {
                     Row() {
-                        textView(text = "7", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "7", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("7")
                                 .clickable { onClickNumber("7") })
-                        textView(text = "8", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "8", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("8")
                                 .clickable { onClickNumber("8") })
-                        textView(text = "9", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "9", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("9")
                                 .clickable { onClickNumber("9") })
                     }
                     Row() {
-                        textView(text = "4", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "4", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("4")
                                 .clickable { onClickNumber("4") })
-                        textView(text = "5", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "5", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("5")
                                 .clickable { onClickNumber("5") })
-                        textView(text = "6", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "6", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("6")
                                 .clickable { onClickNumber("6") })
                     }
                     Row() {
-                        textView(text = "1", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "1", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("1")
                                 .clickable { onClickNumber("1") })
-                        textView(text = "2", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "2", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("2")
                                 .clickable { onClickNumber("2") })
-                        textView(text = "3", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "3", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .width(120.dp)
                                 .height(110.dp)
                                 .wrapContentSize(align = Alignment.Center)
+                                .testTag("3")
                                 .clickable { onClickNumber("3") })
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -303,38 +315,22 @@ class AttendanceMainFragment :
                         ) {
                             Icon(
                                 Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
-                                modifier = Modifier.width(100.dp).height(100.dp).align(Alignment.CenterVertically)
+                                modifier = Modifier.width(90.dp).height(100.dp).align(Alignment.CenterVertically)
                             )
                         }
-                        /*textView(text = "←", Color.White, 85.sp, TextAlign.Center,
-                            Modifier
-                                .width(100.dp)
-                                .height(100.dp)
-                                .background(Color.Red)
-                                .wrapContentSize(align = Alignment.Center)
-                                .clickable { onClickDelete()})*/
-                        textView(text = "0", Color.White, 100.sp, TextAlign.Center,
+                        textView(text = "0", Color.White, 90.sp, TextAlign.Center,
                             Modifier
                                 .wrapContentSize(Alignment.Center)
                                 .width(120.dp)
                                 .align(Alignment.CenterVertically)
                                 .clickable { onClickNumber("0") })
 
-                        /*IconButton(
-                            onClick = { onClickOk() }, modifier = Modifier
-                                .width(120.dp)
-                                .height(130.dp)
-                        ) {
-                            Icon(
-                                Icons.Filled.CheckCircle, "입장", tint = Color.White,
-                                modifier = Modifier.width(100.dp).height(100.dp).align(Alignment.CenterVertically)
-                            )
-                        }*/
-                        textView(text = "입장", Color.White, 65.sp, TextAlign.Center,
+                        textView(text = "입장", Color.White, 60.sp, TextAlign.Center,
                             Modifier
                                 .wrapContentSize(align = Alignment.Center)
                                 .width(120.dp)
                                 .align(Alignment.CenterVertically)
+                                .testTag("ENTRANCE")
                                 .clickable { onClickOk() })
                     }
                 }
