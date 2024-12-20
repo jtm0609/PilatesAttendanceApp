@@ -257,7 +257,7 @@ class ChangeUserMileageFragment : BaseFragment() {
 
             Constant.DOWN_ATTENDANCE_COUNT -> {
                 viewModel.apply {
-                    if(mileage>1) {
+                    if(mileage>0) {
                         setMileage(mileage - 1)
                     }
                 }

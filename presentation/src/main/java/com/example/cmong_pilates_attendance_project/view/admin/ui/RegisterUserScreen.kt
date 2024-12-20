@@ -3,7 +3,6 @@ package com.example.cmong_pilates_attendance_project.view.admin.ui
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Build
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -56,7 +55,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.utils.Constant
@@ -106,28 +104,6 @@ fun toolbar(viewModel: RegisterUserViewModel, navController: NavController) {
                 )
             }
         },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun editText(hint: String, keyboardType: KeyboardType, textState: MutableState<String> ,modifier: Modifier = Modifier) {
-    TextField(
-        value = textState.value,
-        onValueChange = { textValue -> textState.value = textValue },
-        placeholder = {
-            Text(
-                hint,
-                color = Color.Gray,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(align = Alignment.CenterStart)
-            )
-        },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Done
-        ), modifier = modifier
     )
 }
 
@@ -437,7 +413,7 @@ private fun clickSaveButton(viewModel: RegisterUserViewModel, navController: Nav
     }
 
     val userStartDateTime = Utils.dateStringToTimestamp(userStartDate)
-    val userEndDateTime = Utils.getEndDate(userStartDateTime, userDuration)
+    val userEndDateTime = Utils.getEndDateTimeMilli(userStartDateTime, userDuration)
 
 
     val user = UserEntity(

@@ -346,7 +346,7 @@ class ReregisterUserFragment : BaseFragment() {
         val userStartDate = viewModel.startDateText
         val userDuration = viewModel.durationState
         val userStartDateTime = Utils.dateStringToTimestamp(userStartDate)
-        val userEndDateTime = Utils.getEndDate(userStartDateTime, userDuration)
+        val userEndDateTime = Utils.getEndDateTimeMilli(userStartDateTime, userDuration)
         userViewModel.updateSearchedUserUsingDate(userStartDateTime, userEndDateTime, userDuration)
         viewModel.reRegisterUser(userViewModel.searchedUser.value!!)
     }

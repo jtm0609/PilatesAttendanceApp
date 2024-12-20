@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
-import java.util.regex.Pattern
 
 object Utils {
 
@@ -32,7 +31,7 @@ object Utils {
 
     //끝나는 날짜 변환() = 시작날짜 + 기간
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getEndDate(startDate: Long, duration: String): Long {
+    fun getEndDateTimeMilli(startDate: Long, duration: String): Long {
         val now = Instant.now()
         val instant = Instant.ofEpochMilli(startDate)
         var endDate: Instant? = null

@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AndroidTestResultsUserPreferences">
@@ -147,6 +148,19 @@
           </value>
         </entry>
         <entry key="1389284240">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1525552565">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
