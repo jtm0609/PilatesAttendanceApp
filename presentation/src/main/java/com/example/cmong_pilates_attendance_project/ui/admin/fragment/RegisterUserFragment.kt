@@ -20,7 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 
-import com.example.cmong_pilates_attendance_project.ui.admin.view.RegisterUserScreen
+import com.example.cmong_pilates_attendance_project.ui.admin.screen.RegisterUserScreen
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 
 import dagger.hilt.android.AndroidEntryPoint

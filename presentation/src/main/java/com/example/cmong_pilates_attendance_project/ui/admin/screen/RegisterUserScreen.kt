@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.ui.admin.view
+package com.example.cmong_pilates_attendance_project.ui.admin.screen
 
 import android.app.DatePickerDialog
 import android.content.Context
