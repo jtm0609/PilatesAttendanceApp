@@ -29,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RegisterUserFragment : BaseFragment() {
     private val viewModel: RegisterUserViewModel  by viewModels<RegisterUserViewModel>()
-    //private val adminViewModel: AdminViewModel by viewModels<AdminViewModel>()
     private val navController: NavController by lazy { findNavController() }
 
     @RequiresApi(Build.VERSION_CODES.O)

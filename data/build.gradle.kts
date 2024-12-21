@@ -37,9 +37,8 @@ android {
 dependencies {
     implementation("androidx.test:core-ktx:1.5.0")
     implementation("androidx.test.ext:junit-ktx:1.1.5")
-    val hiltVersion = "2.44"
+    val hiltVersion = "2.48"
     val roomVersion = "2.4.2"
-    val nav_version = "2.2.0-rc03"
 
 
     implementation("androidx.core:core-ktx:1.9.0")

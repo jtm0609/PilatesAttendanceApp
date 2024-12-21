@@ -15,10 +15,5 @@ abstract class BaseActivity<B : ViewDataBinding>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
-        binding.lifecycleOwner = this
-    }
-
-    protected fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

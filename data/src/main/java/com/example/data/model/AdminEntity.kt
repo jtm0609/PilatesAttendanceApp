@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class AdminEntity(
 
     @PrimaryKey(autoGenerate = true)
-    val no: Long=1,
+    val no: Long = 1,
     var maxAttendance: Int //하루 최대 출석 횟수
 )
