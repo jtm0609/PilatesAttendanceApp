@@ -1,7 +1,6 @@
-package com.example.cmong_pilates_attendance_project.view.admin
+package com.example.cmong_pilates_attendance_project.ui.admin.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,8 +40,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.utils.Constant
-import com.example.cmong_pilates_attendance_project.utils.Constant.CHANGE_MIELEAGE_MENU_CLICK
-import com.example.cmong_pilates_attendance_project.utils.Constant.RE_REGISTER_USER_MENU_CLICK
 
 class ManageUserFragment : BaseFragment() {
 

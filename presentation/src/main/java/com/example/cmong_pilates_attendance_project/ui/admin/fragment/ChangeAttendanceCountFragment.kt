@@ -1,7 +1,6 @@
-package com.example.cmong_pilates_attendance_project.view.admin
+package com.example.cmong_pilates_attendance_project.ui.admin.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,11 +46,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
-import com.example.cmong_pilates_attendance_project.utils.Constant
 import com.example.cmong_pilates_attendance_project.utils.Constant.DOWN_ATTENDANCE_COUNT
 import com.example.cmong_pilates_attendance_project.utils.Constant.UP_ATTENDANCE_COUNT
 import com.example.cmong_pilates_attendance_project.viewmodel.ChangeAttendanceCountViewModel
-import com.example.data.data.AdminEntity
+import com.example.data.model.AdminEntity
 
 
 class ChangeAttendanceCountFragment : BaseFragment() {

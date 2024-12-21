@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.view.admin
+package com.example.cmong_pilates_attendance_project.ui.admin.fragment
 
 import android.app.DatePickerDialog
 import android.content.Context.INPUT_METHOD_SERVICE
@@ -20,7 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseFragment
 
-import com.example.cmong_pilates_attendance_project.view.admin.ui.RegisterUserScreen
+import com.example.cmong_pilates_attendance_project.ui.admin.view.RegisterUserScreen
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 
 import dagger.hilt.android.AndroidEntryPoint

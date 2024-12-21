@@ -1,4 +1,4 @@
-package com.example.data.data
+package com.example.data.model
 
 import androidx.room.Entity
 import androidx.room.Index

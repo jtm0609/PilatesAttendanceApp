@@ -1,6 +1,6 @@
 package com.example.data.datasource.local
 
-import com.example.data.data.UserEntity
+import com.example.data.model.UserEntity
 import com.example.data.db.UserDao
 import io.reactivex.Completable
 import io.reactivex.Single

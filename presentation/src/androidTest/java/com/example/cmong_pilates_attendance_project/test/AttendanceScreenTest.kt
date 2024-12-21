@@ -10,10 +10,10 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.example.cmong_pilates_attendance_project.launchFragmentInHiltContainer
-import com.example.cmong_pilates_attendance_project.view.attendance.AttendanceMainFragment
+import com.example.cmong_pilates_attendance_project.ui.attendance.fragment.AttendanceMainFragment
 import com.example.cmong_pilates_attendance_project.viewmodel.AdminViewModel
 import com.example.cmong_pilates_attendance_project.viewmodel.AttendanceViewModel
-import com.example.data.data.UserEntity
+import com.example.data.model.UserEntity
 import com.example.data.repository.AdminRepository
 import com.example.data.repository.UserRepository
 import dagger.hilt.android.testing.HiltAndroidRule

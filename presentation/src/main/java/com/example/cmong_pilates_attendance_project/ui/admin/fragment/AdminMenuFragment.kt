@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.view.admin
+package com.example.cmong_pilates_attendance_project.ui.admin.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

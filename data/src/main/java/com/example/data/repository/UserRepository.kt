@@ -1,8 +1,7 @@
 package com.example.data.repository
 
-import com.example.data.data.UserEntity
+import com.example.data.model.UserEntity
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface UserRepository {

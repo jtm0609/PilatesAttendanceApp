@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".di.DiApplication"
+        android:name=".application.PilatesApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Cmong_pilates_attendance_project"
         tools:targetApi="31">
         <activity
-            android:name=".view.admin.AdminActivity"
+            android:name=".ui.admin.activity.AdminActivity"
             android:exported="true"
             android:screenOrientation="landscape"
             >
@@ -25,7 +25,7 @@
             android:name=".base.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".view.attendance.AttendanceActivity"
+            android:name=".ui.attendance.activity.AttendanceActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

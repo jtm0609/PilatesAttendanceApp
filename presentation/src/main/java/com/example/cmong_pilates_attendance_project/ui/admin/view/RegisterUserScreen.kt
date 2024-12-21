@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.view.admin.ui
+package com.example.cmong_pilates_attendance_project.ui.admin.view
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -33,7 +33,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,7 +59,7 @@ import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.utils.Constant
 import com.example.cmong_pilates_attendance_project.utils.Utils
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
-import com.example.data.data.UserEntity
+import com.example.data.model.UserEntity
 
 
 @Composable

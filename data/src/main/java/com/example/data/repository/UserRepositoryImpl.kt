@@ -1,10 +1,9 @@
 package com.example.data.repository
 
-import com.example.data.data.UserEntity
+import com.example.data.model.UserEntity
 import com.example.data.datasource.local.UserDataSource
 import com.orhanobut.logger.Logger
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 

@@ -1,6 +1,5 @@
-package com.example.cmong_pilates_attendance_project.view.attendance
+package com.example.cmong_pilates_attendance_project.ui.attendance.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseActivity

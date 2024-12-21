@@ -8,9 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.cmong_pilates_attendance_project.R
 
-abstract class BaseActivity<B: ViewDataBinding>
-    (@LayoutRes val layoutId: Int)
-    : AppCompatActivity() {
+abstract class BaseActivity<B : ViewDataBinding>
+    (@LayoutRes val layoutId: Int) : AppCompatActivity() {
     protected lateinit var binding: B
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +18,7 @@ abstract class BaseActivity<B: ViewDataBinding>
         binding.lifecycleOwner = this
     }
 
-    protected fun showToast(msg:String){
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
+    protected fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

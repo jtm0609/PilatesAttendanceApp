@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/attendanceMainFragment"
-        android:name="com.example.cmong_pilates_attendance_project.view.attendance.AttendanceMainFragment"
+        android:name="com.example.cmong_pilates_attendance_project.ui.attendance.fragment.AttendanceMainFragment"
         android:label="AttendanceMainFragment" >
         <action
             android:id="@+id/action_attendanceMainFragment_to_attendanceCompleteFragment"
@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/attendanceCompleteFragment"
-        android:name="com.example.cmong_pilates_attendance_project.view.attendance.AttendanceCompleteFragment"
+        android:name="com.example.cmong_pilates_attendance_project.ui.attendance.fragment.AttendanceCompleteFragment"
         android:label="AttendanceCompleteFragment" />
 </navigation>

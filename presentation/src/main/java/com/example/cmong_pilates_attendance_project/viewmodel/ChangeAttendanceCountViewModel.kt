@@ -6,9 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import com.example.cmong_pilates_attendance_project.base.BaseViewModel
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
-import com.example.data.data.AdminEntity
+import com.example.data.model.AdminEntity
 import com.example.data.repository.AdminRepository
-import com.example.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.view.admin
+package com.example.cmong_pilates_attendance_project.ui.admin.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

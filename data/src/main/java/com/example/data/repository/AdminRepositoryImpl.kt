@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data.data.AdminEntity
+import com.example.data.model.AdminEntity
 import com.example.data.datasource.local.AdminDataSource
 import io.reactivex.Completable
 import io.reactivex.Single

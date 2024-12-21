@@ -3,7 +3,7 @@ package com.example.cmong_pilates_attendance_project.test
 import android.util.Log
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.data.data.UserEntity
+import com.example.data.model.UserEntity
 import com.example.data.db.UserDao
 import com.example.data.db.UserDatabase
 import org.junit.After
