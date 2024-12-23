@@ -1,6 +1,7 @@
 package com.example.cmong_pilates_attendance_project.ui.attendance.activity
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.base.BaseActivity
@@ -10,12 +11,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class AttendanceActivity : BaseActivity<ActivityAttendanceBinding>(R.layout.activity_attendance) {
+class AttendanceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PilatesApp()
         }
-
     }
 }

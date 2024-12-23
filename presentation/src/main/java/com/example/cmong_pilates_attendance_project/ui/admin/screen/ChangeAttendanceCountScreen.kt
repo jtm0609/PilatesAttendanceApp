@@ -49,8 +49,9 @@ import com.example.data.model.AdminEntity
 
 
 @Composable
-fun ChangeAttendanceCountScreen(navController: NavHostController,
-    viewModel: ChangeAttendanceCountViewModel = hiltViewModel(),
+fun ChangeAttendanceCountScreen(
+    navController: NavHostController,
+    viewModel: ChangeAttendanceCountViewModel,
 ) {
     val context = LocalContext.current
     val changeMileage: (Int) -> Unit = { flag ->

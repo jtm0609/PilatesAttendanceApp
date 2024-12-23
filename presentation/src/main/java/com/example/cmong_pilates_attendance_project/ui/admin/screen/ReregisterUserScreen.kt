@@ -48,8 +48,8 @@ import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
 @Composable
 fun ReregisterUserScreen(
     navController: NavHostController,
-    viewModel: ReregisterUserViewModel = hiltViewModel(),
-    userViewModel: UserViewModel = viewModel()
+    viewModel: ReregisterUserViewModel,
+    userViewModel: UserViewModel
 ) {
 
     //저장 버튼 클릭

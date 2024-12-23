@@ -54,8 +54,8 @@ import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
 @Composable
 fun ChangeUserMileageScreen(
     navController: NavHostController,
-    viewModel: ChangeUserMileageViewModel = hiltViewModel(),
-    userViewModel: UserViewModel = viewModel()
+    viewModel: ChangeUserMileageViewModel,
+    userViewModel: UserViewModel
 ) {
     val context = LocalContext.current
 

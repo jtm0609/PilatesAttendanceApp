@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun AttendanceCompleteScreen(
     navController: NavHostController,
-    viewModel: AttendanceViewModel = hiltViewModel()
+    attendanceViewModel: AttendanceViewModel
 ){
 
     LaunchedEffect(Unit) {
@@ -40,7 +40,7 @@ fun AttendanceCompleteScreen(
         navController.popBackStack()
     }
 
-    AttendanceCompleteContent(viewModel = viewModel)
+    AttendanceCompleteContent(viewModel = attendanceViewModel)
 }
 
 @Composable

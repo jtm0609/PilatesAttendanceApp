@@ -35,7 +35,7 @@ class AdminViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _adminData.value = it
+                        _adminData = it
                         LogUtil.d("Success Search Admin, $it")
                     }, {
                         _isEmptyAdminData.value = true

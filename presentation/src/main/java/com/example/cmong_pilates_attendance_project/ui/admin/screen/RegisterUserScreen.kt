@@ -47,7 +47,7 @@ import com.example.data.model.UserEntity
 @Composable
 fun RegisterUserScreen(
     navController: NavHostController,
-    viewModel: RegisterUserViewModel = hiltViewModel()
+    viewModel: RegisterUserViewModel
 ) {
     val context = LocalContext.current
     val showDateDialog: () -> Unit = {

@@ -59,7 +59,7 @@ dependencies {
     implementation("androidx.test.ext:junit-ktx:1.1.5")
     val hiltVersion = "2.48"
     val roomVersion = "2.4.2"
-    val nav_version = "2.2.0-rc03"
+    val nav_version = "2.5.3"
 
     //multi module
     implementation(project(":data"))
@@ -117,7 +117,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    androidTestImplementation("androidx.navigation:navigation-testing:2.5.3")
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
     //compose
     // Integration with activities
@@ -133,7 +133,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.5.2")
 
     //compose-viewmodel
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
 }

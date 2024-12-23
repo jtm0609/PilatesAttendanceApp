@@ -54,8 +54,8 @@ import com.example.cmong_pilates_attendance_project.viewmodel.AttendanceViewMode
 @Composable
 fun AttendanceMainScreen(
     navController: NavHostController,
-    viewModel: AttendanceViewModel = hiltViewModel(),
-    adminViewModel: AdminViewModel = viewModel(),
+    viewModel: AttendanceViewModel,
+    adminViewModel: AdminViewModel,
 ) {
 
     if (adminViewModel.adminData != null) {
