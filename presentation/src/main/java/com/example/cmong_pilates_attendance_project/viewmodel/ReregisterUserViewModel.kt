@@ -19,8 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ReregisterUserViewModel
 @Inject constructor
-    (private val repository: UserRepository)
-    : BaseViewModel() {
+    (private val repository: UserRepository) : BaseViewModel() {
     //이용 기간 설정 뷰 Visible 상태
     private var _durationVisibility by mutableStateOf(false)
     val durationVisibility get() = _durationVisibility
@@ -44,19 +43,19 @@ class ReregisterUserViewModel
     private var _startDay: Int = today.get(Calendar.DATE)
     val startDay get() = _startDay
 
-    private var _isSuccessUpdateUser = MutableLiveData<Boolean>()
-    val isSuccessUpdateUser : LiveData<Boolean> get() = _isSuccessUpdateUser
+    private var _isSuccessUpdateUser by mutableStateOf(false)
+    val isSuccessUpdateUser get() = _isSuccessUpdateUser
 
     fun setVisibilityDuration(visible: Boolean) {
         _durationVisibility = visible
     }
 
-    fun setDurationText(duration: String) {
-        _durationText = duration
+    fun setDurationText(duration: String?) {
+        _durationText = duration?: "null"
     }
 
-    fun setDurationState(duration: String) {
-        _durationState = duration
+    fun setDurationState(duration: String?) {
+        _durationState = duration ?: "null"
     }
 
     fun setStartDateText(date: String) {
@@ -76,12 +75,12 @@ class ReregisterUserViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _isSuccessUpdateUser.value = true
+                        _isSuccessUpdateUser = true
                         LogUtil.d("Update Successfully, ${user}")
 
                     }, {
                         LogUtil.d("Error Inserting: ${it.message}")
-                        _isSuccessUpdateUser.value = false
+                        _isSuccessUpdateUser = false
                     }
                 )
         )

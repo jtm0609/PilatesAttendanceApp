@@ -10,8 +10,11 @@ object Constant {
     val UP_ATTENDANCE_COUNT = 6
     val DOWN_ATTENDANCE_COUNT = 7
 
-    val INPUT_NAME = 8
-    val INPUT_PHONE_NUMBER = 9
-    val INPUT_DURATION = 10
-    val INPUT_START_DATE = 11
+    val UP_Mileage_COUNT = 8
+    val DOWN_Mileage_COUNT = 9
+
+    val INPUT_NAME = 10
+    val INPUT_PHONE_NUMBER = 11
+    val INPUT_DURATION = 12
+    val INPUT_START_DATE = 13
 }

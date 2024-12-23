@@ -20,11 +20,11 @@ class UserViewModel @Inject constructor(
 ) : BaseViewModel() {
     private var _userPhoneNumber by mutableStateOf("") //검색할 회원의 번호
     val userPhoneNumber get() = _userPhoneNumber
-    private var _searchedUser: MutableLiveData<UserEntity> = MutableLiveData<UserEntity>() // 조회한 유저
-    val searchedUser: LiveData<UserEntity> get() = _searchedUser
+    private var _searchedUser: UserEntity? by mutableStateOf(null)// 조회한 유저
+    val searchedUser get() = _searchedUser
 
-    private var _isExistUser:MutableLiveData<Boolean> = MutableLiveData<Boolean>()
-    val isExistUser: LiveData<Boolean> get() = _isExistUser
+    private var _isExistUser by mutableStateOf(false)
+    val isExistUser get() = _isExistUser
 
 
     fun setUserPhoneNumber(phoneNumber: String) {
@@ -32,11 +32,11 @@ class UserViewModel @Inject constructor(
     }
 
     fun updateSearchedUserMileage(mileage:Int){
-        _searchedUser.value?.mileage = mileage
+        _searchedUser?.mileage = mileage
     }
 
     fun updateSearchedUserUsingDate(pStartDateTime: Long, pEndDateTime: Long, pDuration: String){
-        _searchedUser.value?.apply {
+        _searchedUser?.apply {
             startDateTime = pStartDateTime
             endDateTime = pEndDateTime
             duration = pDuration
@@ -52,12 +52,12 @@ class UserViewModel @Inject constructor(
                 .doOnSuccess { hideProgress() }
                 .subscribe({ it ->
                     LogUtil.d("user search success! : $it")
-                    _isExistUser?.value = true
-                    _searchedUser?.value = it
+                    _isExistUser = true
+                    _searchedUser = it
 
                 },
                     {
-                        _isExistUser?.value = false
+                        _isExistUser = false
                         LogUtil.d("throwable! : ${it.message}")
 
                     })
@@ -66,8 +66,8 @@ class UserViewModel @Inject constructor(
     }
 
     fun clearData(){
-        _isExistUser= MutableLiveData<Boolean>()
-        _userPhoneNumber =""
+//        _isExistUser= MutableLiveData<Boolean>()
+//        _userPhoneNumber =""
     }
 
 

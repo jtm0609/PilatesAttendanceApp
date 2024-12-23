@@ -21,7 +21,7 @@ class ChangeUserMileageViewModel@Inject constructor(
     private var _mileage by mutableStateOf(0)
     val mileage get() = _mileage
 
-    private var _isChangeMileage = MutableLiveData<Boolean>()
+    private var _isChangeMileage by mutableStateOf(false)
     val isChangeMileage get() =_isChangeMileage
     fun setMileage(mileage: Int){
         _mileage = mileage
@@ -38,10 +38,10 @@ class ChangeUserMileageViewModel@Inject constructor(
                 .subscribe(
                     {
                         LogUtil.d("Success change mileage!")
-                        _isChangeMileage.value = true
+                        _isChangeMileage = true
                     },{
                         LogUtil.d("error ${it.message}}")
-                        _isChangeMileage.value = false
+                        _isChangeMileage = false
                     }
                 )
         )

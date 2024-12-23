@@ -13,25 +13,25 @@ import com.example.cmong_pilates_attendance_project.ui.attendance.screen.Attenda
 import com.example.cmong_pilates_attendance_project.viewmodel.AttendanceViewModel
 
 
-class AttendanceCompleteFragment :
-    BaseFragment() {
-    private val viewModel: AttendanceViewModel by activityViewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                AttendanceCompleteScreen(viewModel = viewModel)
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Handler().postDelayed( Runnable {
-            findNavController().popBackStack()
-        },3000)
-    }
-}
+//class AttendanceCompleteFragment :
+//    BaseFragment() {
+//    private val viewModel: AttendanceViewModel by activityViewModels()
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return ComposeView(requireContext()).apply {
+//            setContent {
+//                AttendanceCompleteScreen(viewModel = viewModel)
+//            }
+//        }
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        Handler().postDelayed( Runnable {
+//            findNavController().popBackStack()
+//        },3000)
+//    }
+//}

@@ -14,9 +14,9 @@ import java.util.Locale
 object Utils {
 
     //타임스탬프 -> 문자열(yyyy-MM-dd)
-    fun convertTimeStampToDateString(timeStamp: Long)
+    fun convertTimeStampToDateString(timeStamp: Long?)
             : String {
-        val date = Date(timeStamp)
+        val date = Date(timeStamp ?:0)
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return sdf.format(date)
     }

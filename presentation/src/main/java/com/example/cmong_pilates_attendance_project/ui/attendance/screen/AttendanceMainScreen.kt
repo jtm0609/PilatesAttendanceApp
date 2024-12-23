@@ -1,6 +1,8 @@
 package com.example.cmong_pilates_attendance_project.ui.attendance.screen
 
+import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +21,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,19 +31,83 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.ui.PilatesAppScreen
 import com.example.cmong_pilates_attendance_project.ui.admin.activity.AdminActivity
+import com.example.cmong_pilates_attendance_project.utils.showToast
+import com.example.cmong_pilates_attendance_project.viewmodel.AdminViewModel
 import com.example.cmong_pilates_attendance_project.viewmodel.AttendanceViewModel
 
 @Composable
 fun AttendanceMainScreen(
-    viewModel: AttendanceViewModel
+    navController: NavHostController,
+    viewModel: AttendanceViewModel = hiltViewModel(),
+    adminViewModel: AdminViewModel = viewModel(),
+) {
+
+    if (adminViewModel.adminData != null) {
+        viewModel.setMaxAttendanceCount(adminViewModel.adminData?.maxAttendance ?: 0)
+    }
+    if (viewModel.isAlreadyAttendance) {
+        LocalContext.current.showToast(R.string.text_noti_already_attendance_user)
+    }
+    if (viewModel.isNoExistUser) {
+        LocalContext.current.showToast(R.string.text_noti_retry_phone_number)
+    }
+    if (viewModel.isSuccessAttendance) {
+        navController.navigate(PilatesAppScreen.AttendanceComplete.name)
+    }
+
+    val onClickNumber: (String) -> Unit = { number ->
+        viewModel.apply {
+            if (phoneNumber.length < 8) {
+                setPhoneNumber(phoneNumber + number)
+            }
+        }
+    }
+    val onClickDelete: () -> Unit = {
+        with(viewModel){
+            setPhoneNumber(phoneNumber.dropLast(1))
+        }
+    }
+    val onClickOk: () -> Unit = {
+        with(viewModel){
+            checkUser("010$phoneNumber")
+        }
+    }
+    val movePage: () -> Unit = {
+        navController.navigate(PilatesAppScreen.AdminMenu.name)
+    }
+
+    AttendanceMainContent(
+        viewModel = viewModel,
+        onClickNumber = onClickNumber,
+        onClickDelete = onClickDelete,
+        onClickOk = onClickOk,
+        movePage = movePage
+    )
+}
+
+@Composable
+fun AttendanceMainContent(
+    viewModel : AttendanceViewModel,
+    onClickNumber:(String) -> Unit,
+    onClickDelete:() -> Unit,
+    onClickOk:() -> Unit,
+    movePage:() -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -50,12 +117,11 @@ fun AttendanceMainScreen(
             .background(Color(0xFF2b2b2b)),
     ) {
         IconButton(
-            onClick = { movePage() }, modifier = Modifier.padding(start=20.dp,top=30.dp)
+            onClick = { movePage() }, modifier = Modifier.padding(start = 20.dp, top = 30.dp)
 
         ) {
             Icon(
-                Icons.Filled.Person, "backIcon", tint = Color.White,
-                modifier = Modifier.size(45.dp)
+                Icons.Filled.Person, "backIcon", tint = Color.White, modifier = Modifier.size(45.dp)
             )
         }
         Column(
@@ -63,7 +129,7 @@ fun AttendanceMainScreen(
                 .fillMaxHeight()
                 .weight(1f)
                 .clipToBounds()
-                .padding(top=5.dp),
+                .padding(top = 5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -91,7 +157,7 @@ fun AttendanceMainScreen(
                 .fillMaxHeight()
                 .weight(1f)
                 .clipToBounds()
-                .padding(top=40.dp),
+                .padding(top = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(20.dp))
@@ -134,8 +200,7 @@ fun AttendanceMainScreen(
                     .width(400.dp)
             ) {
                 Row() {
-                    Text(
-                        text = "7",
+                    Text(text = "7",
                         color = Color.White,
                         fontSize = 90.sp,
                         textAlign = TextAlign.Center,
@@ -232,13 +297,19 @@ fun AttendanceMainScreen(
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(
-                        onClick = { onClickDelete() }, modifier = Modifier
+                        onClick = { onClickDelete() },
+                        modifier = Modifier
                             .width(120.dp)
                             .height(110.dp)
                     ) {
                         Icon(
-                            Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
-                            modifier = Modifier.width(90.dp).height(100.dp).align(Alignment.CenterVertically)
+                            Icons.Filled.ArrowBack,
+                            "backIcon",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .width(90.dp)
+                                .height(100.dp)
+                                .align(Alignment.CenterVertically)
                         )
                     }
                     Text(text = "0",
@@ -266,29 +337,4 @@ fun AttendanceMainScreen(
         }
         Spacer(modifier = Modifier.height(10.dp))
     }
-}
-
-private fun onClickNumber(number: String) {
-    viewModel.apply {
-        if (phoneNumber.length < 8) {
-            setPhoneNumber(phoneNumber + number)
-        }
-    }
-}
-
-private fun onClickDelete() {
-    viewModel.apply {
-        setPhoneNumber(phoneNumber.dropLast(1))
-    }
-}
-
-private fun onClickOk() {
-    viewModel.apply {
-        checkUser("010$phoneNumber")
-    }
-}
-
-private fun movePage() {
-    val intent = Intent(mContext, AdminActivity::class.java)
-    activity?.startActivity(intent)
 }

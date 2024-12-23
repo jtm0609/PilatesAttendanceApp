@@ -1,7 +1,7 @@
 package com.example.cmong_pilates_attendance_project.ui
 
-sealed class Routes {
-    AttendanceMain :,
+enum class PilatesAppScreen {
+    AttendanceMain,
     AttendanceComplete,
     AdminMenu,
     ChangeAttendanceCount,

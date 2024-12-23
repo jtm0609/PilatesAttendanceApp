@@ -49,11 +49,11 @@ class RegisterUserViewModel@Inject constructor(
     private var _startDay: Int = today.get(Calendar.DATE)
     val startDay get() = _startDay
 
-    private var _isSuccessAddUser = MutableLiveData<Boolean>()
-    val isSuccessAddUser : LiveData<Boolean> get() = _isSuccessAddUser
+    private var _isSuccessAddUser by mutableStateOf(false)
+    val isSuccessAddUser get() = _isSuccessAddUser
 
-    private var _isClickStartDate = MutableLiveData<Boolean>()
-    val isClickStartDate : LiveData<Boolean> get() = _isClickStartDate
+    private var _isClickStartDate by mutableStateOf(false)
+    val isClickStartDate get() = _isClickStartDate
     fun setVisibilityDuration(visible: Boolean){
         _durationVisibility = visible
     }
@@ -66,7 +66,7 @@ class RegisterUserViewModel@Inject constructor(
         _durationState = duration
     }
 
-    fun setStartDateTextText(date: String){
+    fun setStartDateText(date: String){
         _startDateText = date
     }
 
@@ -94,18 +94,18 @@ class RegisterUserViewModel@Inject constructor(
                 .doOnError { LogUtil.d("doOnError") }
                 .subscribe(
                     {
-                        _isSuccessAddUser.value = true
+                        _isSuccessAddUser = true
                         LogUtil.d("Inserted Successfully, ${user}")
 
                     },{
                         LogUtil.d("Error Inserting: ${it.message}")
-                        _isSuccessAddUser.value = false
+                        _isSuccessAddUser = false
                     }
                 )
         )
     }
 
     fun clickStartDate(){
-        _isClickStartDate.value =true
+        _isClickStartDate =true
     }
 }

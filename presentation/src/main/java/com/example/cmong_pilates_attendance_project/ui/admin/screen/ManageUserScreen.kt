@@ -30,129 +30,49 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.ui.PilatesAppScreen
+import com.example.cmong_pilates_attendance_project.ui.component.MenuItem
+import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.utils.Constant
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun toolbar() {
-        TopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.title_manage_user),
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center
-                )
-            },
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
-            navigationIcon = {
-                IconButton(onClick = {findNavController().popBackStack()}) {
-                    Icon(
-                        Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
-                        modifier = Modifier.size(50.dp).padding(end = 10.dp)
-                    )
-                }
-            },
-        )
-    }
 
-    @Composable
-    fun menuItem(clickItem: Int) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(
-                    color = Color(0xFF333333),
-                    shape = RoundedCornerShape(16.dp)
-                )
-                .padding(6.dp).clickable { movePage(clickItem) }
-        ) {
-            Row(
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+fun ManageUserScreen(navController: NavHostController) {
+    Scaffold(
+        containerColor = Color(0xFF2b2b2b),
+        topBar = {
+            Toolbar(
+                navController = navController,
+                titleText = stringResource(id = R.string.title_manage_user)
+            )
+        },
+        content = {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start=20.dp, end=20.dp,top=10.dp,bottom=10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(it)
             ) {
-                Text(
-                    text = getMenuTitle(clickItem),
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Left,
-                    modifier = Modifier.weight(1f)
+                Divider(
+                    color = Color(0xFF333333),
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(bottom = 20.dp)
                 )
 
-                IconButton(
-                    onClick = {
-                        movePage(clickItem)
-                    },
-                    modifier = Modifier.padding(start = 8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowForward,
-                        contentDescription = "backIcon",
-                        tint = Color.White
+                Column {
+                    MenuItem(
+                        text = stringResource(id = R.string.text_menu_re_register_user),
+                        onClick = { navController.navigate(PilatesAppScreen.ReregisterUser.name) }
+                    )
+                    MenuItem(
+                        text = stringResource(id = R.string.text_menu_change_mileage),
+                        onClick = { navController.navigate(PilatesAppScreen.ChangeUserMileage.name) }
                     )
                 }
             }
         }
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Preview
-    @Composable
-    fun ManageUserScreen() {
-        Scaffold(
-            containerColor = Color(0xFF2b2b2b),
-            topBar = { toolbar() },
-            content = {
-                Column(
-                    modifier = Modifier
-                        .padding(it)
-                ) {
-                    Divider(
-                        color = Color(0xFF333333),
-                        thickness = 1.dp,
-                        modifier = Modifier.padding(bottom = 20.dp)
-                    )
-
-                    Column {
-                        menuItem(clickItem = Constant.RE_REGISTER_USER_MENU_CLICK)
-                        menuItem(clickItem = Constant.CHANGE_MIELEAGE_MENU_CLICK)
-                    }
-                }
-            }
-        )
-    }
-
-    private fun movePage(menuItem: Int) {
-        when (menuItem) {
-            Constant.RE_REGISTER_USER_MENU_CLICK -> {
-                findNavController().navigate(R.id.action_manageUserFragment_to_reregisterUserFragment)
-            }
-
-            Constant.CHANGE_MIELEAGE_MENU_CLICK -> {
-                findNavController().navigate(R.id.action_manageUserFragment_to_changeUserMileageFragment)
-            }
-        }
-    }
-
-    private fun getMenuTitle(menuItem: Int): String {
-        val menuTitle = when (menuItem) {
-            Constant.RE_REGISTER_USER_MENU_CLICK -> {
-                getString(R.string.text_menu_re_register_user)
-            }
-
-            Constant.CHANGE_MIELEAGE_MENU_CLICK -> {
-                getString(R.string.text_menu_change_mileage)
-            }
-
-            else -> {
-                "null"
-            }
-        }
-        return menuTitle
-    }
+    )
+}

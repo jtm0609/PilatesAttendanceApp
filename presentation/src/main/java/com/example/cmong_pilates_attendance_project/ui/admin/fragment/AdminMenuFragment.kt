@@ -9,18 +9,18 @@ import com.example.cmong_pilates_attendance_project.base.BaseFragment
 import com.example.cmong_pilates_attendance_project.ui.admin.screen.AdminMenuScreen
 
 
-class AdminMenuFragment : BaseFragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return ComposeView(requireContext()).apply {
-            setContent {
-                AdminMenuScreen()
-            }
-        }
-    }
-}
+//class AdminMenuFragment : BaseFragment() {
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        // Inflate the layout for this fragment
+//        return ComposeView(requireContext()).apply {
+//            setContent {
+//                AdminMenuScreen()
+//            }
+//        }
+//    }
+//}
 

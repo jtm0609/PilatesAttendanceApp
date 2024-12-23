@@ -31,17 +31,16 @@ class AttendanceViewModel
     private var _searchedUser: MutableLiveData<UserEntity> = MutableLiveData<UserEntity>() // 조회한 유저
     val searchedUser: LiveData<UserEntity> get() = _searchedUser
 
-    private var _isNoExistUser: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
-    val isNoExistUser: LiveData<Boolean> get() = _isNoExistUser
+    private var _isNoExistUser by mutableStateOf(false)
+    val isNoExistUser get() = _isNoExistUser
 
-    private var _isSuccessAttendance = MutableLiveData<Boolean>()
-    val isSuccessAttendance: LiveData<Boolean> get() = _isSuccessAttendance
+    private var _isSuccessAttendance by mutableStateOf(false)
+    val isSuccessAttendance get() = _isSuccessAttendance
 
-    private var _isAlreadyAttendance = MutableLiveData<Boolean>()
-    val isAlreadyAttendance: LiveData<Boolean> get() = _isAlreadyAttendance
+    private var _isAlreadyAttendance by mutableStateOf(false)
+    val isAlreadyAttendance get() = _isAlreadyAttendance
 
-    private var _maxAttendanceCount = 0
-    val maxAttendanceCount get() = _maxAttendanceCount
+    private var _maxAttendanceCount: Int = 0
 
     fun setMaxAttendanceCount(count: Int) {
         _maxAttendanceCount = count
@@ -54,12 +53,12 @@ class AttendanceViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _isSuccessAttendance.value = true
+                        _isSuccessAttendance = true
                         LogUtil.d("Update Successfully, ${user}")
 
                     }, {
                         LogUtil.d("Error Inserting: ${it.message}")
-                        _isSuccessAttendance.value = false
+                        _isSuccessAttendance = false
                     }
                 )
         )
@@ -74,15 +73,15 @@ class AttendanceViewModel
                     //등록된 기간 범위안에 있지 않은 회원이라면
                     if (!checkRegisterDate(it)) {
                         LogUtil.d("user not register date")
-                        _isNoExistUser.value = true
+                        _isNoExistUser = true
                         return@subscribe
                     }
 
                     if (checkAlreadyAttendance(it)) { //오늘 이미 출석을 한 회원이라면
                         LogUtil.d("user already Attendance!")
-                        if (checkExceedAttendanceCount(maxAttendanceCount, it)) {
+                        if (checkExceedAttendanceCount(_maxAttendanceCount, it)) {
                             LogUtil.d("user exceed AttendanceCount!")
-                            _isAlreadyAttendance.value = true
+                            _isAlreadyAttendance = true
                         } else {
                             LogUtil.d("user search success! : $it")
                             it.attendanceCountOfToday += 1
@@ -101,7 +100,7 @@ class AttendanceViewModel
                     }
                 },
                     {
-                        _isNoExistUser?.value = true
+                        _isNoExistUser = true
                         LogUtil.d("throwable! : ${it.message}")
 
                     })
@@ -136,13 +135,5 @@ class AttendanceViewModel
     private fun checkExceedAttendanceCount(maxCount: Int, user: UserEntity): Boolean {
         LogUtil.d("maxCount: ${maxCount}")
         return user.attendanceCountOfToday >= maxCount
-    }
-
-    fun onClearData() {
-        LogUtil.d("onClearData")
-        _isNoExistUser.value = false
-        _isSuccessAttendance.value =false
-        _isAlreadyAttendance.value =false
-        _phoneNumber = ""
     }
 }

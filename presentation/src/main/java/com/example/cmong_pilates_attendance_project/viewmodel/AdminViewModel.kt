@@ -1,5 +1,8 @@
 package com.example.cmong_pilates_attendance_project.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import com.example.cmong_pilates_attendance_project.base.BaseViewModel
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
@@ -16,7 +19,10 @@ class AdminViewModel
     private val repository: AdminRepository
 ): BaseViewModel() {
 
-    private var _adminData = MutableLiveData<AdminEntity>()
+//    private var _adminData = MutableLiveData<AdminEntity>()
+//    val adminData get() = _adminData
+//
+    private var _adminData: AdminEntity? by mutableStateOf(null)
     val adminData get() = _adminData
 
     private var _isEmptyAdminData = MutableLiveData<Boolean>()

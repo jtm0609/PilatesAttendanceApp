@@ -30,57 +30,85 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.ui.PilatesAppScreen
+import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
+import com.example.cmong_pilates_attendance_project.utils.showToast
+import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun toolbar() {
-    TopAppBar(
-        title = {
-            Text(
-                text = "",
-                color = Color.White,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center
-            )
-        },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
-        navigationIcon = {
-            IconButton(onClick = { findNavController().popBackStack() }) {
-                Icon(
-                    Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
-                    modifier = Modifier.size(50.dp).padding(end = 10.dp)
-                )
-            }
-        },
+fun InputPhoneNumberScreen(
+    navController: NavHostController,
+    userViewModel: UserViewModel = viewModel()
+) {
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val clickNextButton: () -> Unit = {
+        LogUtil.d("userPhone: ${userViewModel.userPhoneNumber}")
+        userViewModel.getUser(userViewModel.userPhoneNumber)
+    }
+
+    val hideKeyboard: () -> Unit = {
+        keyboardController?.hide()
+    }
+
+    //observe
+    if (userViewModel.isExistUser) {
+        navController.navigate(PilatesAppScreen.ManageUser.name)
+    }else{
+        if (userViewModel.userPhoneNumber.isBlank()) {
+            context.showToast(R.string.text_noti_input_phone_number)
+        } else {
+            context.showToast(R.string.text_not_exist_user)
+        }
+    }
+
+
+    InputPhoneNumberContent(
+        navController = navController,
+        userViewModel = userViewModel,
+        clickNextButton = clickNextButton,
+        hideKeyboard = hideKeyboard
     )
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputPhoneNumberScreen() {
+fun InputPhoneNumberContent(
+    navController: NavHostController,
+    userViewModel: UserViewModel,
+    clickNextButton: () -> Unit,
+    hideKeyboard: () -> Unit
+) {
     Scaffold(
         containerColor = Color(0xFF2b2b2b),
-        topBar = { toolbar() },
+        topBar = { Toolbar(navController = navController, titleText = "") },
         content = {
             Box(
                 modifier = Modifier
                     .padding(it)
-                    .fillMaxSize().clickable(
+                    .fillMaxSize()
+                    .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
-                    ) { hideKeyboard()}
+                    ) { hideKeyboard() }
             ) {
                 Column(
                     modifier = Modifier.align(Alignment.TopCenter)
@@ -138,7 +166,7 @@ fun InputPhoneNumberScreen() {
                             imeAction = ImeAction.Done
                         ),
                         modifier = Modifier
-                            .padding(start = 70.dp, bottom = 20.dp, end=70.dp)
+                            .padding(start = 70.dp, bottom = 20.dp, end = 70.dp)
                             .fillMaxWidth()
                             .height(60.dp)
                     )
@@ -147,8 +175,10 @@ fun InputPhoneNumberScreen() {
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = 30.dp, start = 60.dp, end = 60.dp,
-                            top=30.dp)
+                        .padding(
+                            bottom = 30.dp, start = 60.dp, end = 60.dp,
+                            top = 30.dp
+                        )
                         .clickable {
                             clickNextButton()
                         },
@@ -171,18 +201,5 @@ fun InputPhoneNumberScreen() {
                 }
             }
         }
-    )
-}
-
-private fun clickNextButton() {
-    LogUtil.d("userPhone: ${userViewModel.userPhoneNumber}")
-    userViewModel.getUser(userViewModel.userPhoneNumber)
-}
-
-private fun hideKeyboard() {
-    val inputManager = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputManager.hideSoftInputFromWindow(
-        activity?.currentFocus?.windowToken,
-        InputMethodManager.HIDE_NOT_ALWAYS
     )
 }

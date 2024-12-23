@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,11 +23,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.viewmodel.AttendanceViewModel
+import kotlinx.coroutines.delay
 
 @Composable
-fun AttendanceCompleteScreen(viewModel: AttendanceViewModel){
+fun AttendanceCompleteScreen(
+    navController: NavHostController,
+    viewModel: AttendanceViewModel = hiltViewModel()
+){
+
+    LaunchedEffect(Unit) {
+        delay(3000)
+        navController.popBackStack()
+    }
+
+    AttendanceCompleteContent(viewModel = viewModel)
+}
+
+@Composable
+fun AttendanceCompleteContent(
+    viewModel: AttendanceViewModel = hiltViewModel()
+){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color(0xFF2b2b2b))) {
@@ -64,8 +84,8 @@ fun AttendanceCompleteScreen(viewModel: AttendanceViewModel){
             Spacer(modifier = Modifier.height(10.dp))
             Box(
                 Modifier
-                .border(1.dp, Color.White)
-                .padding(15.dp)) {
+                    .border(1.dp, Color.White)
+                    .padding(15.dp)) {
                 Text(
                     text = viewModel.searchedUser.value?.mileage.toString(),
                     color = Color.White,

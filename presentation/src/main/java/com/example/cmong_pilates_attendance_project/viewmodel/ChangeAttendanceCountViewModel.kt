@@ -20,16 +20,16 @@ class ChangeAttendanceCountViewModel
     private var _attendanceCount by mutableStateOf(1)
     val attendanceCount get() = _attendanceCount
 
-    private var _isChangeCount = MutableLiveData<Boolean>()
+    private var _isChangeCount by mutableStateOf(false)
     val isChangeCount get() = _isChangeCount
 
-    private var _isAddAdminData = MutableLiveData<Boolean>()
+    private var _isAddAdminData by mutableStateOf(false)
     val isAddAdminData get() = _isAddAdminData
 
-    private var _adminData = MutableLiveData<AdminEntity>()
+    private var _adminData: AdminEntity? by mutableStateOf(null)
     val adminData get() = _adminData
 
-    private var _isEmptyAdminData = MutableLiveData<Boolean>()
+    private var _isEmptyAdminData by mutableStateOf(false)
     val isEmptyAdminData get() = _isEmptyAdminData
     fun setAttendanceCount(count: Int) {
         _attendanceCount = count
@@ -42,10 +42,10 @@ class ChangeAttendanceCountViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _adminData.value = it
+                        _adminData = it
                         LogUtil.d("Success Search Admin, $it")
                     }, {
-                        _isEmptyAdminData.value = true
+                        _isEmptyAdminData = true
                         LogUtil.d("Error Search Admin, ${it.message}")
                     }
                 )
@@ -60,10 +60,10 @@ class ChangeAttendanceCountViewModel
                 .subscribe(
                     {
                         LogUtil.d("Success Add Admin")
-                        _isAddAdminData.value = true
+                        _isAddAdminData = true
                     }, {
                         LogUtil.d("Error Add Admin, ${it.message}")
-                        _isAddAdminData.value = false
+                        _isAddAdminData = false
                     }
                 )
         )
@@ -75,10 +75,10 @@ class ChangeAttendanceCountViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     LogUtil.d("Success Change Attendance Count!")
-                    _isChangeCount.value = true
+                    _isChangeCount = true
                 }, {
                     LogUtil.d("Error Change Attendance Count, ${it.message}")
-                    _isChangeCount.value = false
+                    _isChangeCount = false
                 })
         )
     }

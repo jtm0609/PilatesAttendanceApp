@@ -30,48 +30,91 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.utils.Constant
+import com.example.cmong_pilates_attendance_project.utils.showToast
+import com.example.cmong_pilates_attendance_project.viewmodel.ChangeAttendanceCountViewModel
+import com.example.data.model.AdminEntity
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun toolbar() {
-    TopAppBar(
-        title = {
-            Text(
-                text = stringResource(id = R.string.text_menu_change_attendance_count),
-                color = Color.White,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center
-            )
-        },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
-        navigationIcon = {
-            IconButton(onClick = { findNavController().popBackStack() }) {
-                Icon(
-                    Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
-                    modifier = Modifier.size(50.dp).padding(end = 10.dp)
-                )
+fun ChangeAttendanceCountScreen(navController: NavHostController,
+    viewModel: ChangeAttendanceCountViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+    val changeMileage: (Int) -> Unit = { flag ->
+        when (flag) {
+            Constant.UP_ATTENDANCE_COUNT -> {
+                viewModel.apply {
+                    setAttendanceCount(attendanceCount + 1)
+                }
             }
-        },
+
+            Constant.DOWN_ATTENDANCE_COUNT -> {
+                viewModel.apply {
+                    if (attendanceCount > 1) {
+                        setAttendanceCount(attendanceCount - 1)
+                    }
+                }
+            }
+        }
+    }
+
+    val clickSaveButton: () -> Unit = {
+        viewModel.changeAttendanceCount(viewModel.attendanceCount)
+    }
+
+    //observe
+    if (viewModel.isEmptyAdminData) {
+        viewModel.addAdminData(
+            AdminEntity(
+                maxAttendance = 1
+            )
+        )
+    }
+    viewModel.adminData?.let {
+        viewModel.setAttendanceCount(it.maxAttendance)
+    }
+    if (viewModel.isChangeCount) {
+        context.showToast(R.string.text_complete_change_attendance_count)
+        navController.popBackStack()
+    }
+
+    ChangeAttendanceCountContent(
+        navController = navController,
+        viewModel = viewModel,
+        changeMileage = changeMileage,
+        clickSaveButton = clickSaveButton
     )
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun ChangeAttendanceScreen() {
+fun ChangeAttendanceCountContent(
+    navController: NavHostController,
+    viewModel: ChangeAttendanceCountViewModel,
+    changeMileage: (Int) -> Unit,
+    clickSaveButton: () -> Unit
+) {
     Scaffold(
         containerColor = Color(0xFF2b2b2b),
-        topBar = { toolbar() },
+        topBar = {
+            Toolbar(
+                navController = navController,
+                titleText = stringResource(id = R.string.text_menu_change_attendance_count)
+            )
+        },
         content = {
             Divider(
                 color = Color(0xFF333333),
@@ -182,26 +225,4 @@ fun ChangeAttendanceScreen() {
             }
         }
     )
-}
-
-private fun changeMileage(flag: Int) {
-    when (flag) {
-        Constant.UP_ATTENDANCE_COUNT -> {
-            viewModel.apply {
-                setAttendanceCount(attendanceCount + 1)
-            }
-        }
-
-        Constant.DOWN_ATTENDANCE_COUNT -> {
-            viewModel.apply {
-                if (attendanceCount > 1) {
-                    setAttendanceCount(attendanceCount - 1)
-                }
-            }
-        }
-    }
-}
-
-private fun clickSaveButton() {
-    viewModel.changeAttendanceCount(viewModel.attendanceCount)
 }

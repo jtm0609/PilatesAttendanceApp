@@ -27,53 +27,101 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.utils.Constant
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
+import com.example.cmong_pilates_attendance_project.utils.showToast
+import com.example.cmong_pilates_attendance_project.viewmodel.ChangeUserMileageViewModel
+import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun toolbar() {
-    TopAppBar(
-        title = {
-            Text(
-                text = stringResource(id = R.string.text_menu_change_mileage),
-                color = Color.White,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center
-            )
-        },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF2b2b2b)),
-        navigationIcon = {
-            IconButton(onClick = {findNavController().popBackStack()}) {
-                Icon(
-                    Icons.Filled.ArrowBack, "backIcon", tint = Color.White,
-                    modifier = Modifier.size(50.dp).padding(end = 10.dp)
-                )
+fun ChangeUserMileageScreen(
+    navController: NavHostController,
+    viewModel: ChangeUserMileageViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = viewModel()
+) {
+    val context = LocalContext.current
+
+    val changeMileage: (Int) -> Unit = { flag ->
+        when (flag) {
+            Constant.UP_Mileage_COUNT -> {
+                with(viewModel) {
+                    setMileage(mileage + 1)
+                }
             }
-        },
+
+            Constant.DOWN_Mileage_COUNT -> {
+                with(viewModel) {
+                    if (mileage > 0) {
+                        setMileage(mileage - 1)
+                    }
+                }
+            }
+        }
+    }
+
+    val clickSaveButton: () -> Unit = {
+        val phone = userViewModel.searchedUser?.phoneNumber ?: "null"
+        viewModel.changeUserMileage(
+            phone,
+            viewModel.mileage
+        )
+    }
+
+    //init
+    LaunchedEffect(null) {
+        viewModel.setMileage(userViewModel.searchedUser?.mileage ?: 0)
+        viewModel.setName(userViewModel.searchedUser?.name ?: "null")
+    }
+
+    //observe
+    if (viewModel.isChangeMileage) {
+        userViewModel.updateSearchedUserMileage(viewModel.mileage)
+        context.showToast(R.string.text_complete_change_mileage)
+        navController.popBackStack()
+    }
+
+    ChangeUserMileageContent(
+        navController = navController,
+        viewModel = viewModel,
+        changeMileage = changeMileage,
+        clickSaveButton = clickSaveButton
     )
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun ChangeUserMileageScreen() {
+fun ChangeUserMileageContent(
+    navController: NavHostController,
+    viewModel: ChangeUserMileageViewModel,
+    changeMileage: (Int) -> Unit,
+    clickSaveButton: () -> Unit
+) {
     Scaffold(
         containerColor = Color(0xFF2b2b2b),
-        topBar = { toolbar() },
+        topBar = {
+            Toolbar(
+                navController = navController,
+                titleText = stringResource(R.string.text_menu_change_mileage)
+            )
+        },
         content = {
             Divider(
                 color = Color(0xFF333333),
@@ -161,7 +209,7 @@ fun ChangeUserMileageScreen() {
                             clickSaveButton()
                         },
                 ) {
-                    Text (
+                    Text(
                         text = stringResource(R.string.text_save_button),
                         color = Color.White,
                         fontSize = 30.sp,
@@ -180,29 +228,4 @@ fun ChangeUserMileageScreen() {
             }
         }
     )
-}
-
-private fun changeMileage(flag: Int) {
-    when (flag) {
-        Constant.UP_ATTENDANCE_COUNT -> {
-            viewModel.apply {
-                setMileage(mileage+1)
-            }
-        }
-
-        Constant.DOWN_ATTENDANCE_COUNT -> {
-            viewModel.apply {
-                if(mileage>0) {
-                    setMileage(mileage - 1)
-                }
-            }
-        }
-    }
-}
-
-private fun clickSaveButton() {
-    val phone = userViewModel.searchedUser.value?.phoneNumber
-    LogUtil.d("user mileage: ${viewModel.mileage}")
-    LogUtil.d("user mileage: $phone")
-    viewModel.changeUserMileage(phone!!, viewModel.mileage)
 }
