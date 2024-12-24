@@ -29,8 +29,6 @@ class ChangeAttendanceCountViewModel
     private var _adminData: AdminEntity? by mutableStateOf(null)
     val adminData get() = _adminData
 
-    private var _isEmptyAdminData by mutableStateOf(false)
-    val isEmptyAdminData get() = _isEmptyAdminData
     fun setAttendanceCount(count: Int) {
         _attendanceCount = count
     }
@@ -45,14 +43,18 @@ class ChangeAttendanceCountViewModel
                         _adminData = it
                         LogUtil.d("Success Search Admin, $it")
                     }, {
-                        _isEmptyAdminData = true
+                        addAdminData(
+                            AdminEntity(
+                                maxAttendance = 1
+                            )
+                        )
                         LogUtil.d("Error Search Admin, ${it.message}")
                     }
                 )
         )
     }
 
-    fun addAdminData(adminEntity: AdminEntity) {
+    private fun addAdminData(adminEntity: AdminEntity) {
         compositeDisposable.add(
             repository.addAdminData(adminEntity)
                 .subscribeOn(Schedulers.io())

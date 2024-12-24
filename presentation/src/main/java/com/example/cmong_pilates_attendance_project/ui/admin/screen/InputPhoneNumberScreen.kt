@@ -1,7 +1,5 @@
 package com.example.cmong_pilates_attendance_project.ui.admin.screen
 
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,22 +10,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -41,11 +33,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.fragment.findNavController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.state.PilatesState
 import com.example.cmong_pilates_attendance_project.ui.PilatesAppScreen
 import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
@@ -62,7 +53,6 @@ fun InputPhoneNumberScreen(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val clickNextButton: () -> Unit = {
-        LogUtil.d("userPhone: ${userViewModel.userPhoneNumber}")
         userViewModel.getUser(userViewModel.userPhoneNumber)
     }
 
@@ -70,17 +60,26 @@ fun InputPhoneNumberScreen(
         keyboardController?.hide()
     }
 
-    //observe
-    if (userViewModel.isExistUser) {
-        navController.navigate(PilatesAppScreen.ManageUser.name)
-    }else{
-        if (userViewModel.userPhoneNumber.isBlank()) {
-            context.showToast(R.string.text_noti_input_phone_number)
-        } else {
-            context.showToast(R.string.text_not_exist_user)
+    val toastMessage = when(userViewModel.state) {
+        is PilatesState.Success -> stringResource(R.string.text_noti_input_phone_number)
+        else ->{
+            if(userViewModel.userPhoneNumber.isBlank()){
+                stringResource(R.string.text_noti_input_phone_number)
+            }else{
+                stringResource(R.string.text_not_exist_user)
+            }
         }
     }
 
+    //observe
+    LaunchedEffect(userViewModel.state) {
+        toastMessage.let {
+            context.showToast(it)
+        }
+        if(userViewModel.state == PilatesState.Success) {
+            navController.navigate(PilatesAppScreen.ManageUser.name)
+        }
+    }
 
     InputPhoneNumberContent(
         navController = navController,
@@ -197,7 +196,6 @@ fun InputPhoneNumberContent(
                                 shape = RoundedCornerShape(12.dp)
                             )
                             .wrapContentSize(align = Alignment.Center)
-
                     )
                 }
             }

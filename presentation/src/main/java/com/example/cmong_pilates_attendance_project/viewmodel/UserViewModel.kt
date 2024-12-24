@@ -3,9 +3,8 @@ package com.example.cmong_pilates_attendance_project.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.cmong_pilates_attendance_project.base.BaseViewModel
+import com.example.cmong_pilates_attendance_project.state.PilatesState
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
 import com.example.data.model.UserEntity
 import com.example.data.repository.UserRepository
@@ -23,8 +22,8 @@ class UserViewModel @Inject constructor(
     private var _searchedUser: UserEntity? by mutableStateOf(null)// 조회한 유저
     val searchedUser get() = _searchedUser
 
-    private var _isExistUser by mutableStateOf(false)
-    val isExistUser get() = _isExistUser
+    private var _state: PilatesState? by mutableStateOf(null)
+    val state get() = _state
 
 
     fun setUserPhoneNumber(phoneNumber: String) {
@@ -52,12 +51,12 @@ class UserViewModel @Inject constructor(
                 .doOnSuccess { hideProgress() }
                 .subscribe({ it ->
                     LogUtil.d("user search success! : $it")
-                    _isExistUser = true
+                    _state = PilatesState.Success
                     _searchedUser = it
 
                 },
                     {
-                        _isExistUser = false
+                        _state = PilatesState.Fail
                         LogUtil.d("throwable! : ${it.message}")
 
                     })

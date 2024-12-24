@@ -3,15 +3,16 @@ package com.example.cmong_pilates_attendance_project.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.cmong_pilates_attendance_project.base.BaseViewModel
+import com.example.cmong_pilates_attendance_project.state.PilatesState
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
 import com.example.data.model.UserEntity
 import com.example.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.Calendar
 import java.util.GregorianCalendar
 import javax.inject.Inject
@@ -43,8 +44,8 @@ class ReregisterUserViewModel
     private var _startDay: Int = today.get(Calendar.DATE)
     val startDay get() = _startDay
 
-    private var _isSuccessUpdateUser by mutableStateOf(false)
-    val isSuccessUpdateUser get() = _isSuccessUpdateUser
+    private var _state: PilatesState? by mutableStateOf(null)
+    val state get() = _state
 
     fun setVisibilityDuration(visible: Boolean) {
         _durationVisibility = visible
@@ -75,14 +76,38 @@ class ReregisterUserViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _isSuccessUpdateUser = true
+                        _state = PilatesState.Success
                         LogUtil.d("Update Successfully, ${user}")
 
                     }, {
                         LogUtil.d("Error Inserting: ${it.message}")
-                        _isSuccessUpdateUser = false
+                        _state = PilatesState.Fail
                     }
                 )
         )
+    }
+
+    fun getEndDateTimeMilli(startDate: Long, duration: String): Long {
+        val instant = Instant.ofEpochMilli(startDate)
+        var endDate: Instant? = null
+        when (duration) {
+            "2주" -> {
+                endDate = instant.plus(15, ChronoUnit.DAYS)
+            }
+
+            "4주" -> {
+                endDate = instant.plus(29, ChronoUnit.DAYS)
+            }
+
+            "8주" -> {
+                endDate = instant.plus(57, ChronoUnit.DAYS)
+            }
+
+            "12주" -> {
+                endDate = instant.plus(85, ChronoUnit.DAYS)
+            }
+        }
+
+        return endDate?.toEpochMilli()!!
     }
 }

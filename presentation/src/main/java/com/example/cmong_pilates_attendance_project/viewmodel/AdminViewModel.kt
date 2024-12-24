@@ -19,9 +19,6 @@ class AdminViewModel
     private val repository: AdminRepository
 ): BaseViewModel() {
 
-//    private var _adminData = MutableLiveData<AdminEntity>()
-//    val adminData get() = _adminData
-//
     private var _adminData: AdminEntity? by mutableStateOf(null)
     val adminData get() = _adminData
 
@@ -48,7 +45,7 @@ class AdminViewModel
         )
     }
 
-    fun addAdminData(adminEntity: AdminEntity) {
+    private fun addAdminData(adminEntity: AdminEntity) {
         compositeDisposable.add(
             repository.addAdminData(adminEntity)
                 .subscribeOn(Schedulers.io())

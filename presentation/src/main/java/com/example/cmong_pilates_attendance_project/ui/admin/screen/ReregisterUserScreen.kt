@@ -1,7 +1,6 @@
 package com.example.cmong_pilates_attendance_project.ui.admin.screen
 
 import android.app.DatePickerDialog
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,25 +19,23 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.fragment.findNavController
-import com.chargemap.compose.numberpicker.ListItemPicker
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.state.PilatesState
 import com.example.cmong_pilates_attendance_project.ui.component.DurationSettingBox
 import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.ui.component.inputTextItem
-import com.example.cmong_pilates_attendance_project.utils.Utils
+import com.example.cmong_pilates_attendance_project.utils.convertTimeStampToDateString
+import com.example.cmong_pilates_attendance_project.utils.dateStringToTimestamp
 import com.example.cmong_pilates_attendance_project.utils.showToast
 import com.example.cmong_pilates_attendance_project.viewmodel.ReregisterUserViewModel
 import com.example.cmong_pilates_attendance_project.viewmodel.UserViewModel
@@ -51,24 +47,22 @@ fun ReregisterUserScreen(
     viewModel: ReregisterUserViewModel,
     userViewModel: UserViewModel
 ) {
+    val context = LocalContext.current
 
-    //저장 버튼 클릭
     val clickSaveButton: () -> Unit = {
         val userStartDate = viewModel.startDateText
         val userDuration = viewModel.durationState
-        val userStartDateTime = Utils.dateStringToTimestamp(userStartDate)
-        val userEndDateTime = Utils.getEndDateTimeMilli(userStartDateTime, userDuration)
+        val userStartDateTime = userStartDate.dateStringToTimestamp()
+        val userEndDateTime = viewModel.getEndDateTimeMilli(userStartDateTime, userDuration)
         userViewModel.updateSearchedUserUsingDate(userStartDateTime, userEndDateTime, userDuration)
         userViewModel.searchedUser?.let { viewModel.reRegisterUser(it) }
     }
 
-    val context = LocalContext.current
-
-    //이용 기간 설정 클릭
     val handleClickDuration: (String) -> Unit = { duration ->
         viewModel.setVisibilityDuration(false)
         viewModel.setDurationText(duration)
     }
+
     val handlePickerOnValueChange: (String) -> Unit = { duration ->
         viewModel.setDurationState(duration)
     }
@@ -77,18 +71,15 @@ fun ReregisterUserScreen(
         val dlg = DatePickerDialog(
             context,
             { pView, pYear, pMonth, pDayOfMonth ->
+                val message =
+                    context.getString(R.string.text_start_date, pYear, pMonth + 1, pDayOfMonth)
                 viewModel.setStartDate(
                     pYear,
                     pMonth,
                     pDayOfMonth
                 )
                 viewModel.setStartDateText(
-                    context.getString(
-                        R.string.text_start_date,
-                        pYear,
-                        pMonth + 1,
-                        pDayOfMonth
-                    )
+                    message
                 )
             },
             viewModel.startYear,
@@ -107,26 +98,43 @@ fun ReregisterUserScreen(
     }
 
     //fun init
-    //이용 기간 UI 데이터 업데이트
-    val duration = userViewModel.searchedUser?.duration
-    viewModel.setDurationState(duration)
-    viewModel.setDurationText(duration)
+    LaunchedEffect(null) {
+        //이용 기간 UI 데이터 업데이트
+        val duration = userViewModel.searchedUser?.duration
+        viewModel.setDurationState(duration)
+        viewModel.setDurationText(duration)
 
-    //이용 시작일 UI 데이터 업데이트
-    val userStartDateTime = userViewModel.searchedUser?.startDateTime
-    val userStartDateTimeStr = Utils.convertTimeStampToDateString(userStartDateTime)
-    updateUserStartDate(userStartDateTimeStr)
-    viewModel.setStartDateText(userStartDateTimeStr)
-
-
-    //observe
-    if (viewModel.isSuccessUpdateUser) {
-        context.showToast(R.string.text_success_re_register_user)
-        navController.popBackStack()
-    } else {
-        context.showToast(R.string.text_fail_re_register_user)
+        //이용 시작일 UI 데이터 업데이트
+        val userStartDateTime = userViewModel.searchedUser?.startDateTime
+        val userStartDateTimeStr = userStartDateTime?.convertTimeStampToDateString()
+        updateUserStartDate(userStartDateTimeStr ?: "null")
+        viewModel.setStartDateText(userStartDateTimeStr ?: "null")
     }
 
+    //observe
+    val toastMessage = when (viewModel.state) {
+        is PilatesState.Success -> stringResource(R.string.text_success_re_register_user)
+        PilatesState.Fail -> stringResource(R.string.text_fail_re_register_user)
+        else -> {
+            null
+        }
+    }
+
+    LaunchedEffect(viewModel.state) {
+        toastMessage?.let {
+            context.showToast(it)
+        }
+        if (viewModel.state == PilatesState.Success) {
+            navController.popBackStack()
+        }
+    }
+
+    ReregisterUserContent(
+        navController = navController,
+        viewModel = viewModel,
+        clickSaveButton = clickSaveButton,
+        showDateDialog = showDateDialog
+    )
 
     //이용 기간 설정 뷰
     if (viewModel.durationVisibility) {
@@ -137,13 +145,6 @@ fun ReregisterUserScreen(
             durationList = viewModel.durationValues
         )
     }
-
-    ReregisterUserContent(
-        navController = navController,
-        viewModel = viewModel,
-        clickSaveButton = clickSaveButton,
-        showDateDialog = showDateDialog
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

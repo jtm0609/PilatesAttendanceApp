@@ -32,7 +32,6 @@ object Utils {
     //끝나는 날짜 변환() = 시작날짜 + 기간
     @RequiresApi(Build.VERSION_CODES.O)
     fun getEndDateTimeMilli(startDate: Long, duration: String): Long {
-        val now = Instant.now()
         val instant = Instant.ofEpochMilli(startDate)
         var endDate: Instant? = null
         when (duration) {
@@ -57,12 +56,11 @@ object Utils {
     }
 
     fun isValidPhoneNumber(cellphoneNumber: String): Boolean {
-        var returnValue = false;
-        var regex = Regex("^010[0-9]{8}\$")
+        val regex = Regex("^010[0-9]{8}\$")
         if (regex.matches(cellphoneNumber)) {
             return true
         }
 
-        return returnValue
+        return false
     }
 }

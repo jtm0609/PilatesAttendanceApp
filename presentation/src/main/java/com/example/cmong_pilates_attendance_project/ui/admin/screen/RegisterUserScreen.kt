@@ -1,6 +1,7 @@
 package com.example.cmong_pilates_attendance_project.ui.admin.screen
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,14 +33,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.cmong_pilates_attendance_project.R
+import com.example.cmong_pilates_attendance_project.state.PilatesState
 import com.example.cmong_pilates_attendance_project.ui.component.DurationSettingBox
 import com.example.cmong_pilates_attendance_project.ui.component.Toolbar
 import com.example.cmong_pilates_attendance_project.ui.component.inputEditItem
 import com.example.cmong_pilates_attendance_project.ui.component.inputTextItem
 import com.example.cmong_pilates_attendance_project.utils.Utils
+import com.example.cmong_pilates_attendance_project.utils.dateStringToTimestamp
+import com.example.cmong_pilates_attendance_project.utils.isValidPhoneNumber
 import com.example.cmong_pilates_attendance_project.utils.showToast
 import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
 import com.example.data.model.UserEntity
@@ -50,64 +54,61 @@ fun RegisterUserScreen(
     viewModel: RegisterUserViewModel
 ) {
     val context = LocalContext.current
-    val showDateDialog: () -> Unit = {
-        val dlg = DatePickerDialog(
-            context, { pView, pYear, pMonth, pDayOfMonth ->
-                viewModel.setStartDate(
-                    pYear, pMonth, pDayOfMonth
-                )
-                viewModel.setStartDateText(
-                    context.getString(
-                        R.string.text_start_date, pYear, pMonth + 1, pDayOfMonth
-                    )
-                )
-            }, viewModel.startYear, viewModel.startMonth, viewModel.startDay
-        )
-        dlg.show()
-    }
 
     //이용 기간 설정 클릭
     val handleClickDuration: (String) -> Unit = { duration ->
         viewModel.setVisibilityDuration(false)
         viewModel.setDurationText(duration)
     }
+
     val handlePickerOnValueChange: (String) -> Unit = { duration ->
         viewModel.setDurationState(duration)
     }
 
     val clickSaveButton: () -> Unit = {
-        val userStartDate = viewModel.startDateText
-        val userDuration = viewModel.durationText
-        val userName = viewModel.name
-        val userPhone = viewModel.phone
-
-        if (userName.isBlank() || userPhone.isBlank() || userDuration.isBlank() || userStartDate.isBlank()) {
+        if (viewModel.isEmptyInputFields()) {
             context.showToast(R.string.msg_text_empty)
+        } else {
+            if (!viewModel.phone.isValidPhoneNumber()) {
+                context.showToast(R.string.msg_text_not_valid_phone_number)
+            }
+
+            val user = viewModel.createUser()
+            viewModel.addUser(user)
         }
+    }
 
-        if (!Utils.isValidPhoneNumber(userPhone)) {
-            context.showToast(R.string.msg_text_not_valid_phone_number)
-        }
-
-        val userStartDateTime = Utils.dateStringToTimestamp(userStartDate)
-        val userEndDateTime = Utils.getEndDateTimeMilli(userStartDateTime, userDuration)
-
-        val user = UserEntity(
-            name = userName,
-            phoneNumber = userPhone,
-            duration = userDuration,
-            startDateTime = userStartDateTime,
-            endDateTime = userEndDateTime
+    val showDateDialog: () -> Unit = {
+        val dlg = DatePickerDialog(
+            context, { pView, pYear, pMonth, pDayOfMonth ->
+                val message =
+                    context.getString(R.string.text_start_date, pYear, pMonth + 1, pDayOfMonth)
+                viewModel.setStartDate(
+                    pYear, pMonth, pDayOfMonth
+                )
+                viewModel.setStartDateText(
+                    message
+                )
+            }, viewModel.startYear, viewModel.startMonth, viewModel.startDay
         )
-        viewModel.addUser(user)
+        dlg.show()
     }
 
     //observe
-    if (viewModel.isSuccessAddUser) {
-        context.showToast(msg = stringResource(R.string.text_complete_add_user))
-        navController.popBackStack()
-    } else {
-        context.showToast(msg = stringResource(R.string.text_duplicate_add_user))
+    val toastMessage = when (viewModel.state) {
+        is PilatesState.Success -> stringResource(R.string.text_complete_add_user)
+        is PilatesState.Fail -> stringResource(R.string.text_duplicate_add_user)
+        else -> {
+            null
+        }
+    }
+    LaunchedEffect(viewModel.state) {
+        toastMessage?.let {
+            context.showToast(it)
+        }
+        if (viewModel.state == PilatesState.Success) {
+            navController.popBackStack()
+        }
     }
 
     RegisterUserContent(

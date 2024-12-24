@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
@@ -26,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -79,17 +83,21 @@ fun AttendanceMainScreen(
         }
     }
     val onClickDelete: () -> Unit = {
-        with(viewModel){
+        with(viewModel) {
             setPhoneNumber(phoneNumber.dropLast(1))
         }
     }
     val onClickOk: () -> Unit = {
-        with(viewModel){
+        with(viewModel) {
             checkUser("010$phoneNumber")
         }
     }
     val movePage: () -> Unit = {
         navController.navigate(PilatesAppScreen.AdminMenu.name)
+    }
+
+    LaunchedEffect(null){
+        adminViewModel.getAdminData()
     }
 
     AttendanceMainContent(
@@ -103,22 +111,25 @@ fun AttendanceMainScreen(
 
 @Composable
 fun AttendanceMainContent(
-    viewModel : AttendanceViewModel,
-    onClickNumber:(String) -> Unit,
-    onClickDelete:() -> Unit,
-    onClickOk:() -> Unit,
-    movePage:() -> Unit
+    viewModel: AttendanceViewModel,
+    onClickNumber: (String) -> Unit,
+    onClickDelete: () -> Unit,
+    onClickOk: () -> Unit,
+    movePage: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .horizontalScroll(rememberScrollState() )
             .clipToBounds()
             .testTag("MAIN_VIEW")
-            .background(Color(0xFF2b2b2b)),
+            .background(
+                Color(0xFF2b2b2b)
+            ),
     ) {
         IconButton(
             onClick = { movePage() }, modifier = Modifier.padding(start = 20.dp, top = 30.dp)
-
         ) {
             Icon(
                 Icons.Filled.Person, "backIcon", tint = Color.White, modifier = Modifier.size(45.dp)
@@ -186,155 +197,166 @@ fun AttendanceMainContent(
                     fontSize = 30.sp,
                     modifier = Modifier.testTag("PHONE_NUMBER_TEXT")
                 )
-
-
             }
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .border(2.dp, Color.White)
-                    .padding(10.dp)
-                    .width(400.dp)
-            ) {
-                Row() {
-                    Text(text = "7",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("7")
-                            .clickable { onClickNumber("7") })
-                    Text(text = "8",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("8")
-                            .clickable { onClickNumber("8") })
-                    Text(text = "9",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("9")
-                            .clickable { onClickNumber("9") })
-                }
-                Row() {
-                    Text(text = "4",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("4")
-                            .clickable { onClickNumber("4") })
-                    Text(text = "5",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("5")
-                            .clickable { onClickNumber("5") })
-                    Text(text = "6",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("6")
-                            .clickable { onClickNumber("6") })
-                }
-                Row() {
-                    Text(text = "1",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("1")
-                            .clickable { onClickNumber("1") })
-                    Text(text = "2",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("2")
-                            .clickable { onClickNumber("2") })
-                    Text(text = "3",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .testTag("3")
-                            .clickable { onClickNumber("3") })
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(
-                        onClick = { onClickDelete() },
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(110.dp)
-                    ) {
-                        Icon(
-                            Icons.Filled.ArrowBack,
-                            "backIcon",
-                            tint = Color.White,
-                            modifier = Modifier
-                                .width(90.dp)
-                                .height(100.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-                    Text(text = "0",
-                        color = Color.White,
-                        fontSize = 90.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.Center)
-                            .width(120.dp)
-                            .align(Alignment.CenterVertically)
-                            .clickable { onClickNumber("0") })
-
-                    Text(text = "입장",
-                        color = Color.White,
-                        fontSize = 60.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .wrapContentSize(align = Alignment.Center)
-                            .width(120.dp)
-                            .align(Alignment.CenterVertically)
-                            .testTag("ENTRANCE")
-                            .clickable { onClickOk() })
-                }
-            }
+            KeyPad(
+                onClickNumber = onClickNumber,
+                onClickDelete = onClickDelete,
+                onClickOk = onClickOk
+            )
         }
         Spacer(modifier = Modifier.height(10.dp))
+    }
+}
+
+@Composable
+fun KeyPad(
+    onClickNumber: (String) -> Unit,
+    onClickDelete: () -> Unit,
+    onClickOk: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .border(2.dp, Color.White)
+            .padding(10.dp)
+            .width(400.dp)
+    ) {
+        Row() {
+            Text(text = "7",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("7")
+                    .clickable { onClickNumber("7") })
+            Text(text = "8",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("8")
+                    .clickable { onClickNumber("8") })
+            Text(text = "9",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("9")
+                    .clickable { onClickNumber("9") })
+        }
+        Row() {
+            Text(text = "4",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("4")
+                    .clickable { onClickNumber("4") })
+            Text(text = "5",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("5")
+                    .clickable { onClickNumber("5") })
+            Text(text = "6",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("6")
+                    .clickable { onClickNumber("6") })
+        }
+        Row() {
+            Text(text = "1",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("1")
+                    .clickable { onClickNumber("1") })
+            Text(text = "2",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("2")
+                    .clickable { onClickNumber("2") })
+            Text(text = "3",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+                    .wrapContentSize(align = Alignment.Center)
+                    .testTag("3")
+                    .clickable { onClickNumber("3") })
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(
+                onClick = { onClickDelete() },
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(110.dp)
+            ) {
+                Icon(
+                    Icons.Filled.ArrowBack,
+                    "backIcon",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .width(90.dp)
+                        .height(100.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+            Text(text = "0",
+                color = Color.White,
+                fontSize = 90.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .wrapContentSize(Alignment.Center)
+                    .width(120.dp)
+                    .align(Alignment.CenterVertically)
+                    .clickable { onClickNumber("0") })
+
+            Text(text = "입장",
+                color = Color.White,
+                fontSize = 60.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .wrapContentSize(align = Alignment.Center)
+                    .width(120.dp)
+                    .align(Alignment.CenterVertically)
+                    .testTag("ENTRANCE")
+                    .clickable { onClickOk() })
+        }
     }
 }

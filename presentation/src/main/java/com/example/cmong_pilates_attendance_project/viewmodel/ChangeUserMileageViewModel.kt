@@ -3,8 +3,8 @@ package com.example.cmong_pilates_attendance_project.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import com.example.cmong_pilates_attendance_project.base.BaseViewModel
+import com.example.cmong_pilates_attendance_project.state.PilatesState
 import com.example.cmong_pilates_attendance_project.utils.LogUtil
 import com.example.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +21,8 @@ class ChangeUserMileageViewModel@Inject constructor(
     private var _mileage by mutableStateOf(0)
     val mileage get() = _mileage
 
-    private var _isChangeMileage by mutableStateOf(false)
-    val isChangeMileage get() =_isChangeMileage
+    private var _state : PilatesState? by mutableStateOf(null)
+    val state get() =_state
     fun setMileage(mileage: Int){
         _mileage = mileage
     }
@@ -38,10 +38,10 @@ class ChangeUserMileageViewModel@Inject constructor(
                 .subscribe(
                     {
                         LogUtil.d("Success change mileage!")
-                        _isChangeMileage = true
+                        _state = PilatesState.Success
                     },{
                         LogUtil.d("error ${it.message}}")
-                        _isChangeMileage = false
+                        _state = PilatesState.Fail
                     }
                 )
         )

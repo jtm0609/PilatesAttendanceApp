@@ -113,10 +113,10 @@ class RegisterUserScreenTest {
         )
         )
         Thread.sleep(3000)
-        println("isSuccessAddUser: ${viewModel.isSuccessAddUser.value}")
+        println("isSuccessAddUser: ${viewModel.state.value}")
 
         //유저 등록 성공 체크
-        assertEquals(viewModel.isSuccessAddUser.value,true)
+        assertEquals(viewModel.state.value,true)
     }
 
 
