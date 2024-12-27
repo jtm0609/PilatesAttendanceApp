@@ -14,28 +14,32 @@ fun Context.showToast(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-fun Context.showToast(resource: Int) {
-    Toast.makeText(this, this.getString(resource), Toast.LENGTH_SHORT).show()
-}
-
 fun String.isValidPhoneNumber(): Boolean {
     val regex = Regex("^010[0-9]{8}\$")
     if (regex.matches(this)) {
         return true
     }
-
     return false
 }
 
-fun String.dateStringToTimestamp(): Long {
+fun String.toTimestamp(): Long {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val localDate = LocalDate.parse(this, formatter)
     return localDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000
 }
 
-fun Long.convertTimeStampToDateString()
+fun Long.toDateString()
         : String {
     val date = Date(this)
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     return sdf.format(date)
+}
+
+fun String.toDateTriple(): Triple<Int, Int, Int>? {
+    val parts = this.split("-")
+    return if (parts.size == 3) {
+        Triple(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+    } else {
+        null
+    }
 }

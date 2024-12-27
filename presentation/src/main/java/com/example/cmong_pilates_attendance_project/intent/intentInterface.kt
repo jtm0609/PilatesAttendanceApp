@@ -1,0 +1,5 @@
+package com.example.cmong_pilates_attendance_project.intent
+
+interface UiState
+interface UiEvent
+interface UiEffect

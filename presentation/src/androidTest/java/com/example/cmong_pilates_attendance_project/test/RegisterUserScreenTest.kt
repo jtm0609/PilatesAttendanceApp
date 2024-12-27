@@ -14,9 +14,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.example.cmong_pilates_attendance_project.R
 import com.example.cmong_pilates_attendance_project.launchFragmentInHiltContainer
-import com.example.cmong_pilates_attendance_project.utils.Utils
 import com.example.cmong_pilates_attendance_project.ui.admin.fragment.RegisterUserFragment
-import com.example.cmong_pilates_attendance_project.viewmodel.RegisterUserViewModel
+import com.example.cmong_pilates_attendance_project.feature.admin.register.RegisterUserViewModel
 import com.example.data.model.UserEntity
 import com.example.data.repository.UserRepository
 import dagger.hilt.android.testing.HiltAndroidRule

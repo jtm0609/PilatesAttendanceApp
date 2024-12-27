@@ -25,7 +25,7 @@
             android:name=".base.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.attendance.activity.AttendanceActivity"
+            android:name=".ui.acitivity.MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
