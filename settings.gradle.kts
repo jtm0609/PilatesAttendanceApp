@@ -14,5 +14,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "cmong_pilates_attendance_project"
-include(":presentation")
+include(":app")
 include(":data")
+include(":domain")
+include(":presentation")

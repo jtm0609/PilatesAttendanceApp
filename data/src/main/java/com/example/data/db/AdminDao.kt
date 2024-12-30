@@ -14,7 +14,7 @@ interface AdminDao {
     fun updateMaxAttendance(cnt: Int): Completable
 
     @Query("SELECT * FROM ADMIN WHERE no=1")
-    fun selectAdmin(): Single<AdminEntity>
+    fun getAdmin(): Single<AdminEntity>
 
     @Insert
     fun addAdmin(adminEntity: AdminEntity): Completable

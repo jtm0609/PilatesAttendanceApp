@@ -1,22 +1,21 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.example.cmong_pilates_attendance_project"
+    namespace = "com.example.presentation"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.cmong_pilates_attendance_project"
         minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
-        testInstrumentationRunner = "com.example.cmong_pilates_attendance_project.CustomTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -47,36 +46,32 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
-
-
-
-
 }
 
+val hiltVersion = "2.48"
+val roomVersion = "2.4.2"
+val nav_version = "2.8.0-beta01"
 dependencies {
 
-    implementation("androidx.test:core-ktx:1.5.0")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
-    val hiltVersion = "2.48"
-    val roomVersion = "2.4.2"
-    val nav_version = "2.5.3"
-
     //multi module
-    implementation(project(":data"))
+    implementation(project(":domain"))
 
+    //android
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.fragment:fragment-ktx:1.5.2")
 
     //unit test
+    implementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.5.1")
     testImplementation("androidx.test:core:1.0.0'")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("io.mockk:mockk:1.13.8")
     testImplementation ("androidx.arch.core:core-testing:2.1.0")
-
 
     //ui test
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -88,8 +83,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
-
 
     //rxjava
     implementation("io.reactivex.rxjava2:rxjava:2.2.17")
@@ -105,7 +98,6 @@ dependencies {
     // Logger
     implementation("com.orhanobut:logger:2.2.0")
 
-
     // Room
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-rxjava2:$roomVersion")
@@ -120,7 +112,6 @@ dependencies {
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
     //compose
-    // Integration with activities
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -130,10 +121,11 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.chargemap.compose:numberpicker:1.0.3")
-    implementation("androidx.fragment:fragment-ktx:1.5.2")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
     //compose-viewmodel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
+    //serializable
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }

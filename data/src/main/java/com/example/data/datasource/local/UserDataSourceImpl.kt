@@ -17,14 +17,12 @@ class UserDataSourceImpl @Inject constructor(
         return userDao.updateMileage(phoneNumber,mileage)
     }
 
-    override fun updateUser(
-        user: UserEntity
-    ): Completable {
+    override fun updateUser(user: UserEntity): Completable {
         return userDao.updateUser(user)
     }
 
     override fun getUserFromPhoneNumber(phoneNumber: String): Single<UserEntity> {
-       return userDao.selectUserFromPNumber(phoneNumber)
+       return userDao.getUserFromPhoneNumber(phoneNumber)
     }
 
 }

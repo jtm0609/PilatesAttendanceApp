@@ -11,7 +11,7 @@ import io.reactivex.Single
 @Dao
 interface UserDao {
     //회원 추가 (신규)
-    @Insert()
+    @Insert
     fun insertUser(user: UserEntity): Completable
 
     //회원 수정 (출석체크, 마일리지 변경)
@@ -24,9 +24,9 @@ interface UserDao {
 
     //회원 번호를 이용한 회원 조회
     @Query("SELECT * FROM user WHERE phoneNumber=:phoneNumber")
-    fun selectUserFromPNumber(phoneNumber: String): Single<UserEntity>
+    fun getUserFromPhoneNumber(phoneNumber: String): Single<UserEntity>
 
     //전체 회원 조회
     @Query("SELECT * FROM user")
-    fun selectUsers(): Single<List<UserEntity>>
+    fun getUsers(): Single<List<UserEntity>>
 }

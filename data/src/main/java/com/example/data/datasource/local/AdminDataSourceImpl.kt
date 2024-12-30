@@ -14,7 +14,7 @@ class AdminDataSourceImpl @Inject constructor(
     }
 
     override fun selectAdmin(): Single<AdminEntity> {
-        return adminDao.selectAdmin()
+        return adminDao.getAdmin()
     }
 
     override fun addAdmin(adminEntity: AdminEntity): Completable {
