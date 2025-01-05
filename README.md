@@ -1,0 +1,12 @@
+# 기술 스택
+- Kotlin
+- Clean Architecture
+- MVI
+- Compose
+- RxJava
+- Hilt
+- LiveData
+- Room
+- Navigation
+- JUnit
+- Espresso
