@@ -53,7 +53,7 @@ MVI는 다음과 같은 흐름으로 동작합니다.
   - UseCase를 통해 앱의 핵심 규칙 정의
 - **Data Module**
   - Repository 구현체
-  - 로컬 데이터베이스(Room), 네트워크 통신 등 데이터 소스와의 연결
+  - Room 기반 로컬 데이터베이스와의 연결 및 데이터 처리 담당
 - **App Module**
   - 앱의 진입점 역할 수행 (MainActivity, Application)
   - DI 설정 (Hilt를 통한 의존성 주입 설정 및 초기화)
