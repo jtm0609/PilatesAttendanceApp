@@ -72,7 +72,7 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 </p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9b71a8d3-753d-4161-9d75-5ee213afb42c" width="49%" />
-  <img src="https://github.com/user-attachments/assets/de4dbb88-25d1-4d7c-826c-ce0ca2660134" width="49%" /> 
+  <img src="https://github.com/user-attachments/assets/23796b8e-27e8-41cc-a4d2-c98d108d47f7" width="49%" /> 
 </p>
 
 ## 기타
