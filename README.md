@@ -1,12 +1,12 @@
-# 서비스 내용
+## 서비스 내용
 필라테스 센터의 회원 출석과 마일리지 적립을 간편하게 도와주는 Android 애플리케이션입니다.
 
-# 개발 목적
+## 개발 목적
 - Clean Architecture 및 Jetpack Compose 기반 아키텍처 설계 경험 강화
 - MVI 패턴을 통한 상태 관리 구조 학습
 - 실무에 가까운 구조로 유지보수와 확장성을 고려한 개발 연습
 
-# 주요 기능
+## 주요 기능
 - **회원 출석 체크**
   - 출석 버튼 클릭으로 간편한 출결 등록
 
@@ -19,7 +19,7 @@
 - **출석 현황 및 회원 목록 조회**
   - 회원별 출석 내역 및 마일리지 현황 확인
 
-# 기술 스택
+## 기술 스택
 - Kotlin
 - Clean Architecture
 - MVI
@@ -30,7 +30,7 @@
 - Room
 - Navigation
 
-# 시스템 아키텍처
+## 시스템 아키텍처
 ### MVI 패턴
 본 프로젝트는 **MVI(Model–View–Intent)** 패턴을 적용하여 단방향 데이터 흐름을 기반으로 한 **예측 가능한 상태 관리**를 구현했습니다.   
 MVI는 다음과 같은 흐름으로 동작합니다.
@@ -57,7 +57,7 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 
 ![image](https://github.com/user-attachments/assets/3b411cfb-b185-48a9-8092-3680c9c63cba) 
 
-# 스크린 샷
+## 스크린 샷
 <p align="center">
   <img src="https://github.com/user-attachments/assets/cca4337b-d77c-45a2-87fc-3ab52142ce51" width="49%" />
   <img src="https://github.com/user-attachments/assets/4c4a8752-3413-4dbb-8297-6ab721b647d0" width="49%" /> 
@@ -71,7 +71,7 @@ MVI는 다음과 같은 흐름으로 동작합니다.
   <img src="https://github.com/user-attachments/assets/de4dbb88-25d1-4d7c-826c-ce0ca2660134" width="49%" /> 
 </p>
 
-# 기타
+## 기타
 본 프로젝트는 1인 사이드 프로젝트로, UI/UX 설계부터 구조 설계, 기능 구현까지 전 과정을 직접 수행하였습니다.  
 기술적인 고민과 학습하면서 배웠던 내용들은 기술 블로그에 정리해두었습니다.  
 👉 [MVI 패턴이란?](https://jtm0609.tistory.com/295)   
