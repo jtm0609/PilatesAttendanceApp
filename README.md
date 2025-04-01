@@ -43,17 +43,21 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 
 ### Clean Architecture
 본 프로젝트는 **Clean Architecture 원칙**을 기반으로, 관심사 분리(Separation of Concerns)를 철저히 지켜 설계되었습니다.
-아키텍처는 크게 아래와 같은 세 가지 레이어로 구성됩니다:
-- **Presentation Layer**
+아키텍처는 크게 아래와 같은 네 가지 모듈로 구성됩니다:
+- **Presentation Module**
   - UI를 담당 (Jetpack Compose 사용)
   - 사용자 이벤트 처리 및 상태 렌더링
   - ViewModel과 상호작용
-- **Domain Layer**
+- **Domain Module**
   - 순수한 비즈니스 로직
   - UseCase를 통해 앱의 핵심 규칙 정의
-- **Data Layer**
+- **Data Module**
   - Repository 구현체
   - 로컬 데이터베이스(Room), 네트워크 통신 등 데이터 소스와의 연결
+- **App Module**
+  - 앱의 진입점 역할 수행 (MainActivity, Application)
+  - DI 설정 (Hilt를 통한 의존성 주입 설정 및 초기화)
+  - 모듈 간 연결 및 네비게이션 흐름 관리
 
 ![image](https://github.com/user-attachments/assets/3b411cfb-b185-48a9-8092-3680c9c63cba) 
 
