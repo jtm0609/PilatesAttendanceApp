@@ -79,5 +79,6 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 본 프로젝트는 1인 사이드 프로젝트로, UI/UX 설계부터 구조 설계, 기능 구현까지 전 과정을 직접 수행하였습니다.  
 기술적인 고민과 학습하면서 배웠던 내용들은 기술 블로그에 정리해두었습니다.  
 👉 [MVI 패턴이란?](https://jtm0609.tistory.com/295)   
-👉 [Clean Architecture 개념](https://jtm0609.tistory.com/6)   
 👉 [Compose에 대한 이해](https://jtm0609.tistory.com/category/Android/Compose)   
+👉 [Clean Architecture 개념](https://jtm0609.tistory.com/6)   
+👉 [Clean Architecture vs Google의 앱 아키텍처](https://jtm0609.tistory.com/325)   
