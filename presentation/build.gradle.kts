@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-parcelize")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -31,20 +32,17 @@ android {
         compose = true
         dataBinding = true
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
         jvmTarget = "17"
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
-    }
-
-    testOptions {
-        unitTests.isReturnDefaultValues = true
     }
 }
 

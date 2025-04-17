@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,11 +42,11 @@ dependencies {
     implementation(project(":domain"))
     
     //test
-    implementation("androidx.test:core-ktx:1.5.0")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    implementation("androidx.test:core-ktx:1.6.1")
+    implementation("androidx.test.ext:junit-ktx:1.2.1")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     testImplementation ("org.robolectric:robolectric:4.5.1")
 
     // hilt
