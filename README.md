@@ -24,7 +24,8 @@
 - Clean Architecture
 - MVI
 - Compose
-- RxJava
+- Coroutine
+- Flow
 - Hilt
 - LiveData
 - Room
