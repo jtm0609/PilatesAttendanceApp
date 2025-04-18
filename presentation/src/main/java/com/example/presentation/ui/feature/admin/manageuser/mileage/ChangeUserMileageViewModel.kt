@@ -10,13 +10,14 @@ import com.example.presentation.R
 import com.example.presentation.base.BaseViewModel
 import com.example.presentation.navigation.AppDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import androidx.lifecycle.viewModelScope
+import com.example.domain.dataresource.DataResource
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangeUserMileageViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val updateMileageUseCase: UpdateMileageUseCase,
     private val provider: ResourceProvider
 ) : BaseViewModel<ChangeUserMileageContract.Event, ChangeUserMileageContract.State, ChangeUserMileageContract.Effect>() {
@@ -35,20 +36,28 @@ class ChangeUserMileageViewModel @Inject constructor(
     }
 
     private fun changeUserMileage(phone: String, mileage: Int) {
-        compositeDisposable.add(
-            updateMileageUseCase(phone, mileage)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
+        viewModelScope.launch {
+            updateMileageUseCase(phone, mileage).collect {
+                when (it) {
+                    is DataResource.Loading -> {
+                        setState { this.copy(isLoading = true) }
+                    }
+
+                    is DataResource.Success -> {
                         val msg = provider.getString(R.string.text_complete_change_mileage)
                         setEffect { ChangeUserMileageContract.Effect.ShowToast(msg) }
                         setEffect { ChangeUserMileageContract.Effect.CompleteChangeMileage(mileage) }
-                    }, { throwable ->
-                        LogUtil.d("error ${throwable.message}}")
+                        setState { this.copy(isLoading = false) }
                     }
-                )
-        )
+
+                    is DataResource.Error -> {
+                        val msg = provider.getString(R.string.text_fail_change_mileage)
+                        setEffect { ChangeUserMileageContract.Effect.ShowToast(msg) }
+                        setState { this.copy(isLoading = false) }
+                    }
+                }
+            }
+        }
     }
 
     override fun handleEvent(event: ChangeUserMileageContract.Event) {

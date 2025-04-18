@@ -5,28 +5,26 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.data.model.UserEntity
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface UserDao {
     //회원 추가 (신규)
     @Insert
-    fun insertUser(user: UserEntity): Completable
+    suspend fun insertUser(user: UserEntity): Long
 
     //회원 수정 (출석체크, 마일리지 변경)
     @Query("UPDATE user SET mileage=:mileage WHERE phoneNumber=:phoneNumber")
-    fun updateMileage(phoneNumber: String, mileage: Int): Completable
+    suspend fun updateMileage(phoneNumber: String, mileage: Int): Int
 
     //회원 수정 (기간 재등록, 회원 출석 정보(출석날짜, 출석횟수) 변경)
     @Update
-    fun updateUser(user: UserEntity): Completable
+    suspend fun updateUser(user: UserEntity): Int
 
     //회원 번호를 이용한 회원 조회
     @Query("SELECT * FROM user WHERE phoneNumber=:phoneNumber")
-    fun getUserFromPhoneNumber(phoneNumber: String): Single<UserEntity>
+    suspend fun getUserFromPhoneNumber(phoneNumber: String): UserEntity
 
     //전체 회원 조회
     @Query("SELECT * FROM user")
-    fun getUsers(): Single<List<UserEntity>>
+    suspend fun getUsers(): List<UserEntity>
 }

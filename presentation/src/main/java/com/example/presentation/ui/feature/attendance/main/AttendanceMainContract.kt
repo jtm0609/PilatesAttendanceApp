@@ -15,6 +15,7 @@ class AttendanceMainContract {
     }
 
     data class State(
+        val isLoading: Boolean = false,
         val phoneNumber: String = "",
         val searchedUser: User? = null, // 조회한 유저
         val adminData: Admin? = null

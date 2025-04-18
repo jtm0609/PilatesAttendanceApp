@@ -9,13 +9,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AttendanceCompleteViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<AttendanceCompleteContract.Event,
         AttendanceCompleteContract.State,
         AttendanceCompleteContract.Effect>() {
 
-    val _userName: String = savedStateHandle.toRoute<AppDestination.AttendanceComplete>().name
-    val _userMileage: Int = savedStateHandle.toRoute<AppDestination.AttendanceComplete>().mileage
+    private val _userName: String = savedStateHandle.toRoute<AppDestination.AttendanceComplete>().name
+    private val _userMileage: Int = savedStateHandle.toRoute<AppDestination.AttendanceComplete>().mileage
 
     init {
         setState {

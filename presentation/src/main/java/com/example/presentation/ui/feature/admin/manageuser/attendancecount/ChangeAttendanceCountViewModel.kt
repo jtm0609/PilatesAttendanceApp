@@ -7,8 +7,9 @@ import com.example.domain.usecase.UpdateAttendanceCountUseCase
 import com.example.presentation.R
 import com.example.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import androidx.lifecycle.viewModelScope
+import com.example.domain.dataresource.DataResource
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,30 +52,52 @@ class ChangeAttendanceCountViewModel
     }
 
     private fun getAdminData() {
-        compositeDisposable.add(
-            getAdminUseCase().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({ admin ->
-                    setState {
-                        this.copy(attendanceCount = admin.maxAttendance)
+        viewModelScope.launch {
+            getAdminUseCase().collect {
+                when (it) {
+                    is DataResource.Loading -> {
+                        setState { this.copy(isLoading = true) }
                     }
-                    LogUtil.d("Success Get Admin, $admin")
-                }, { throwable ->
-                    LogUtil.d("Error Get Admin, ${throwable.message}")
-                })
-        )
+
+                    is DataResource.Success -> {
+                        setState {
+                            this.copy(
+                                attendanceCount = it.data.maxAttendance,
+                                isLoading = false
+                            )
+                        }
+                    }
+
+                    is DataResource.Error -> {
+                        setState { this.copy(isLoading = false) }
+                        LogUtil.d("Error Get Admin, ${it.throwable}")
+                    }
+                }
+            }
+        }
     }
 
     private fun changeAttendanceCount(count: Int) {
-        compositeDisposable.add(
-            updateAttendanceCountUseCase(count).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    LogUtil.d("Success Change Attendance Count!")
-                    val msg = provider.getString(R.string.text_complete_change_attendance_count)
-                    setEffect { ChangeAttendanceCountContract.Effect.ShowToast(msg) }
-                    setEffect { ChangeAttendanceCountContract.Effect.CompleteChangeMileage }
-                }, { throwable ->
-                    LogUtil.d("Error Change Attendance Count, ${throwable.message}")
-                })
-        )
+        viewModelScope.launch {
+            updateAttendanceCountUseCase(count).collect {
+                when (it) {
+                    is DataResource.Loading -> {
+                        setState { this.copy(isLoading = true) }
+                    }
+
+                    is DataResource.Success -> {
+                        updateAttendanceCountUseCase(count)
+                        LogUtil.d("Success Change Attendance Count!")
+                        val msg = provider.getString(R.string.text_complete_change_attendance_count)
+                        setEffect { ChangeAttendanceCountContract.Effect.ShowToast(msg) }
+                        setEffect { ChangeAttendanceCountContract.Effect.CompleteChangeMileage }
+                    }
+
+                    is DataResource.Error -> {
+                        LogUtil.d("Error Change Attendance Count, ${it.throwable}")
+                    }
+                }
+            }
+        }
     }
 }

@@ -3,40 +3,51 @@ package com.example.data.repository
 import com.example.data.datasource.local.UserDataSource
 import com.example.data.mapper.toAdvertiseEntity
 import com.example.data.mapper.toDomainModel
+import com.example.domain.dataresource.DataResource
 import com.example.domain.model.User
 import com.example.domain.repository.UserRepository
 import com.orhanobut.logger.Logger
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource
 ) : UserRepository {
-    override fun insertUser(user: User): Completable {
-        return userDataSource.insertUser(user.toAdvertiseEntity())
-            .doOnComplete {
-                Logger.d("[DB]INSERT COMPLETE")
-            }
+    override suspend fun insertUser(user: User): Flow<DataResource<Long>> = flow {
+        emit(DataResource.loading())
+        try {
+            emit(DataResource.success(userDataSource.insertUser(user.toAdvertiseEntity())))
+        } catch (exception: Exception) {
+            emit(DataResource.error(exception))
+        }
     }
 
-    override fun updateUserMileage(phoneNumber: String, mileage: Int): Completable {
-        return userDataSource.updateUserMileage(phoneNumber, mileage)
-            .doOnComplete {
-                Logger.d("[DB]UPDATE COMPLETE")
-            }
+    override suspend fun updateUserMileage(phoneNumber: String, mileage: Int) = flow {
+        emit(DataResource.loading())
+        try {
+            userDataSource.updateUserMileage(phoneNumber, mileage)
+        } catch (exception: Exception) {
+            emit(DataResource.error(exception))
+        }
     }
 
-    override fun getUser(phoneNumber: String): Single<User> {
-        return userDataSource.getUserFromPhoneNumber(phoneNumber)
-            .doOnSuccess { userEntity ->
-                Logger.d("[DB]SELECT: $userEntity")
-            }.map { result ->
-                result.toDomainModel()
-            }
+    override suspend fun getUser(phoneNumber: String): Flow<DataResource<User>> = flow {
+        emit(DataResource.loading())
+        try {
+            val userEntity = userDataSource.getUserFromPhoneNumber(phoneNumber)
+            emit(DataResource.success(userEntity.toDomainModel()))
+        } catch (exception: Exception) {
+            emit(DataResource.error(exception))
+        }
     }
 
-    override fun updateUser(user: User): Completable {
-        return userDataSource.updateUser(user.toAdvertiseEntity())
+    override suspend fun updateUser(user: User): Flow<DataResource<Int>> = flow {
+        emit(DataResource.loading())
+        try {
+            emit(DataResource.success(userDataSource.updateUser(user.toAdvertiseEntity())))
+        } catch (exception: Exception) {
+            emit(DataResource.error(exception))
+        }
     }
 }

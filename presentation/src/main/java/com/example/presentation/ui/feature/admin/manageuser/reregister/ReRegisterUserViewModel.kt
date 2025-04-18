@@ -13,8 +13,9 @@ import com.example.presentation.navigation.AppDestination
 import com.example.presentation.utils.DateFormatter
 import com.example.presentation.utils.DateFormatter.formatDate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import androidx.lifecycle.viewModelScope
+import com.example.domain.dataresource.DataResource
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -109,24 +110,27 @@ class ReRegisterUserViewModel @Inject constructor(
     }
 
     private fun reRegisterUser(user: User) {
-        compositeDisposable.add(
-            updateUserUseCase(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
+        viewModelScope.launch {
+            updateUserUseCase(user).collect {
+                when (it) {
+                    is DataResource.Loading -> {
+                        setState { this.copy(isLoading = true) }
+                    }
+
+                    is DataResource.Success -> {
                         val msg = resourceProvider.getString(R.string.text_success_re_register_user)
                         setEffect { ReRegisterUserContract.Effect.ShowToast(msg) }
                         setEffect { ReRegisterUserContract.Effect.CompleteRegister(user) }
-                        LogUtil.d("Update Successfully, ${user}")
+                    }
 
-                    }, { throwable ->
+                    is DataResource.Error -> {
+                        setState { this.copy(isLoading = false) }
                         val msg = resourceProvider.getString(R.string.text_fail_re_register_user)
                         setEffect { ReRegisterUserContract.Effect.ShowToast(msg) }
-                        LogUtil.d("Error Inserting: ${throwable.message}")
                     }
-                )
-        )
+                }
+            }
+        }
     }
 
     private fun getEndDateTimeMilli(startDate: Long, duration: String): Long {

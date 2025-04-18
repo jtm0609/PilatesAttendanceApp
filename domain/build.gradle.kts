@@ -1,4 +1,3 @@
-
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
@@ -9,8 +8,8 @@ plugins {
 
 
 dependencies {
-    //rxjava
-    implementation("io.reactivex.rxjava2:rxjava:2.2.17")
+    // 코루틴
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     //inject
     implementation("javax.inject:javax.inject:1")

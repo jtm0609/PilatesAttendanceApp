@@ -34,8 +34,9 @@ android {
     }
 }
 
-val hiltVersion = "2.48"
-val roomVersion = "2.4.2"
+val hiltVersion = "2.51.1"
+val roomVersion = "2.7.0"
+val coroutinesVersion = "1.7.3"
 dependencies {
 
     //multi module
@@ -49,16 +50,19 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     testImplementation ("org.robolectric:robolectric:4.5.1")
 
+    // 코루틴
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+
     // hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Room
     implementation ("androidx.room:room-runtime:$roomVersion")
-    implementation ("androidx.room:room-rxjava2:$roomVersion")
+    implementation ("androidx.room:room-ktx:$roomVersion")
     testImplementation ("androidx.room:room-testing:$roomVersion")
     kapt ("androidx.room:room-compiler:$roomVersion")
-    implementation ("androidx.room:room-ktx:$roomVersion")
 
     // Logger
     implementation("com.orhanobut:logger:2.2.0")

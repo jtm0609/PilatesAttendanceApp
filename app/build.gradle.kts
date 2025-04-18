@@ -48,8 +48,9 @@ android {
     }
 }
 
-val hiltVersion = "2.48"
-val roomVersion = "2.4.2"
+val hiltVersion = "2.51.1"
+val roomVersion = "2.7.0"
+val coroutinesVersion = "1.7.3"
 dependencies {
 
     //multi module
@@ -64,6 +65,10 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.fragment:fragment-ktx:1.5.2")
 
+    // 코루틴
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+
     // hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
@@ -73,10 +78,9 @@ dependencies {
 
     // Room
     implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-rxjava2:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
 
     //compose
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

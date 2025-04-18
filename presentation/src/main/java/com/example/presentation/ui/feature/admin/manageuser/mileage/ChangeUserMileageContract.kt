@@ -13,6 +13,7 @@ class ChangeUserMileageContract {
     }
 
     data class State(
+        val isLoading: Boolean = false,
         val user: User? = null
     ) : UiState
 

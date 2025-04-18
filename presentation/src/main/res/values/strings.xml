@@ -34,6 +34,7 @@
     <string name="text_not_exist_user">회원이 존재하지 않습니다.</string>
     <string name="text_noti_input_phone_number">전화번호를 입력해주세요 !</string>
     <string name="text_complete_change_mileage">마일리지 변경 완료 !</string>
+    <string name="text_fail_change_mileage">마일리지 변경 실패 !</string>
     <string name="text_success_re_register_user">회원 재등록 완료 !</string>
     <string name="text_fail_re_register_user">회원 재등록 실패 !</string>
     <string name="text_attendance_count">%d회</string>

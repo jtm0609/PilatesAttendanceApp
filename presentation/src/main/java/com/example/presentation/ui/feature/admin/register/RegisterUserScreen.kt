@@ -18,15 +18,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.presentation.ui.component.ConfirmBox
 import com.example.presentation.ui.component.DatePickerDialog
@@ -36,14 +35,15 @@ import com.example.presentation.ui.component.inputTextField
 import com.example.presentation.ui.component.inputText
 import com.example.presentation.utils.showToast
 import com.example.presentation.R
+import com.example.presentation.ui.component.Progress
 
 @Composable
 fun RegisterUserScreen(
     navController: NavHostController,
     viewModel: RegisterUserViewModel,
-    context : Context
+    context: Context
 ) {
-    val state = viewModel.uiState.collectAsState().value
+    val state = viewModel.uiState.collectAsStateWithLifecycle().value
     val effectFlow = viewModel.effect
 
     LaunchedEffect(effectFlow) {
@@ -60,129 +60,249 @@ fun RegisterUserScreen(
         }
     }
 
-    RegisterUserContent(
-        viewModel = viewModel,
+    UserRegistrationScreen(
         navController = navController,
-        state = state
+        state = state,
+        onNameChange = { name ->
+            viewModel.setEvent(RegisterUserContract.Event.OnChangedName(name))
+        },
+        onPhoneChange = { phone ->
+            viewModel.setEvent(RegisterUserContract.Event.OnChangePhoneNumber(phone))
+        },
+        onDurationClick = {
+            viewModel.setEvent(RegisterUserContract.Event.OnClickSetDuration)
+        },
+        onStartDateClick = {
+            viewModel.setEvent(RegisterUserContract.Event.OnClickSetBeginDate)
+        },
+        onSaveClick = { name, phone, duration, startDate ->
+            viewModel.setEvent(
+                RegisterUserContract.Event.ClickedSave(
+                    name,
+                    phone,
+                    duration,
+                    startDate
+                )
+            )
+        },
+        onDateSet = { year, month, day ->
+            viewModel.setEvent(RegisterUserContract.Event.OnCompleteStartDate(year, month, day))
+        },
+        onDateDismiss = {
+            viewModel.setEvent(RegisterUserContract.Event.OnDismissStartDate)
+        },
+        onDurationSelected = { duration ->
+            viewModel.setEvent(RegisterUserContract.Event.OnCompleteSetDuration(duration))
+        },
+        onDurationDismiss = {
+            viewModel.setEvent(RegisterUserContract.Event.OnDismissDurationView)
+        },
+        onDurationChange = { duration ->
+            viewModel.setEvent(RegisterUserContract.Event.OnChangeDuration(duration))
+        }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterUserContent(
-    viewModel: RegisterUserViewModel,
+private fun UserRegistrationScreen(
     navController: NavHostController,
-    state: RegisterUserContract.State
+    state: RegisterUserContract.State,
+    onNameChange: (String) -> Unit,
+    onPhoneChange: (String) -> Unit,
+    onDurationClick: () -> Unit,
+    onStartDateClick: () -> Unit,
+    onSaveClick: (String, String, String, String) -> Unit,
+    onDateSet: (Int, Int, Int) -> Unit,
+    onDateDismiss: () -> Unit,
+    onDurationSelected: (String) -> Unit,
+    onDurationDismiss: () -> Unit,
+    onDurationChange: (String) -> Unit
 ) {
+    val backgroundColor = Color(0xFF2b2b2b)
+    val dividerColor = Color(0xFF333333)
+
     Scaffold(
         modifier = Modifier
-            .testTag("REGISTER_USER_SCREEN")
             .fillMaxSize(),
-        containerColor = Color(0xFF2b2b2b),
-        topBar = { Toolbar(navController, stringResource(R.string.text_menu_register_user)) },
-        content = {
-            //회원 정보 입력 뷰
-            Box(modifier = Modifier
+        containerColor = backgroundColor,
+        topBar = { Toolbar(navController, stringResource(R.string.text_menu_register_user)) }
+    ) { paddingValues ->
+        if (state.isLoading) {
+            Progress()
+        }
+
+        Box(
+            modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(it)
+                .padding(paddingValues)
                 .fillMaxWidth()
                 .clickable(
                     indication = null,
-                    interactionSource = remember { MutableInteractionSource() },
-                ) { //hideKeyboard()
-                }) {
-                Column(
-                    modifier = Modifier.align(Alignment.TopCenter)
-                ) {
-                    Divider(
-                        color = Color(0xFF333333),
-                        thickness = 1.dp,
-                        modifier = Modifier.padding(bottom = 15.dp)
-                    )
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { }
+        ) {
+            UserInputForm(
+                state = state,
+                dividerColor = dividerColor,
+                onNameChange = onNameChange,
+                onPhoneChange = onPhoneChange,
+                onDurationClick = onDurationClick,
+                onStartDateClick = onStartDateClick,
+                onSaveClick = onSaveClick
+            )
+        }
+    }
 
-                    inputTextField(
-                        titleText = stringResource(R.string.text_input_name),
-                        hintText = stringResource(R.string.text_input_hint_name),
-                        keyboardType = KeyboardType.Text,
-                        content = state.name,
-                        onValueChange = { text ->
-                            viewModel.setEvent(RegisterUserContract.Event.OnChangedName(text))
-                        },
-                        enabled = !state.isShowDurationView
-                    )
-                    inputTextField(
-                        titleText = stringResource(R.string.text_input_phone_number),
-                        hintText = stringResource(R.string.text_input_hint_phone_number),
-                        keyboardType = KeyboardType.Number,
-                        content = state.phone,
-                        onValueChange = { text ->
-                            viewModel.setEvent(RegisterUserContract.Event.OnChangePhoneNumber(text))
-                        },
-                        enabled = !state.isShowDurationView
-                    )
-                    inputText(titleText = stringResource(
-                        id = R.string.text_input_duration
-                    ),
-                        imageVector = Icons.Filled.List,
-                        contentText = state.durationText,
-                        handleOnClick = {
-                            viewModel.setEvent(RegisterUserContract.Event.OnClickSetDuration)
-                        })
-                    inputText(titleText = stringResource(
-                        id = R.string.text_input_start_date
-                    ),
-                        imageVector = Icons.Filled.DateRange,
-                        contentText = state.startDateText,
-                        handleOnClick = {
-                            viewModel.setEvent(RegisterUserContract.Event.OnClickSetBeginDate)
-                        })
-
-
-                    //저장
-                    ConfirmBox(
-                        text = stringResource(R.string.text_save_button),
-                        onClick = {
-                            viewModel.setEvent(
-                                RegisterUserContract.Event.ClickedSave(
-                                    state.name,
-                                    state.phone,
-                                    state.durationText,
-                                    state.startDateText
-                                )
-                            )
-                        }
-                    )
-                }
-            }
-        })
-
+    // 날짜 선택 다이얼로그
     DatePickerDialog(
         isShow = state.isShowStartDateView,
         startYear = state.startYear,
         startMonth = state.startMonth,
         startDay = state.startDay,
-        onDataSetEvent = { year, month, day ->
-            viewModel.setEvent(
-                RegisterUserContract.Event.OnCompleteStartDate(year, month, day)
-            )
-        }, onDismissEvent = {
-            viewModel.setEvent(
-                RegisterUserContract.Event.OnDismissStartDate
-            )
-        })
+        onDataSetEvent = onDateSet,
+        onDismissEvent = onDateDismiss
+    )
 
+    // 기간 설정 다이얼로그
     DurationSettingBox(
         isShow = state.isShowDurationView,
-        onClickDurationEvent = { duration ->
-            viewModel.setEvent(RegisterUserContract.Event.OnCompleteSetDuration(duration))
-        },
-        onDismissEvent = {
-            viewModel.setEvent(RegisterUserContract.Event.OnDismissDurationView)
-        },
-        onValueChange = { duration ->
-            viewModel.setEvent(RegisterUserContract.Event.OnChangeDuration(duration))
-        },
+        onClickDurationEvent = onDurationSelected,
+        onDismissEvent = onDurationDismiss,
+        onValueChange = onDurationChange,
         durationState = state.durationState,
         durationList = state.durationValues
+    )
+}
+
+@Composable
+private fun UserInputForm(
+    state: RegisterUserContract.State,
+    dividerColor: Color,
+    onNameChange: (String) -> Unit,
+    onPhoneChange: (String) -> Unit,
+    onDurationClick: () -> Unit,
+    onStartDateClick: () -> Unit,
+    onSaveClick: (String, String, String, String) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Divider(
+            color = dividerColor,
+            thickness = 1.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 15.dp)
+        )
+
+        // 이름 입력 필드
+        NameInputField(
+            name = state.name,
+            onNameChange = onNameChange,
+            isEnabled = !state.isShowDurationView
+        )
+        
+        // 전화번호 입력 필드
+        PhoneInputField(
+            phone = state.phone,
+            onPhoneChange = onPhoneChange,
+            isEnabled = !state.isShowDurationView
+        )
+        
+        // 이용 기간 선택 필드
+        DurationSelectionField(
+            durationText = state.durationText,
+            onDurationClick = onDurationClick
+        )
+        
+        // 시작일 선택 필드
+        StartDateSelectionField(
+            startDateText = state.startDateText,
+            onStartDateClick = onStartDateClick
+        )
+
+        // 저장 버튼
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            SaveButton(
+                onSaveClick = {
+                    onSaveClick(state.name, state.phone, state.durationText, state.startDateText)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun NameInputField(
+    name: String,
+    onNameChange: (String) -> Unit,
+    isEnabled: Boolean
+) {
+    inputTextField(
+        titleText = stringResource(R.string.text_input_name),
+        hintText = stringResource(R.string.text_input_hint_name),
+        keyboardType = KeyboardType.Text,
+        content = name,
+        onValueChange = onNameChange,
+        enabled = isEnabled
+    )
+}
+
+@Composable
+private fun PhoneInputField(
+    phone: String,
+    onPhoneChange: (String) -> Unit,
+    isEnabled: Boolean
+) {
+    inputTextField(
+        titleText = stringResource(R.string.text_input_phone_number),
+        hintText = stringResource(R.string.text_input_hint_phone_number),
+        keyboardType = KeyboardType.Number,
+        content = phone,
+        onValueChange = onPhoneChange,
+        enabled = isEnabled
+    )
+}
+
+@Composable
+private fun DurationSelectionField(
+    durationText: String,
+    onDurationClick: () -> Unit
+) {
+    inputText(
+        titleText = stringResource(id = R.string.text_input_duration),
+        imageVector = Icons.Filled.List,
+        contentText = durationText,
+        handleOnClick = onDurationClick
+    )
+}
+
+@Composable
+private fun StartDateSelectionField(
+    startDateText: String,
+    onStartDateClick: () -> Unit
+) {
+    inputText(
+        titleText = stringResource(id = R.string.text_input_start_date),
+        imageVector = Icons.Filled.DateRange,
+        contentText = startDateText,
+        handleOnClick = onStartDateClick
+    )
+}
+
+@Composable
+private fun SaveButton(
+    onSaveClick: () -> Unit
+) {
+    ConfirmBox(
+        text = stringResource(R.string.text_save_button),
+        onClick = onSaveClick
     )
 }

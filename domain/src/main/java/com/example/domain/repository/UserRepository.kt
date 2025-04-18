@@ -1,12 +1,12 @@
 package com.example.domain.repository
 
+import com.example.domain.dataresource.DataResource
 import com.example.domain.model.User
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    fun insertUser(user: User): Completable
-    fun updateUserMileage(phoneNumber:String, mileage: Int): Completable
-    fun getUser(phoneNumber: String): Single<User>
-    fun updateUser(user: User) : Completable
+    suspend fun insertUser(user: User): Flow<DataResource<Long>>
+    suspend fun updateUserMileage(phoneNumber:String, mileage: Int): Flow<DataResource<Int>>
+    suspend fun getUser(phoneNumber: String): Flow<DataResource<User>>
+    suspend fun updateUser(user: User): Flow<DataResource<Int>>
 }

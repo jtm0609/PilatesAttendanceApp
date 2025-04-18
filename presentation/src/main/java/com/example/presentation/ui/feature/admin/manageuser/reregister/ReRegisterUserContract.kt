@@ -11,6 +11,7 @@ class ReRegisterUserContract {
         data class OnCompleteSetDuration(val duration: String) : Event()
         data class OnCompleteStartDate(val year: Int, val month: Int, val day: Int) :
             Event()
+
         data class ClickedSave(
             val user: User
         ) : Event()
@@ -22,6 +23,7 @@ class ReRegisterUserContract {
     }
 
     data class State(
+        val isLoading: Boolean = false,
         val user: User? = null,
         val durationValues: List<String> = listOf("2주", "4주", "8주", "12주"),
         val isShowDurationView: Boolean = false,

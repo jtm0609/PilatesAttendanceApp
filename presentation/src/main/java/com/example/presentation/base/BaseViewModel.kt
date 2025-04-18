@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.presentation.intent.UiEffect
 import com.example.presentation.intent.UiEvent
 import com.example.presentation.intent.UiState
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +15,8 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect> : ViewModel() {
 
-    private val initialState: State by lazy { createInitialState() }
     abstract fun createInitialState(): State
+    private val initialState: State by lazy { createInitialState() }
 
     private val currentState: State get() = _uiState.value
 
@@ -29,8 +28,6 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
 
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
-
-    protected val compositeDisposable = CompositeDisposable()
 
     init {
         subscribeEvents()
@@ -60,10 +57,5 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
     fun setEffect(builder: () -> Effect) {
         val effectValue = builder()
         viewModelScope.launch { _effect.send(effectValue) }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
     }
 }

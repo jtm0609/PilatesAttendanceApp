@@ -12,6 +12,7 @@ class ChangeAttendanceCountContract {
     }
 
     data class State(
+        val isLoading: Boolean = false,
         val name: String = "",
         val phone: String = "",
         val mileage: Int = 0,

@@ -46,9 +46,10 @@ android {
     }
 }
 
-val hiltVersion = "2.48"
-val roomVersion = "2.4.2"
+val hiltVersion = "2.51.1"
+val roomVersion = "2.7.0"
 val nav_version = "2.8.0-beta01"
+val coroutinesVersion = "1.7.3"
 dependencies {
 
     //multi module
@@ -82,12 +83,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    //rxjava
-    implementation("io.reactivex.rxjava2:rxjava:2.2.17")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.8.1")
-    implementation("io.reactivex.rxjava2:rxkotlin:2.3.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    // 코루틴
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
 
     // hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
@@ -98,10 +96,9 @@ dependencies {
 
     // Room
     implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-rxjava2:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
 
     //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")

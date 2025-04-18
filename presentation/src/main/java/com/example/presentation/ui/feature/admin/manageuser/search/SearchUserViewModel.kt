@@ -6,8 +6,9 @@ import com.example.domain.usecase.GetUserUseCase
 import com.example.presentation.R
 import com.example.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import androidx.lifecycle.viewModelScope
+import com.example.domain.dataresource.DataResource
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,20 +43,25 @@ class SearchUserViewModel @Inject constructor(
     }
 
     private fun getUser(phoneNumber: String) {
-        compositeDisposable.add(
-            getUserUseCase(phoneNumber)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess { LogUtil.d("doOnSuccess") }
-                .subscribe({ user ->
-                    LogUtil.d("user search success! : $user")
-                    setEffect { SearchUserContract.Effect.CompleteSearch(user) }
-                },
-                    { throwable ->
+        viewModelScope.launch {
+            getUserUseCase(phoneNumber).collect {
+                when (it) {
+                    is DataResource.Loading -> {
+                        setState { this.copy(isLoading = true) }
+                    }
+
+                    is DataResource.Success -> {
+                        setEffect { SearchUserContract.Effect.CompleteSearch(it.data) }
+                        setState { this.copy(isLoading = false) }
+                    }
+
+                    is DataResource.Error -> {
                         val msg = resourceProvider.getString(R.string.text_not_exist_user)
                         setEffect { SearchUserContract.Effect.ShowToast(msg) }
-                        LogUtil.d("throwable! : ${throwable.message}")
-                    })
-        )
+                        setState { this.copy(isLoading = false) }
+                    }
+                }
+            }
+        }
     }
 }

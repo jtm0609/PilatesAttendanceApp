@@ -1,6 +1,5 @@
 package com.example.presentation.ui.feature.admin.register
 
-import com.example.presentation.utils.LogUtil
 import com.example.presentation.utils.ResourceProvider
 import com.example.presentation.utils.toTimestamp
 import com.example.presentation.utils.isValidPhoneNumber
@@ -10,8 +9,9 @@ import com.example.presentation.R
 import com.example.presentation.base.BaseViewModel
 import com.example.presentation.utils.DateFormatter.formatDate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import androidx.lifecycle.viewModelScope
+import com.example.domain.dataresource.DataResource
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -137,21 +137,28 @@ class RegisterUserViewModel @Inject constructor(
     }
 
     private fun addUser(user: User) {
-        compositeDisposable.add(insertUserUseCase(user).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { LogUtil.d("doOnError") }
-            .subscribe({
-                val msg = resourceProvider.getString(R.string.text_complete_add_user)
-                setEffect { RegisterUserContract.Effect.ShowToast(msg) }
-                setEffect { RegisterUserContract.Effect.GoBeforeFragment }
-                LogUtil.d("Inserted Successfully, ${user}")
+        viewModelScope.launch {
+            insertUserUseCase(user).collect {
+                when (it) {
+                    is DataResource.Loading -> {
+                        setState { this.copy(isLoading = true) }
+                    }
 
-            }, { throwable ->
-                val msg = resourceProvider.getString(R.string.text_duplicate_add_user)
-                setEffect { RegisterUserContract.Effect.ShowToast(msg) }
-                LogUtil.d("Error Inserting: ${throwable.message}")
-            })
-        )
+                    is DataResource.Error -> {
+                        val msg = resourceProvider.getString(R.string.text_duplicate_add_user)
+                        setEffect { RegisterUserContract.Effect.ShowToast(msg) }
+                        setState { this.copy(isLoading = false) }
+                    }
+
+                    is DataResource.Success -> {
+                        val msg = resourceProvider.getString(R.string.text_complete_add_user)
+                        setEffect { RegisterUserContract.Effect.ShowToast(msg) }
+                        setEffect { RegisterUserContract.Effect.GoBeforeFragment }
+                        setState { this.copy(isLoading = false) }
+                    }
+                }
+            }
+        }
     }
 
     private fun isEmptyInputFields(

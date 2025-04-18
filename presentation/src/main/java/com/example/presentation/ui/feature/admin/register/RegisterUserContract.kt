@@ -28,6 +28,7 @@ class RegisterUserContract {
     }
 
     data class State(
+        val isLoading: Boolean = false,
         val name: String = "",
         val phone: String = "",
         val durationValues: List<String> = listOf("2주", "4주", "8주", "12주"),

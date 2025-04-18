@@ -12,6 +12,7 @@ class SearchUserContract {
     }
 
     data class State(
+        val isLoading : Boolean = false,
         val phone: String = "",
     ) : UiState
 
