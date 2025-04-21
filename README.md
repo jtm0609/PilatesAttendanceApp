@@ -22,6 +22,7 @@
 ## 기술 스택
 - Kotlin
 - Clean Architecture
+- Multi Module
 - MVI
 - Compose
 - Coroutine
