@@ -1,7 +1,6 @@
 package com.example.presentation.ui.feature.admin.manageuser.search
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -16,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -34,13 +34,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.presentation.ui.component.ConfirmBox
-import com.example.presentation.ui.component.Toolbar
+import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.Progress
+import com.example.designsystem.component.Toolbar
 import com.example.presentation.utils.showToast
 import com.example.presentation.ui.feature.admin.manageuser.UserViewModel
 import com.example.presentation.R
 import com.example.presentation.navigation.AppDestination
-import com.example.presentation.ui.component.Progress
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.LightGray
+import com.example.designsystem.theme.Typography
+import com.example.designsystem.theme.White
 
 @Composable
 fun SearchUserScreen(
@@ -89,13 +93,11 @@ private fun PhoneNumberInputScreen(
     onNextClick: (String) -> Unit,
     hideKeyboard: () -> Unit
 ) {
-    val backgroundColor = Color(0xFF2b2b2b)
-    val dividerColor = Color(0xFF333333)
     val standardPadding = 70.dp
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = backgroundColor,
+        containerColor = DarkGray,
         topBar = { Toolbar(navController = navController, titleText = "") },
     ) { paddingValues ->
         if (state.isLoading) {
@@ -116,7 +118,7 @@ private fun PhoneNumberInputScreen(
                 modifier = Modifier.align(Alignment.TopCenter)
             ) {
                 Divider(
-                    color = dividerColor,
+                    color = LightGray,
                     thickness = 1.dp,
                     modifier = Modifier.padding(bottom = 15.dp)
                 )
@@ -144,8 +146,8 @@ private fun PhoneNumberInputScreen(
 private fun HeaderSection(standardPadding: Dp) {
     Text(
         text = stringResource(id = R.string.text_title_input_phone_number),
-        color = Color.White,
-        fontSize = 40.sp,
+        color = White,
+        style = Typography.titleLargeB,
         textAlign = TextAlign.Start,
         modifier = Modifier.padding(start = standardPadding, bottom = 20.dp)
     )
@@ -153,7 +155,7 @@ private fun HeaderSection(standardPadding: Dp) {
     Text(
         text = stringResource(id = R.string.text_guide_input_phone_number),
         color = Color.Gray,
-        fontSize = 25.sp,
+        style = Typography.titleMediumM,
         textAlign = TextAlign.Start,
         modifier = Modifier.padding(start = standardPadding)
     )
@@ -165,8 +167,8 @@ private fun HeaderSection(standardPadding: Dp) {
 private fun CountrySection(standardPadding: Dp) {
     Text(
         text = "대한민국(Republic of Korea)",
-        color = Color.White,
-        fontSize = 20.sp,
+        color = White,
+        style = Typography.titleSmallM,
         textAlign = TextAlign.Start,
         modifier = Modifier.padding(
             start = standardPadding,
@@ -189,7 +191,8 @@ private fun PhoneNumberInput(
         placeholder = {
             Text(
                 stringResource(id = R.string.text_title_input_phone_number),
-                color = Color.Gray
+                color = Color.Gray,
+                style = Typography.bodyMediumR
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(

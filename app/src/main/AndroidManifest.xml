@@ -16,7 +16,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".acitivity.MainActivity"
+            android:name="com.example.presentation.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

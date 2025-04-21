@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.Typography
+import com.example.designsystem.theme.White
 import com.example.presentation.utils.showToast
 import com.example.presentation.R
 import com.example.presentation.navigation.AppDestination
@@ -87,30 +91,27 @@ private fun AttendanceScreen(
     onDeleteClick: () -> Unit,
     onEnterClick: (String) -> Unit
 ) {
-    val backgroundColor = Color(0xFF2b2b2b)
-    val textColor = Color.White
-
     Row(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .horizontalScroll(rememberScrollState())
             .clipToBounds()
-            .background(backgroundColor)
+            .background(DarkGray)
     ) {
         // 관리자 버튼
         AdminButton(
             onAdminClick = onAdminClick,
-            iconColor = textColor
+            iconColor = White
         )
 
         // 로고 및 안내문구 영역
-        LogoSection(textColor = textColor)
+        LogoSection(textColor = White)
 
         // 전화번호 입력 및 키패드 영역
         PhoneInputSection(
             phoneNumber = state.phoneNumber,
-            textColor = textColor,
+            textColor = White,
             onNumberClick = onNumberClick,
             onDeleteClick = onDeleteClick,
             onEnterClick = onEnterClick
@@ -165,7 +166,7 @@ private fun LogoSection(textColor: Color) {
             Text(
                 text = stringResource(R.string.msg_info_pilates),
                 color = textColor,
-                fontSize = 35.sp,
+                style = Typography.titleMediumM,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 5.dp)
             )
@@ -194,7 +195,7 @@ private fun PhoneInputSection(
         Text(
             text = stringResource(R.string.msg_input_phone_number),
             color = textColor,
-            fontSize = 30.sp,
+            style = Typography.titleLargeM,
             textAlign = TextAlign.Left
         )
 
@@ -220,7 +221,7 @@ private fun PhoneInputSection(
 private fun PhoneNumberDisplay(phoneNumber: String) {
     Box(
         modifier = Modifier
-            .background(Color.White)
+            .background(White)
             .width(500.dp)
             .height(50.dp),
         contentAlignment = Alignment.Center
@@ -229,9 +230,8 @@ private fun PhoneNumberDisplay(phoneNumber: String) {
             text = phoneNumber,
             color = Color.Black,
             letterSpacing = 1.5.sp,
-            textAlign = TextAlign.Center,
-            fontSize = 30.sp,
-            modifier = Modifier.testTag("PHONE_NUMBER_TEXT")
+            style = Typography.labelLargeR,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -323,13 +323,12 @@ private fun NumberKey(
     Text(
         text = number,
         color = textColor,
-        fontSize = 90.sp,
+        style = MaterialTheme.typography.displayLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .width(120.dp)
             .height(110.dp)
             .wrapContentSize(align = Alignment.Center)
-            .testTag(number)
             .clickable { onClick(number) }
     )
 }
@@ -365,12 +364,11 @@ private fun EnterButton(
     Text(
         text = "입장",
         color = textColor,
-        fontSize = 60.sp,
+        style = MaterialTheme.typography.displayMedium,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .wrapContentSize(align = Alignment.Center)
             .width(120.dp)
-            .testTag("ENTRANCE")
             .clickable { onEnterClick(phoneNumber) }
     )
 }

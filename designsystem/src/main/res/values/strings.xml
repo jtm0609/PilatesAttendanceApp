@@ -1,0 +1,4 @@
+<resources>
+    <string name="text_setting_button">설정</string>
+    <string name="msg_guide_selection_duration">이용 기간을 선택해주세요.</string>
+</resources>

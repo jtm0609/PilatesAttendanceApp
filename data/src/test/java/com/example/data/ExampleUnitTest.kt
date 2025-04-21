@@ -1,7 +1,7 @@
 package com.example.data
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.data.db.UserDao
+import com.example.local.db.UserDao
 
 import org.junit.Assert.*
 import org.junit.runner.RunWith
@@ -16,6 +16,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 
 class ExampleUnitTest {
-    private lateinit var userDao : UserDao
+    private lateinit var userDao : com.example.local.db.UserDao
 
 }

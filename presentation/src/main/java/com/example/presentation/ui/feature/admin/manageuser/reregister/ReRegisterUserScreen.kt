@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -24,11 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.domain.model.User
-import com.example.presentation.ui.component.ConfirmBox
-import com.example.presentation.ui.component.DatePickerDialog
-import com.example.presentation.ui.component.DurationSettingBox
-import com.example.presentation.ui.component.Toolbar
-import com.example.presentation.ui.component.inputText
+import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.DatePickerDialog
+import com.example.designsystem.component.DurationSettingBox
+import com.example.designsystem.component.Toolbar
+import com.example.designsystem.component.InputText
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.LightGray
 import com.example.presentation.utils.showToast
 import com.example.presentation.ui.feature.admin.manageuser.UserViewModel
 import com.example.presentation.R
@@ -108,7 +109,7 @@ fun ReRegisterUserContent(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        containerColor = Color(0xFF2b2b2b),
+        containerColor = DarkGray,
         topBar = {
             Toolbar(
                 navController,
@@ -126,11 +127,11 @@ fun ReRegisterUserContent(
                     modifier = Modifier.align(Alignment.TopCenter)
                 ) {
                     Divider(
-                        color = Color(0xFF333333),
+                        color = LightGray,
                         thickness = 1.dp,
                         modifier = Modifier.padding(bottom = 15.dp)
                     )
-                    inputText(
+                    InputText(
                         titleText = stringResource(
                             id = R.string.text_input_duration
                         ),
@@ -140,7 +141,7 @@ fun ReRegisterUserContent(
                             viewModel.setEvent(ReRegisterUserContract.Event.OnClickSetDuration)
                         }
                     )
-                    inputText(
+                    InputText(
                         titleText = stringResource(
                             id = R.string.text_input_start_date
                         ),

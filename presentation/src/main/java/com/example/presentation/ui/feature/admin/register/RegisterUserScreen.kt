@@ -27,15 +27,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.presentation.ui.component.ConfirmBox
-import com.example.presentation.ui.component.DatePickerDialog
-import com.example.presentation.ui.component.DurationSettingBox
-import com.example.presentation.ui.component.Toolbar
-import com.example.presentation.ui.component.inputTextField
-import com.example.presentation.ui.component.inputText
+import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.DatePickerDialog
+import com.example.designsystem.component.DurationSettingBox
+import com.example.designsystem.component.Toolbar
+import com.example.designsystem.component.InputTextField
+import com.example.designsystem.component.InputText
 import com.example.presentation.utils.showToast
 import com.example.presentation.R
-import com.example.presentation.ui.component.Progress
+import com.example.designsystem.component.Progress
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.LightGray
 
 @Composable
 fun RegisterUserScreen(
@@ -119,13 +121,11 @@ private fun UserRegistrationScreen(
     onDurationDismiss: () -> Unit,
     onDurationChange: (String) -> Unit
 ) {
-    val backgroundColor = Color(0xFF2b2b2b)
-    val dividerColor = Color(0xFF333333)
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        containerColor = backgroundColor,
+        containerColor = DarkGray,
         topBar = { Toolbar(navController, stringResource(R.string.text_menu_register_user)) }
     ) { paddingValues ->
         if (state.isLoading) {
@@ -144,7 +144,7 @@ private fun UserRegistrationScreen(
         ) {
             UserInputForm(
                 state = state,
-                dividerColor = dividerColor,
+                dividerColor = LightGray,
                 onNameChange = onNameChange,
                 onPhoneChange = onPhoneChange,
                 onDurationClick = onDurationClick,
@@ -245,7 +245,7 @@ private fun NameInputField(
     onNameChange: (String) -> Unit,
     isEnabled: Boolean
 ) {
-    inputTextField(
+    InputTextField(
         titleText = stringResource(R.string.text_input_name),
         hintText = stringResource(R.string.text_input_hint_name),
         keyboardType = KeyboardType.Text,
@@ -261,7 +261,7 @@ private fun PhoneInputField(
     onPhoneChange: (String) -> Unit,
     isEnabled: Boolean
 ) {
-    inputTextField(
+    InputTextField(
         titleText = stringResource(R.string.text_input_phone_number),
         hintText = stringResource(R.string.text_input_hint_phone_number),
         keyboardType = KeyboardType.Number,
@@ -276,7 +276,7 @@ private fun DurationSelectionField(
     durationText: String,
     onDurationClick: () -> Unit
 ) {
-    inputText(
+    InputText(
         titleText = stringResource(id = R.string.text_input_duration),
         imageVector = Icons.Filled.List,
         contentText = durationText,
@@ -289,7 +289,7 @@ private fun StartDateSelectionField(
     startDateText: String,
     onStartDateClick: () -> Unit
 ) {
-    inputText(
+    InputText(
         titleText = stringResource(id = R.string.text_input_start_date),
         imageVector = Icons.Filled.DateRange,
         contentText = startDateText,

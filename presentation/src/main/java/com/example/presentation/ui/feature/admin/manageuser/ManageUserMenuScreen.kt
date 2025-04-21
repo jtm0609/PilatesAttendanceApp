@@ -18,8 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.navigation.AppDestination
-import com.example.presentation.ui.component.Menu
-import com.example.presentation.ui.component.Toolbar
+import com.example.designsystem.component.Menu
+import com.example.designsystem.component.Toolbar
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.LightGray
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -50,12 +52,10 @@ private fun UserManagementScreen(
     onReRegisterClick: () -> Unit,
     onChangeMileageClick: () -> Unit
 ) {
-    val backgroundColor = Color(0xFF2b2b2b)
-    val dividerColor = Color(0xFF333333)
     
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = backgroundColor,
+        containerColor = DarkGray,
         topBar = {
             Toolbar(
                 navController = navController,
@@ -70,7 +70,7 @@ private fun UserManagementScreen(
                 .padding(paddingValues)
         ) {
             Divider(
-                color = dividerColor,
+                color = LightGray,
                 thickness = 1.dp,
                 modifier = Modifier
                     .fillMaxWidth()

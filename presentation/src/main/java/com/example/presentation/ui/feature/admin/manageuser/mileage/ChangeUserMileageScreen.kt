@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,12 +34,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.domain.model.User
-import com.example.presentation.ui.component.ConfirmBox
-import com.example.presentation.ui.component.Toolbar
+import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.Toolbar
 import com.example.presentation.utils.showToast
 import com.example.presentation.ui.feature.admin.manageuser.UserViewModel
 import com.example.presentation.R
-import com.example.presentation.ui.component.Progress
+import com.example.designsystem.component.Progress
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.LightGray
+import com.example.designsystem.theme.Typography
+import com.example.designsystem.theme.White
 
 @Composable
 fun ChangeUserMileageScreen(
@@ -98,14 +103,11 @@ private fun MileageChangeScreen(
     onMileageDown: () -> Unit,
     onSave: () -> Unit
 ) {
-    val backgroundColor = Color(0xFF2b2b2b)
-    val dividerColor = Color(0xFF333333)
-    val cardColor = Color(0xFF333333)
-    val textColor = Color.White
+    val textColor = White
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = backgroundColor,
+        containerColor = DarkGray,
         topBar = {
             Toolbar(
                 navController = navController,
@@ -124,14 +126,14 @@ private fun MileageChangeScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Divider(
-                color = dividerColor,
+                color = LightGray,
                 thickness = 1.dp,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
 
             MileageChangeCard(
                 user = user,
-                cardColor = cardColor,
+                cardColor = LightGray,
                 textColor = textColor,
                 onMileageUp = onMileageUp,
                 onMileageDown = onMileageDown
@@ -203,7 +205,7 @@ private fun HeaderText(
     Text(
         text = stringResource(R.string.text_user_mileage, userName),
         color = textColor,
-        fontSize = 40.sp,
+        style = Typography.titleLargeM,
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
     )
@@ -224,9 +226,8 @@ private fun MileageControls(
         Text(
             text = stringResource(R.string.text_user_score, mileage),
             color = textColor,
-            fontSize = 80.sp,
+            style = MaterialTheme.typography.displayLarge,
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.width(20.dp))
@@ -256,7 +257,7 @@ private fun MileageControlButton(
     Text(
         text = text,
         color = textColor,
-        fontSize = 110.sp,
+        style = MaterialTheme.typography.displayLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier.clickable(onClick = onClick)
     )

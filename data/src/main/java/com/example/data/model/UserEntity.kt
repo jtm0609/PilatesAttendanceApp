@@ -1,12 +1,6 @@
 package com.example.data.model
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "user", indices = [Index(value = ["phoneNumber"], unique = true)])
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true)
     var no: Long = 0,
     var name: String?, //이름
     var phoneNumber: String?, //휴대폰 번호

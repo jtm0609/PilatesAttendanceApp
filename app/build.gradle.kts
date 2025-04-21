@@ -4,19 +4,18 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
     namespace = "com.example.cmong_pilates_attendance_project"
-    compileSdk = 34
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.example.cmong_pilates_attendance_project"
-        minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = ApplicationId.id
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        versionCode = Releases.versionCode
+        versionName = Releases.versionName
 
         testInstrumentationRunner = "com.example.cmong_pilates_attendance_project.CustomTestRunner"
     }
@@ -29,10 +28,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    buildFeatures {
-        compose = true
-        dataBinding = true
     }
 
     compileOptions {
@@ -48,48 +43,16 @@ android {
     }
 }
 
-val hiltVersion = "2.51.1"
-val roomVersion = "2.7.0"
-val coroutinesVersion = "1.7.3"
 dependencies {
-
-    //multi module
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":presentation"))
-
-    //android
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.fragment:fragment-ktx:1.5.2")
-
-    // 코루틴
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    implementation(project(":data-local"))
 
     // hilt
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     // Logger
-    implementation("com.orhanobut:logger:2.2.0")
-
-    // Room
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    testImplementation("androidx.room:room-testing:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
-
-    //compose
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("com.chargemap.compose:numberpicker:1.0.3")
+    implementation(libs.logger)
 }

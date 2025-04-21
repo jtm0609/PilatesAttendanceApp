@@ -11,14 +11,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.presentation.R
 import com.example.presentation.navigation.AppDestination
-import com.example.presentation.ui.component.Menu
-import com.example.presentation.ui.component.Toolbar
+import com.example.designsystem.component.Menu
+import com.example.designsystem.component.Toolbar
+import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.LightGray
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,12 +46,9 @@ private fun AdminMenuContainer(
     onManageUserClick: () -> Unit,
     onChangeAttendanceCountClick: () -> Unit
 ) {
-    val backgroundColor = Color(0xFF2b2b2b)
-    val dividerColor = Color(0xFF333333)
-    
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = backgroundColor,
+        containerColor = DarkGray,
         topBar = {
             Toolbar(
                 navController = navController,
@@ -65,7 +63,7 @@ private fun AdminMenuContainer(
                 .verticalScroll(rememberScrollState())
         ) {
             Divider(
-                color = dividerColor,
+                color = DarkGray,
                 thickness = 1.dp,
                 modifier = Modifier
                     .fillMaxWidth()
