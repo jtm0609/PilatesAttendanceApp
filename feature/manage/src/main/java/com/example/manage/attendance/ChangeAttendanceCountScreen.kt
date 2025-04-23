@@ -208,7 +208,7 @@ private fun CountControls(
         Text(
             text = stringResource(R.string.text_attendance_count, count),
             color = textColor,
-            style = MaterialTheme.typography.displayLarge,
+            style = Typography.displayLargeR,
             textAlign = TextAlign.Center
         )
         
@@ -239,7 +239,7 @@ private fun CountControlButton(
     Text(
         text = text,
         color = textColor,
-        style = MaterialTheme.typography.displayLarge,
+        style = Typography.displayLargeR,
         textAlign = TextAlign.Center,
         modifier = Modifier.clickable(onClick = onClick)
     )

@@ -224,7 +224,7 @@ private fun MileageControls(
         Text(
             text = stringResource(R.string.text_user_score, mileage),
             color = textColor,
-            style = MaterialTheme.typography.displayLarge,
+            style = Typography.displayLargeR,
             textAlign = TextAlign.Center,
         )
 
@@ -255,7 +255,7 @@ private fun MileageControlButton(
     Text(
         text = text,
         color = textColor,
-        style = MaterialTheme.typography.displayLarge,
+        style = Typography.displayLargeR,
         textAlign = TextAlign.Center,
         modifier = Modifier.clickable(onClick = onClick)
     )

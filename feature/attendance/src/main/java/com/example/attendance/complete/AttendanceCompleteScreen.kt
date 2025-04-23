@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.theme.Typography
 import com.example.designsystem.theme.White
 import com.example.feature.attendance.R
 import kotlinx.coroutines.delay
@@ -117,7 +118,7 @@ private fun UserGreeting(
     Text(
         text = "\"$userName\"님",
         color = textColor,
-        style = MaterialTheme.typography.displayMedium,
+        style = Typography.displayMediumR,
         textAlign = TextAlign.Center
     )
     
@@ -135,7 +136,7 @@ private fun MessageText(
     Text(
         text = stringResource(textRes),
         color = textColor,
-        style = MaterialTheme.typography.displayMedium,
+        style = Typography.displayMediumR,
         textAlign = TextAlign.Center
     )
 }
@@ -162,7 +163,7 @@ private fun MileageDisplay(
         Text(
             text = mileage.toString(),
             color = textColor,
-            style = MaterialTheme.typography.displayMedium,
+            style = Typography.displayMediumR,
             textAlign = TextAlign.Center
         )
     }

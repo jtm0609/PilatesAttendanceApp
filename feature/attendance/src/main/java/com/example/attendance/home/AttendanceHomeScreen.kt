@@ -322,7 +322,7 @@ private fun NumberKey(
     Text(
         text = number,
         color = textColor,
-        style = MaterialTheme.typography.displayLarge,
+        style = Typography.displayLargeR,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .width(120.dp)
@@ -363,7 +363,7 @@ private fun EnterButton(
     Text(
         text = "입장",
         color = textColor,
-        style = MaterialTheme.typography.displayMedium,
+        style = Typography.displayMediumR,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .wrapContentSize(align = Alignment.Center)
