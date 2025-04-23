@@ -1,0 +1,17 @@
+<resources>
+    <string name="msg_text_empty">빈칸을 모두 입력해주세요 !</string>
+    <string name="msg_text_not_valid_phone_number">전화번호 형식이 올바르지 않습니다!</string>
+    <string name="text_duplicate_add_user">이미 등록된 회원 입니다 !</string>A
+    <string name="text_complete_add_user">신규 회원 등록 완료 !</string>
+    <string name="text_success_re_register_user">회원 재등록 완료 !</string>
+    <string name="text_fail_re_register_user">회원 재등록 실패 !</string>
+    <string name="text_menu_re_register_user">회원 재등록</string>
+    <string name="text_input_duration">이용 기간</string>
+    <string name="text_input_start_date">이용 시작일</string>
+    <string name="text_save_button">저장</string>
+    <string name="text_input_phone_number">전화번호</string>
+    <string name="text_input_hint_phone_number">01012345678</string>
+    <string name="text_menu_register_user">신규 회원 등록</string>
+    <string name="text_input_name">성명</string>
+    <string name="text_input_hint_name">홍길동</string>
+</resources>

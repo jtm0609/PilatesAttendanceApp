@@ -1,0 +1,7 @@
+<resources>
+    <string name="text_noti_input_phone_number">전화번호를 입력해주세요 !</string>
+    <string name="text_not_exist_user">회원이 존재하지 않습니다.</string>
+    <string name="text_next_button">다음</string>
+    <string name="text_title_input_phone_number">전화번호 입력</string>
+    <string name="text_guide_input_phone_number">관리를 할 회원의 휴대폰 번호를 입력해주세요.</string>
+</resources>

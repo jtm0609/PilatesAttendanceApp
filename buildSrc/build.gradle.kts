@@ -22,4 +22,5 @@ dependencies {
     implementation(libs.kotlin.compiler.embeddable)
     implementation(libs.hilt.gradle)
     implementation("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
+    implementation(libs.compose.compiler.gradle.plugin)
 }

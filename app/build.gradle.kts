@@ -46,13 +46,11 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
-    implementation(project(":presentation"))
     implementation(project(":data-local"))
+    implementation(project(":feature:main"))
 
-    // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    // Logger
     implementation(libs.logger)
 }

@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="11">
+      <module name="AndroidStudioProjects.cmong_pilates_attendance_project.domain" target="21" />
+      <module name="AndroidStudioProjects.cmong_pilates_attendance_project.domain.main" target="21" />
+      <module name="AndroidStudioProjects.cmong_pilates_attendance_project.domain.test" target="21" />
+      <module name="AndroidStudioProjects.cmong_pilates_attendance_project.feature.main" target="21" />
+      <module name="cmong_pilates_attendance_project.app" target="21" />
+      <module name="cmong_pilates_attendance_project.buildSrc" target="21" />
+      <module name="cmong_pilates_attendance_project.buildSrc.main" target="21" />
+      <module name="cmong_pilates_attendance_project.buildSrc.test" target="21" />
+      <module name="cmong_pilates_attendance_project.core" target="21" />
+      <module name="cmong_pilates_attendance_project.data" target="21" />
+      <module name="cmong_pilates_attendance_project.data-local" target="21" />
+      <module name="cmong_pilates_attendance_project.data.main" target="21" />
+      <module name="cmong_pilates_attendance_project.data.test" target="21" />
+      <module name="cmong_pilates_attendance_project.designsystem" target="21" />
+      <module name="cmong_pilates_attendance_project.feature.attendance" target="21" />
+      <module name="cmong_pilates_attendance_project.feature.manage" target="21" />
+      <module name="cmong_pilates_attendance_project.feature.registration" target="21" />
+      <module name="cmong_pilates_attendance_project.feature.search" target="21" />
+      <module name="cmong_pilates_attendance_project.feature.setting" target="21" />
+      <module name="cmong_pilates_attendance_project.presentation" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

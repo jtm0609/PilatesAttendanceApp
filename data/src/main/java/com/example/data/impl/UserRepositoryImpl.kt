@@ -25,7 +25,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateUserMileage(phoneNumber: String, mileage: Int) = flow {
         emit(DataResource.loading())
         try {
-            userDataSource.updateUserMileage(phoneNumber, mileage)
+            emit(DataResource.Success(userDataSource.updateUserMileage(phoneNumber, mileage)))
         } catch (exception: Exception) {
             emit(DataResource.error(exception))
         }

@@ -41,6 +41,10 @@ android {
 val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 dependencies {
+    implementation(libs.getLibrary("android.core.ktx"))
+    implementation(libs.getLibrary("androidx.appcompat"))
+    implementation(libs.getLibrary("android.material"))
+    implementation(libs.getLibrary("androidx.lifecycle.runtime"))
     implementation(libs.getLibrary("hilt.android"))
     kapt(libs.getLibrary("hilt.android.compiler"))
     implementation(libs.getLibrary("kotlinx.coroutines.android"))
