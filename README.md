@@ -56,10 +56,6 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 - **Data Module**
   - Repository 구현체
   - Room 기반 로컬 데이터베이스와의 연결 및 데이터 처리 담당
-- **App Module**
-  - 앱의 진입점 역할 수행 (MainActivity, Application)
-  - DI 설정 (Hilt를 통한 의존성 주입 설정 및 초기화)
-  - 모듈 간 연결 및 네비게이션 흐름 관리
 
 ![image](https://github.com/user-attachments/assets/3b411cfb-b185-48a9-8092-3680c9c63cba) 
 
