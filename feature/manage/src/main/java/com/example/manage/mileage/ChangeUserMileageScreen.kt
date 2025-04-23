@@ -29,8 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.core_android.navigation.Route
 import com.example.core_android.utils.showToast
 import com.example.domain.model.User
 import com.example.designsystem.component.ConfirmBox
@@ -46,8 +48,8 @@ import com.example.search.SearchUserViewModel
 @Composable
 fun ChangeUserMileageScreen(
     navController: NavHostController,
-    viewModel: ChangeUserMileageViewModel,
-    searchUserViewModel: SearchUserViewModel,
+    viewModel: ChangeUserMileageViewModel = hiltViewModel(),
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser)),
     context: Context
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value

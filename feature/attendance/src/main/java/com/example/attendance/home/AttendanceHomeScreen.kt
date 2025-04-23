@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.core_android.navigation.Route
@@ -51,7 +52,7 @@ import com.example.feature.attendance.R
 @Composable
 fun AttendanceHomeScreen(
     navController: NavHostController,
-    viewModel: AttendanceHomeViewModel,
+    viewModel: AttendanceHomeViewModel = hiltViewModel(),
     context: Context
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value

@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.core_android.navigation.Route
@@ -46,7 +47,7 @@ import com.example.feature.search.R
 @Composable
 fun SearchUserScreen(
     navController: NavHostController,
-    viewModel: SearchUserViewModel,
+    viewModel: SearchUserViewModel = hiltViewModel(),
     context: Context,
     hideKeyboard: () -> Unit
 ) {

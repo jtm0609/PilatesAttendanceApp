@@ -19,8 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.core_android.navigation.Route
 import com.example.core_android.utils.showToast
 import com.example.domain.model.User
 import com.example.designsystem.component.ConfirmBox
@@ -36,8 +38,8 @@ import com.example.search.SearchUserViewModel
 @Composable
 fun ReRegisterUserScreen(
     navController: NavHostController,
-    viewModel: ReRegisterUserViewModel,
-    searchUserViewModel: SearchUserViewModel,
+    viewModel: ReRegisterUserViewModel = hiltViewModel(),
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser)),
     context: Context
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value
