@@ -45,7 +45,7 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 
 ### Clean Architecture
 본 프로젝트는 **Clean Architecture 원칙**을 기반으로, 관심사 분리(Separation of Concerns)를 철저히 지켜 설계되었습니다.
-아키텍처는 크게 아래와 같은 네 가지 모듈로 구성됩니다:
+아키텍처는 크게 아래와 같은 계층으로 구성됩니다:
 - **Presentation Module**
   - UI를 담당 (Jetpack Compose 사용)
   - 사용자 이벤트 처리 및 상태 렌더링
