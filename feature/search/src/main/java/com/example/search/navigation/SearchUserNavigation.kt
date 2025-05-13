@@ -5,14 +5,14 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.example.core_android.navigation.Route
+import com.example.navigation.Route
 import com.example.search.SearchUserScreen
 
 fun NavGraphBuilder.searchUserNavGraph(
     navController: NavHostController,
     context: Context
 ) {
-    composable<Route.SearchUser> {
+    composable<com.example.navigation.Route.SearchUser> {
         val keyboardController = LocalSoftwareKeyboardController.current
         val hideKeyboard: () -> Unit = {
             keyboardController?.hide()

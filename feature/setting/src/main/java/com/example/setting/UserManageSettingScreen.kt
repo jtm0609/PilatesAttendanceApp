@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.core_android.navigation.Route
 import com.example.designsystem.component.Menu
 import com.example.designsystem.component.Toolbar
 import com.example.designsystem.theme.DarkGray
@@ -29,18 +28,18 @@ import com.example.search.SearchUserViewModel
 @Composable
 fun UserManageSettingScreen(
     navController: NavHostController,
-    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser))
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(com.example.navigation.Route.SearchUser))
 ) {
     UserSettingContent(
         navController = navController,
         onReRegisterClick = {
             navController.navigate(
-                Route.ReRegister(searchUserViewModel.searchedUser)
+                com.example.navigation.Route.ReRegister(searchUserViewModel.searchedUser)
             )
         },
         onChangeMileageClick = {
             navController.navigate(
-                Route.ChangeUserMileage(searchUserViewModel.searchedUser)
+                com.example.navigation.Route.ChangeUserMileage(searchUserViewModel.searchedUser)
             )
         }
     )

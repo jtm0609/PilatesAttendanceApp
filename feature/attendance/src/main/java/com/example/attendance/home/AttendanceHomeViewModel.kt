@@ -6,9 +6,9 @@ import com.example.domain.usecase.GetUserUseCase
 import com.example.domain.usecase.UpdateUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core_android.base.BaseViewModel
-import com.example.core_android.utils.ResourceProvider
-import com.example.core_android.utils.toDateString
+import com.example.base.BaseViewModel
+import com.example.common.ResourceProvider
+import com.example.common.toDateString
 import com.example.domain.dataresource.DataResource
 import com.example.feature.attendance.R
 import kotlinx.coroutines.launch

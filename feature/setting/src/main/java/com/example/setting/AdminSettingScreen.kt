@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.core_android.navigation.Route
 import com.example.designsystem.component.Menu
 import com.example.designsystem.component.Toolbar
 import com.example.designsystem.theme.DarkGray
@@ -26,13 +25,13 @@ fun AdminSettingScreen(navController: NavHostController) {
     AdminSettingContent(
         navController = navController,
         onRegisterUserClick = { 
-            navController.navigate(Route.RegisterUser)
+            navController.navigate(com.example.navigation.Route.RegisterUser)
         },
         onManageUserClick = { 
-            navController.navigate(Route.SearchUser)
+            navController.navigate(com.example.navigation.Route.SearchUser)
         },
         onChangeAttendanceCountClick = { 
-            navController.navigate(Route.ChangeAttendanceCount)
+            navController.navigate(com.example.navigation.Route.ChangeAttendanceCount)
         }
     )
 }

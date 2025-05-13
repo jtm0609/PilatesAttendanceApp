@@ -33,8 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.core_android.navigation.Route
-import com.example.core_android.utils.showToast
+import com.example.common.showToast
 import com.example.designsystem.component.ConfirmBox
 import com.example.designsystem.component.Progress
 import com.example.designsystem.component.Toolbar
@@ -58,7 +57,7 @@ fun SearchUserScreen(
         effectFlow.collect { effect ->
             when (effect) {
                 is SearchUserContract.Effect.CompleteSearch -> {
-                    navController.navigate(Route.ManageUser)
+                    navController.navigate(com.example.navigation.Route.ManageUser)
                 }
                 is SearchUserContract.Effect.ShowToast -> {
                     context.showToast(effect.msg)

@@ -9,7 +9,7 @@ import com.example.local.LocalMapper
 data class AdminLocal(
     @PrimaryKey(autoGenerate = true)
     var no: Long = 1,
-    var maxAttendance: Int? //하루 최대 출석 횟수
+    var maxAttendance: Int?
 ) : LocalMapper<AdminEntity> {
     override fun toData(): AdminEntity =
         AdminEntity(

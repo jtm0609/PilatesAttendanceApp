@@ -22,8 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.core_android.navigation.Route
-import com.example.core_android.utils.showToast
+import com.example.common.showToast
 import com.example.domain.model.User
 import com.example.designsystem.component.ConfirmBox
 import com.example.designsystem.component.DatePickerDialog
@@ -39,7 +38,7 @@ import com.example.search.SearchUserViewModel
 fun ReRegisterUserScreen(
     navController: NavHostController,
     viewModel: ReRegisterUserViewModel = hiltViewModel(),
-    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser)),
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(com.example.navigation.Route.SearchUser)),
     context: Context
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value

@@ -13,8 +13,10 @@ plugins {
 val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":core"))
-    implementation(project(":designsystem"))
+    implementation(project(":core:base"))
+    implementation(project(":core:navigation"))
+    implementation(project(":core:common"))
+    implementation(project(":core:designsystem"))
 
     implementation(libs.getLibrary("hilt.navigation.compose"))
     implementation(libs.getLibrary("androidx.lifecycle.viewmodel.compose"))

@@ -11,6 +11,17 @@
       <module name="cmong_pilates_attendance_project.buildSrc.main" target="21" />
       <module name="cmong_pilates_attendance_project.buildSrc.test" target="21" />
       <module name="cmong_pilates_attendance_project.core" target="21" />
+      <module name="cmong_pilates_attendance_project.core.base" target="21" />
+      <module name="cmong_pilates_attendance_project.core.base.main" target="21" />
+      <module name="cmong_pilates_attendance_project.core.base.test" target="21" />
+      <module name="cmong_pilates_attendance_project.core.common" target="21" />
+      <module name="cmong_pilates_attendance_project.core.common.main" target="21" />
+      <module name="cmong_pilates_attendance_project.core.common.test" target="21" />
+      <module name="cmong_pilates_attendance_project.core.main" target="21" />
+      <module name="cmong_pilates_attendance_project.core.navigation" target="21" />
+      <module name="cmong_pilates_attendance_project.core.navigation.main" target="21" />
+      <module name="cmong_pilates_attendance_project.core.navigation.test" target="21" />
+      <module name="cmong_pilates_attendance_project.core.test" target="21" />
       <module name="cmong_pilates_attendance_project.data" target="21" />
       <module name="cmong_pilates_attendance_project.data-local" target="21" />
       <module name="cmong_pilates_attendance_project.data.main" target="21" />

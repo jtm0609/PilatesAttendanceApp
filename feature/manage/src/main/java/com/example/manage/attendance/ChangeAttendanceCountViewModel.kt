@@ -1,14 +1,14 @@
 package com.example.manage.attendance
 
+import androidx.lifecycle.viewModelScope
+import com.example.base.BaseViewModel
+import com.example.common.LogUtil
+import com.example.common.ResourceProvider
+import com.example.domain.dataresource.DataResource
 import com.example.domain.usecase.GetAdminUseCase
 import com.example.domain.usecase.UpdateAttendanceCountUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.core_android.base.BaseViewModel
-import com.example.core_android.utils.LogUtil
-import com.example.core_android.utils.ResourceProvider
-import com.example.domain.dataresource.DataResource
 import com.example.feature.manage.R
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

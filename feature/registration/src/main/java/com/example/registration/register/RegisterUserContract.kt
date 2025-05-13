@@ -1,8 +1,8 @@
 package com.example.registration.register
 
-import com.example.core_android.intent.UiEffect
-import com.example.core_android.intent.UiEvent
-import com.example.core_android.intent.UiState
+import com.example.base.UiEffect
+import com.example.base.UiEvent
+import com.example.base.UiState
 import java.util.Calendar
 import java.util.GregorianCalendar
 

@@ -2,8 +2,8 @@ package com.example.attendance.complete
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.example.core_android.base.BaseViewModel
-import com.example.core_android.navigation.Route
+import com.example.base.BaseViewModel
+import com.example.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

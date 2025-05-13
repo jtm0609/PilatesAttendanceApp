@@ -25,7 +25,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,8 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.core_android.navigation.Route
-import com.example.core_android.utils.showToast
+import com.example.common.showToast
 import com.example.designsystem.theme.DarkGray
 import com.example.designsystem.theme.Typography
 import com.example.designsystem.theme.White
@@ -62,13 +60,13 @@ fun AttendanceHomeScreen(
         effectFlow.collect { effect ->
             when (effect) {
                 is AttendanceHomeContract.Effect.GoAdminPage -> {
-                    navController.navigate(Route.AdminMenu)
+                    navController.navigate(com.example.navigation.Route.AdminMenu)
                 }
                 is AttendanceHomeContract.Effect.ShowToast -> {
                     context.showToast(effect.msg)
                 }
                 is AttendanceHomeContract.Effect.SuccessAttendance -> {
-                    navController.navigate(Route.AttendanceComplete(effect.user.name, effect.user.mileage))
+                    navController.navigate(com.example.navigation.Route.AttendanceComplete(effect.user.name, effect.user.mileage))
                 }
             }
         }

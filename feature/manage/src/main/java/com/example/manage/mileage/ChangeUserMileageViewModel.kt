@@ -6,9 +6,9 @@ import com.example.domain.model.User
 import com.example.domain.usecase.UpdateMileageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core_android.base.BaseViewModel
-import com.example.core_android.navigation.Route
-import com.example.core_android.utils.ResourceProvider
+import com.example.base.BaseViewModel
+import com.example.navigation.Route
+import com.example.common.ResourceProvider
 import com.example.domain.dataresource.DataResource
 import com.example.feature.manage.R
 import kotlinx.coroutines.launch
