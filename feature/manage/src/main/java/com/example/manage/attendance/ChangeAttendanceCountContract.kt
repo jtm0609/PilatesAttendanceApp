@@ -5,6 +5,7 @@ import com.example.base.UiEvent
 import com.example.base.UiState
 
 class ChangeAttendanceCountContract {
+
     sealed class Event : UiEvent {
         data class OnClickSaveButton(val count: Int) : Event()
         data object OnClickCountUp : Event()

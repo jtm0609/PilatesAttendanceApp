@@ -7,5 +7,6 @@ import com.example.local.room.dao.AdminDao
 
 @Database(entities = [AdminLocal::class], version = 3, exportSchema = false)
 abstract class AdminDatabase : RoomDatabase() {
+
     abstract fun adminDao(): AdminDao
 }

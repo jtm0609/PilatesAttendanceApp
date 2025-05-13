@@ -122,7 +122,6 @@ private fun UserRegistrationScreen(
     onDurationDismiss: () -> Unit,
     onDurationChange: (String) -> Unit
 ) {
-
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -155,7 +154,6 @@ private fun UserRegistrationScreen(
         }
     }
 
-    // 날짜 선택 다이얼로그
     DatePickerDialog(
         isShow = state.isShowStartDateView,
         startYear = state.startYear,
@@ -165,7 +163,6 @@ private fun UserRegistrationScreen(
         onDismissEvent = onDateDismiss
     )
 
-    // 기간 설정 다이얼로그
     DurationSettingBox(
         isShow = state.isShowDurationView,
         onClickDurationEvent = onDurationSelected,
@@ -198,33 +195,28 @@ private fun UserInputForm(
                 .padding(bottom = 15.dp)
         )
 
-        // 이름 입력 필드
         NameInputField(
             name = state.name,
             onNameChange = onNameChange,
             isEnabled = !state.isShowDurationView
         )
-        
-        // 전화번호 입력 필드
+
         PhoneInputField(
             phone = state.phone,
             onPhoneChange = onPhoneChange,
             isEnabled = !state.isShowDurationView
         )
-        
-        // 이용 기간 선택 필드
+
         DurationSelectionField(
             durationText = state.durationText,
             onDurationClick = onDurationClick
         )
-        
-        // 시작일 선택 필드
+
         StartDateSelectionField(
             startDateText = state.startDateText,
             onStartDateClick = onStartDateClick
         )
 
-        // 저장 버튼
         Box(
             modifier = Modifier
                 .fillMaxWidth()

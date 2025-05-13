@@ -1,6 +1,5 @@
 package com.example.domain.usecase
 
-import com.example.domain.model.Admin
 import com.example.domain.repository.AdminRepository
 import javax.inject.Inject
 

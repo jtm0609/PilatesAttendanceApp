@@ -18,8 +18,7 @@ class ChangeAttendanceCountViewModel
     private val getAdminUseCase: GetAdminUseCase,
     private val updateAttendanceCountUseCase: UpdateAttendanceCountUseCase,
     private val provider: ResourceProvider
-) :
-    BaseViewModel<ChangeAttendanceCountContract.Event, ChangeAttendanceCountContract.State, ChangeAttendanceCountContract.Effect>() {
+) : BaseViewModel<ChangeAttendanceCountContract.Event, ChangeAttendanceCountContract.State, ChangeAttendanceCountContract.Effect>() {
 
     init {
         getAdminData()

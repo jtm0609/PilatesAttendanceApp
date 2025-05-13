@@ -7,23 +7,24 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 
 class RegisterUserContract {
+
     sealed class Event : UiEvent {
-        data class OnChangedName(val name: String) : Event()  // 이름 변경 이벤트
-        data class OnChangePhoneNumber(val phone: String) : Event()  // 전화번호 변경 이벤트
-        data class OnChangeDuration(val duration: String) : Event()  // 기간 변경 이벤트
-        data class OnCompleteSetDuration(val duration: String) : Event() //이용기간 설정 완료 이벤트
+        data class OnChangedName(val name: String) : Event()
+        data class OnChangePhoneNumber(val phone: String) : Event()
+        data class OnChangeDuration(val duration: String) : Event()
+        data class OnCompleteSetDuration(val duration: String) : Event()
         data class OnCompleteStartDate(val year: Int, val month: Int, val day: Int) :
-            Event() //이용기간 설정 완료 이벤트
+            Event()
         data class ClickedSave(
             val name: String,
             val phone: String,
             val durationText: String,
             val startDateText: String
-        ) : Event() //저장 이벤트
+        ) : Event()
 
-        data object OnClickSetDuration : Event() //이용기간 설정 이벤트
-        data object OnClickSetBeginDate : Event() //이용시작일 설정 이벤트
-        data object OnDismissStartDate : Event() //이용기간 설정 완료 이벤트
+        data object OnClickSetDuration : Event()
+        data object OnClickSetBeginDate : Event()
+        data object OnDismissStartDate : Event()
         data object OnDismissDurationView : Event()
     }
 

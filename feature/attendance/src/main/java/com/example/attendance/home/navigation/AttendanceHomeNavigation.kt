@@ -11,7 +11,7 @@ fun NavGraphBuilder.attendanceHomeNavGraph(
     navController: NavHostController,
     context: Context,
 ) {
-    composable<com.example.navigation.Route.AttendanceMain> {
+    composable<Route.AttendanceMain> {
         AttendanceHomeScreen(
             navController = navController,
             context = context

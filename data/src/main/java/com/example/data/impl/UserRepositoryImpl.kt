@@ -13,6 +13,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource
 ) : UserRepository {
+
     override suspend fun insertUser(user: User): Flow<DataResource<Long>> = flow {
         emit(DataResource.loading())
         try {

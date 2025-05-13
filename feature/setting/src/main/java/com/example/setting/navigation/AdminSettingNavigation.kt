@@ -9,7 +9,7 @@ import com.example.setting.AdminSettingScreen
 fun NavGraphBuilder.adminSettingNavGraph(
     navController: NavHostController
 ) {
-    composable<com.example.navigation.Route.AdminMenu> {
+    composable<Route.AdminMenu> {
         AdminSettingScreen(
             navController = navController
         )

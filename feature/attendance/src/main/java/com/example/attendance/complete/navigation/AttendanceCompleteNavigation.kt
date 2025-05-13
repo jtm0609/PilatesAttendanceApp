@@ -9,7 +9,7 @@ import com.example.navigation.Route
 fun NavGraphBuilder.attendanceCompleteNavGraph(
     navController: NavHostController
 ) {
-    composable<com.example.navigation.Route.AttendanceComplete> {
+    composable<Route.AttendanceComplete> {
         AttendanceCompleteScreen(
             navController = navController
         )

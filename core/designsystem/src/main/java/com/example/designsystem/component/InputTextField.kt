@@ -35,7 +35,6 @@ fun InputTextField(
     onValueChange: (String) -> Unit,
     enabled: Boolean
 ) {
-
     var text by remember {
         mutableStateOf("")
     }

@@ -1,6 +1,7 @@
 package com.example.domain.dataresource
 
 sealed class DataResource<out T> {
+
     data class Success<out T>(val data: T) : DataResource<T>()
     data class Error(val throwable: Throwable) : DataResource<Nothing>()
     data object Loading : DataResource<Nothing>()

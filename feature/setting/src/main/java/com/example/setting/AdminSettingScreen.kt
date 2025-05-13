@@ -19,7 +19,6 @@ import com.example.designsystem.component.Toolbar
 import com.example.designsystem.theme.DarkGray
 import com.example.feature.setting.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminSettingScreen(navController: NavHostController) {
     AdminSettingContent(
@@ -84,19 +83,16 @@ private fun AdminMenuOptions(
     onChangeAttendanceCountClick: () -> Unit
 ) {
     Column {
-        // 회원 등록 메뉴
         AdminMenuItem(
             textRes = R.string.text_menu_register_user,
             onClick = onRegisterUserClick
         )
-        
-        // 회원 관리 메뉴
+
         AdminMenuItem(
             textRes = R.string.text_menu_manage_user,
             onClick = onManageUserClick
         )
-        
-        // 출석 횟수 변경 메뉴
+
         AdminMenuItem(
             textRes = R.string.text_menu_change_attendance_count,
             onClick = onChangeAttendanceCountClick

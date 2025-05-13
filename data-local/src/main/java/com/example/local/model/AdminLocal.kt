@@ -11,6 +11,7 @@ data class AdminLocal(
     var no: Long = 1,
     var maxAttendance: Int?
 ) : LocalMapper<AdminEntity> {
+
     override fun toData(): AdminEntity =
         AdminEntity(
             no = no,

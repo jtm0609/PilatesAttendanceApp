@@ -11,7 +11,7 @@ fun NavGraphBuilder.registerUserNavGraph(
     navController: NavHostController,
     context: Context
 ) {
-    composable<com.example.navigation.Route.RegisterUser> {
+    composable<Route.RegisterUser> {
         RegisterUserScreen(
             navController = navController,
             context = context

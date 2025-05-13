@@ -11,8 +11,8 @@ fun NavGraphBuilder.changeUserMileageNavGraph(
     navController: NavHostController,
     context: Context
 ) {
-    composable<com.example.navigation.Route.ChangeUserMileage>(
-        typeMap = com.example.navigation.Route.ChangeUserMileage.typeMap
+    composable<Route.ChangeUserMileage>(
+        typeMap = Route.ChangeUserMileage.typeMap
     ) {
         ChangeUserMileageScreen(
             navController = navController,

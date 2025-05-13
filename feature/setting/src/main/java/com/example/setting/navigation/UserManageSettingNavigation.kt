@@ -9,7 +9,7 @@ import com.example.setting.UserManageSettingScreen
 fun NavGraphBuilder.userManageNavGraph(
     navController: NavHostController
 ) {
-    composable<com.example.navigation.Route.ManageUser> {
+    composable<Route.ManageUser> {
         UserManageSettingScreen(
             navController = navController
         )

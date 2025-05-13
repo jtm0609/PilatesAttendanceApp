@@ -9,6 +9,7 @@ import javax.inject.Inject
 class AdminDataSourceImpl @Inject constructor(
     private val adminDao: AdminDao
 ) : AdminDataSource {
+
     override suspend fun updateAttendanceCount(count: Int) {
         adminDao.updateMaxAttendance(count)
     }

@@ -6,6 +6,7 @@ import com.example.base.UiState
 import com.example.domain.model.User
 
 class ReRegisterUserContract {
+
     sealed class Event : UiEvent {
         data class OnChangedDuration(val duration: String) : Event()
         data class OnCompleteSetDuration(val duration: String) : Event()

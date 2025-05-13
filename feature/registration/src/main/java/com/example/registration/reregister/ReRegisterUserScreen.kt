@@ -117,7 +117,6 @@ fun ReRegisterUserContent(
             )
         },
         content = {
-            //회원 정보 입력 뷰
             Box(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
@@ -152,7 +151,6 @@ fun ReRegisterUserContent(
                         }
                     )
 
-                    //저장
                     ConfirmBox(
                         text = stringResource(R.string.text_save_button),
                         onClick = {

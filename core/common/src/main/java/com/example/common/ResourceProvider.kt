@@ -9,8 +9,9 @@ import javax.inject.Singleton
 @Singleton
 class ResourceProvider @Inject constructor(
     @ApplicationContext private val context: Context
-){
-    fun getString(@StringRes stringResId: Int) : String {
+) {
+
+    fun getString(@StringRes stringResId: Int): String {
         return context.getString(stringResId)
     }
 

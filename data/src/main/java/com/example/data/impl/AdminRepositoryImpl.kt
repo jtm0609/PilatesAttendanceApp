@@ -13,6 +13,7 @@ import javax.inject.Inject
 class AdminRepositoryImpl @Inject constructor(
     private val adminDataSource: AdminDataSource
 ) : AdminRepository {
+
     override suspend fun updateAttendanceCount(count: Int): Flow<DataResource<Int>> = flow {
         emit(DataResource.loading())
         try {

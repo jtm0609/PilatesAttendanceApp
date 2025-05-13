@@ -5,6 +5,7 @@ import kotlin.reflect.typeOf
 import kotlinx.serialization.Serializable
 
 sealed interface Route {
+
     @Serializable
     data class ReRegister(val user: User) : Route {
         companion object {

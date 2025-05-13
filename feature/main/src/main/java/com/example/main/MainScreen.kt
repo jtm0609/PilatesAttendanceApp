@@ -8,12 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 
-
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val context : Context = LocalContext.current
-    Scaffold() {
+    Scaffold {
         MainNaviHost(
             navController = navController,
             context = context,

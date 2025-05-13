@@ -16,7 +16,6 @@ import com.example.search.navigation.searchUserNavGraph
 import com.example.setting.navigation.adminSettingNavGraph
 import com.example.setting.navigation.userManageNavGraph
 
-
 @Composable
 fun MainNaviHost(
     navController: NavHostController,
@@ -25,7 +24,7 @@ fun MainNaviHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = com.example.navigation.Route.AttendanceMain,
+        startDestination = Route.AttendanceMain,
         modifier = modifier
     ) {
 

@@ -6,8 +6,8 @@ import com.example.domain.model.Admin
 import com.example.domain.model.User
 
 
-fun User.toAdvertiseEntity(): UserEntity {
-    return UserEntity(
+fun User.toAdvertiseEntity(): UserEntity =
+    UserEntity(
         no = id,
         name = name,
         phoneNumber = phoneNumber,
@@ -18,7 +18,6 @@ fun User.toAdvertiseEntity(): UserEntity {
         attendanceCountOfToday = attendanceCountOfToday,
         attendanceDate = attendanceDate
     )
-}
 
 fun Admin.toContentEntity(): AdminEntity {
     return AdminEntity(

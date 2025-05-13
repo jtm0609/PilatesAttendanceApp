@@ -11,7 +11,7 @@ fun NavGraphBuilder.changeAttendanceCountNavGraph(
     navController: NavHostController,
     context: Context
 ) {
-    composable<com.example.navigation.Route.ChangeAttendanceCount> {
+    composable<Route.ChangeAttendanceCount> {
         ChangeAttendanceCountScreen(
             navController = navController,
             context = context

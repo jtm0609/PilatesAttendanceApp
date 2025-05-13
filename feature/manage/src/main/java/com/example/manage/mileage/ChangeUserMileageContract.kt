@@ -6,6 +6,7 @@ import com.example.base.UiState
 import com.example.domain.model.User
 
 class ChangeUserMileageContract {
+
     sealed class Event : UiEvent {
         data class OnClickSaveButton(val phoneNumber: String, val mileage: Int) : Event()
         data object OnClickMileageUp : Event()

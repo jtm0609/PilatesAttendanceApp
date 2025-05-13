@@ -23,7 +23,6 @@ import com.example.designsystem.theme.LightGray
 import com.example.feature.setting.R
 import com.example.search.SearchUserViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun UserManageSettingScreen(
@@ -91,13 +90,11 @@ private fun ManagementOptions(
     onChangeMileageClick: () -> Unit
 ) {
     Column {
-        // 재등록 메뉴
         MenuOption(
             textRes = R.string.text_menu_re_register_user,
             onClick = onReRegisterClick
         )
-        
-        // 마일리지 변경 메뉴
+
         MenuOption(
             textRes = R.string.text_menu_change_mileage,
             onClick = onChangeMileageClick

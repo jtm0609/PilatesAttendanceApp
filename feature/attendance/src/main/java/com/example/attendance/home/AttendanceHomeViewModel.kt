@@ -67,7 +67,7 @@ class AttendanceHomeViewModel @Inject constructor(
                         setState { this.copy(isLoading = false) }
 
                         val user = it.data
-                        //등록된 기간 범위안에 있지 않은 회원이라면
+
                         if (!checkRegisterDate(user)) {
                             val msg =
                                 resourceProvider.getString(R.string.text_noti_retry_phone_number)

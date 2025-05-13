@@ -4,9 +4,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-/**
- * 애플리케이션 디자인 시스템 타이포그래피 정의
- */
 val Typography = PilatesTypography(
     headlineLargeEB = TextStyle(
         fontWeight = FontWeight.ExtraBold,

@@ -7,6 +7,7 @@ import com.example.domain.model.Admin
 import com.example.domain.model.User
 
 class AttendanceHomeContract {
+
     sealed class Event : UiEvent {
         data class OnClickNumber(val number: String) : Event()
         data object OnClickDelete : Event()
@@ -17,7 +18,7 @@ class AttendanceHomeContract {
     data class State(
         val isLoading: Boolean = false,
         val phoneNumber: String = "",
-        val searchedUser: User? = null, // 조회한 유저
+        val searchedUser: User? = null,
         val adminData: Admin? = null
     ) : UiState
 

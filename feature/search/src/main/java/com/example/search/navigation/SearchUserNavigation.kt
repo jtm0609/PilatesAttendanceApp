@@ -12,7 +12,7 @@ fun NavGraphBuilder.searchUserNavGraph(
     navController: NavHostController,
     context: Context
 ) {
-    composable<com.example.navigation.Route.SearchUser> {
+    composable<Route.SearchUser> {
         val keyboardController = LocalSoftwareKeyboardController.current
         val hideKeyboard: () -> Unit = {
             keyboardController?.hide()

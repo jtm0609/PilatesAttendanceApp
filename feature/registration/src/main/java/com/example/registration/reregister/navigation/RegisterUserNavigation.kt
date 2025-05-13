@@ -11,8 +11,8 @@ fun NavGraphBuilder.reRegisterUserNavGraph(
     navController: NavHostController,
     context: Context
 ) {
-    composable<com.example.navigation.Route.ReRegister>(
-        typeMap = com.example.navigation.Route.ReRegister.typeMap
+    composable<Route.ReRegister>(
+        typeMap = Route.ReRegister.typeMap
     ) {
         ReRegisterUserScreen(
             navController = navController,

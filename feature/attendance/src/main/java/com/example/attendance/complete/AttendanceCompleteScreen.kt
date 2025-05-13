@@ -37,7 +37,6 @@ fun AttendanceCompleteScreen(
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value
 
-    // 3초 후 자동으로 이전 화면으로 돌아가기
     LaunchedEffect(Unit) {
         delay(3000L)
         navController.popBackStack()
@@ -57,7 +56,6 @@ fun AttendanceCompleteContent(
             .fillMaxSize()
             .background(DarkGray)
     ) {
-        // 중앙 콘텐츠 - 출석 완료 및 마일리지 정보
         CenterContent(
             userName = state.name,
             mileage = state.mileage,
@@ -65,7 +63,6 @@ fun AttendanceCompleteContent(
             borderColor = White
         )
 
-        // 로고
         AppLogo(modifier = Modifier.align(Alignment.BottomEnd))
     }
 }
@@ -82,24 +79,21 @@ private fun CenterContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        
-        // 사용자 이름과 출석 완료 메시지
+
         UserGreeting(
             userName = userName,
             textColor = textColor
         )
         
         Spacer(modifier = Modifier.height(40.dp))
-        
-        // 마일리지 추가 메시지
+
         MessageText(
             textRes = R.string.msg_add_mileage,
             textColor = textColor
         )
         
         Spacer(modifier = Modifier.height(40.dp))
-        
-        // 현재 마일리지 정보
+
         MileageDisplay(
             mileage = mileage,
             textColor = textColor,

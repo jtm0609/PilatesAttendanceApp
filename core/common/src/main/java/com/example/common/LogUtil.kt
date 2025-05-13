@@ -2,7 +2,6 @@ package com.example.common
 
 import android.util.Log
 
-
 object LogUtil {
     private val LOGGER_DEBUG = true
     private val TAG = "jtm"

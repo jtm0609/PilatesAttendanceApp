@@ -97,16 +97,13 @@ private fun AttendanceScreen(
             .clipToBounds()
             .background(DarkGray)
     ) {
-        // 관리자 버튼
         AdminButton(
             onAdminClick = onAdminClick,
             iconColor = White
         )
 
-        // 로고 및 안내문구 영역
         LogoSection(textColor = White)
 
-        // 전화번호 입력 및 키패드 영역
         PhoneInputSection(
             phoneNumber = state.phoneNumber,
             textColor = White,
@@ -150,7 +147,6 @@ private fun LogoSection(textColor: Color) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // 로고
             Image(
                 painter = painterResource(id = R.drawable.app_logo),
                 contentDescription = "logo",
@@ -160,7 +156,6 @@ private fun LogoSection(textColor: Color) {
                     .width(450.dp)
             )
 
-            // 안내 문구
             Text(
                 text = stringResource(R.string.msg_info_pilates),
                 color = textColor,
@@ -189,7 +184,6 @@ private fun PhoneInputSection(
     ) {
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 전화번호 입력 안내
         Text(
             text = stringResource(R.string.msg_input_phone_number),
             color = textColor,
@@ -199,12 +193,10 @@ private fun PhoneInputSection(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // 전화번호 표시 영역
         PhoneNumberDisplay(phoneNumber = phoneNumber)
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // 키패드
         NumberKeypad(
             phoneNumber = phoneNumber,
             textColor = textColor,
@@ -249,43 +241,36 @@ private fun NumberKeypad(
             .padding(10.dp)
             .width(400.dp)
     ) {
-        // 첫 번째 줄: 7, 8, 9
         NumberRow(
             numbers = listOf("7", "8", "9"),
             textColor = textColor,
             onNumberClick = onNumberClick
         )
 
-        // 두 번째 줄: 4, 5, 6
         NumberRow(
             numbers = listOf("4", "5", "6"),
             textColor = textColor,
             onNumberClick = onNumberClick
         )
 
-        // 세 번째 줄: 1, 2, 3
         NumberRow(
             numbers = listOf("1", "2", "3"),
             textColor = textColor,
             onNumberClick = onNumberClick
         )
 
-        // 네 번째 줄: 지우기, 0, 입장
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // 지우기 버튼
             DeleteButton(
                 onDeleteClick = onDeleteClick,
                 iconColor = textColor
             )
 
-            // 0 버튼
             NumberKey(
                 number = "0",
                 textColor = textColor,
                 onClick = onNumberClick
             )
 
-            // 입장 버튼
             EnterButton(
                 phoneNumber = phoneNumber,
                 textColor = textColor,

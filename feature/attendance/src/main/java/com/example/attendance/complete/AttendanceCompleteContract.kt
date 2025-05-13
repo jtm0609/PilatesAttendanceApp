@@ -6,6 +6,7 @@ import com.example.base.UiState
 
 
 class AttendanceCompleteContract {
+
     sealed class Event : UiEvent
 
     data class State(

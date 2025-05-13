@@ -9,6 +9,7 @@ inline fun <reified T : Any> serializableType(
     isNullableAllowed: Boolean = true,
     json: Json = Json,
 ) = object : NavType<T>(isNullableAllowed = isNullableAllowed) {
+
     override fun get(bundle: Bundle, key: String) =
         bundle.getString(key)?.let<String, T>(json::decodeFromString)
 
