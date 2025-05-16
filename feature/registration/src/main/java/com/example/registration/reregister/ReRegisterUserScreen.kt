@@ -24,7 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.common.showToast
 import com.example.domain.model.User
-import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.DatePickerDialog
 import com.example.designsystem.component.DurationSettingBox
 import com.example.designsystem.component.Toolbar
@@ -32,13 +32,14 @@ import com.example.designsystem.component.InputText
 import com.example.designsystem.theme.DarkGray
 import com.example.designsystem.theme.LightGray
 import com.example.feature.registration.R
+import com.example.navigation.Route
 import com.example.search.SearchUserViewModel
 
 @Composable
 fun ReRegisterUserScreen(
     navController: NavHostController,
     viewModel: ReRegisterUserViewModel = hiltViewModel(),
-    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(com.example.navigation.Route.SearchUser)),
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser)),
     context: Context
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value
@@ -151,7 +152,7 @@ fun ReRegisterUserContent(
                         }
                     )
 
-                    ConfirmBox(
+                    ConfirmButton(
                         text = stringResource(R.string.text_save_button),
                         onClick = {
                             viewModel.setEvent(

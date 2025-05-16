@@ -31,7 +31,7 @@ fun Toolbar(navController: NavHostController, titleText: String) {
                 textAlign = TextAlign.Center
             )
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = DarkGray),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkGray),
         navigationIcon = {
             IconButton(onClick = {
                 navController.popBackStack()

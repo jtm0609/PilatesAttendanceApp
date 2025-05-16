@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.common.showToast
-import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.Toolbar
 import com.example.designsystem.component.Progress
 import com.example.designsystem.theme.DarkGray
@@ -253,7 +253,7 @@ private fun SaveButton(onSave: () -> Unit) {
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        ConfirmBox(
+        ConfirmButton(
             text = stringResource(R.string.text_save_button),
             onClick = onSave
         )

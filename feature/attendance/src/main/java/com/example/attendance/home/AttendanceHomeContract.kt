@@ -10,7 +10,6 @@ class AttendanceHomeContract {
 
     sealed class Event : UiEvent {
         data class OnClickNumber(val number: String) : Event()
-        data object OnClickDelete : Event()
         data class OnClickOK(val phoneNumber: String) : Event()
         data object OnClickAdminMenu : Event()
     }

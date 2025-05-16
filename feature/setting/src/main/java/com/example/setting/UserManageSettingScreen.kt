@@ -21,24 +21,25 @@ import com.example.designsystem.component.Toolbar
 import com.example.designsystem.theme.DarkGray
 import com.example.designsystem.theme.LightGray
 import com.example.feature.setting.R
+import com.example.navigation.Route
 import com.example.search.SearchUserViewModel
 
 @Preview
 @Composable
 fun UserManageSettingScreen(
     navController: NavHostController,
-    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(com.example.navigation.Route.SearchUser))
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser))
 ) {
     UserSettingContent(
         navController = navController,
         onReRegisterClick = {
             navController.navigate(
-                com.example.navigation.Route.ReRegister(searchUserViewModel.searchedUser)
+                Route.ReRegister(searchUserViewModel.searchedUser)
             )
         },
         onChangeMileageClick = {
             navController.navigate(
-                com.example.navigation.Route.ChangeUserMileage(searchUserViewModel.searchedUser)
+                Route.ChangeUserMileage(searchUserViewModel.searchedUser)
             )
         }
     )

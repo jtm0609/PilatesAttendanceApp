@@ -18,19 +18,20 @@ import com.example.designsystem.component.Menu
 import com.example.designsystem.component.Toolbar
 import com.example.designsystem.theme.DarkGray
 import com.example.feature.setting.R
+import com.example.navigation.Route
 
 @Composable
 fun AdminSettingScreen(navController: NavHostController) {
     AdminSettingContent(
         navController = navController,
         onRegisterUserClick = { 
-            navController.navigate(com.example.navigation.Route.RegisterUser)
+            navController.navigate(Route.RegisterUser)
         },
         onManageUserClick = { 
-            navController.navigate(com.example.navigation.Route.SearchUser)
+            navController.navigate(Route.SearchUser)
         },
         onChangeAttendanceCountClick = { 
-            navController.navigate(com.example.navigation.Route.ChangeAttendanceCount)
+            navController.navigate(Route.ChangeAttendanceCount)
         }
     )
 }

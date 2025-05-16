@@ -33,7 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.common.showToast
 import com.example.domain.model.User
-import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.Toolbar
 import com.example.designsystem.component.Progress
 import com.example.designsystem.theme.DarkGray
@@ -41,13 +41,14 @@ import com.example.designsystem.theme.LightGray
 import com.example.designsystem.theme.Typography
 import com.example.designsystem.theme.White
 import com.example.feature.manage.R
+import com.example.navigation.Route
 import com.example.search.SearchUserViewModel
 
 @Composable
 fun ChangeUserMileageScreen(
     navController: NavHostController,
     viewModel: ChangeUserMileageViewModel = hiltViewModel(),
-    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(com.example.navigation.Route.SearchUser)),
+    searchUserViewModel: SearchUserViewModel = hiltViewModel(navController.getBackStackEntry(Route.SearchUser)),
     context: Context
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value
@@ -263,7 +264,7 @@ private fun MileageControlButton(
 
 @Composable
 private fun SaveButton(onSave: () -> Unit) {
-    ConfirmBox(
+    ConfirmButton(
         text = stringResource(R.string.text_save_button),
         onClick = onSave
     )

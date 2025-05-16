@@ -2,6 +2,7 @@ package com.example.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Gray = Color(0xFF888888)
 val DarkGray = Color(0xFF2b2b2b)
 val LightGray = Color(0xFF333333)
 val MistGray = Color(0xFFE7E7E7)

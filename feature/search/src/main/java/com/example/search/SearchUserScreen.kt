@@ -34,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.common.showToast
-import com.example.designsystem.component.ConfirmBox
+import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.Progress
 import com.example.designsystem.component.Toolbar
 import com.example.designsystem.theme.DarkGray
@@ -42,6 +42,7 @@ import com.example.designsystem.theme.LightGray
 import com.example.designsystem.theme.Typography
 import com.example.designsystem.theme.White
 import com.example.feature.search.R
+import com.example.navigation.Route
 
 @Composable
 fun SearchUserScreen(
@@ -57,7 +58,7 @@ fun SearchUserScreen(
         effectFlow.collect { effect ->
             when (effect) {
                 is SearchUserContract.Effect.CompleteSearch -> {
-                    navController.navigate(com.example.navigation.Route.ManageUser)
+                    navController.navigate(Route.ManageUser)
                 }
                 is SearchUserContract.Effect.ShowToast -> {
                     context.showToast(effect.msg)
@@ -128,7 +129,7 @@ private fun PhoneNumberInputScreen(
                     standardPadding = standardPadding
                 )
 
-                ConfirmBox(
+                ConfirmButton(
                     text = stringResource(R.string.text_next_button),
                     onClick = { onNextClick(state.phone) }
                 )

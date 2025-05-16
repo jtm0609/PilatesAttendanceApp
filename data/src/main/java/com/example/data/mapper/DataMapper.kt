@@ -5,7 +5,6 @@ import com.example.data.model.UserEntity
 import com.example.domain.model.Admin
 import com.example.domain.model.User
 
-
 fun User.toAdvertiseEntity(): UserEntity =
     UserEntity(
         no = id,

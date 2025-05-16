@@ -39,16 +39,16 @@ class AttendanceHomeViewModel @Inject constructor(
                 }
             }
 
-            is AttendanceHomeContract.Event.OnClickDelete -> {
-                setState {
-                    this.copy(phoneNumber = phoneNumber.dropLast(1))
-                }
-            }
-
             is AttendanceHomeContract.Event.OnClickNumber -> {
-                if (uiState.value.phoneNumber.length < 8) {
+                if(event.number == "←"){
                     setState {
-                        this.copy(phoneNumber = phoneNumber + event.number)
+                        this.copy(phoneNumber = phoneNumber.dropLast(1))
+                    }
+                }else {
+                    if (uiState.value.phoneNumber.length < 8) {
+                        setState {
+                            this.copy(phoneNumber = phoneNumber + event.number)
+                        }
                     }
                 }
             }
@@ -69,8 +69,7 @@ class AttendanceHomeViewModel @Inject constructor(
                         val user = it.data
 
                         if (!checkRegisterDate(user)) {
-                            val msg =
-                                resourceProvider.getString(R.string.text_noti_retry_phone_number)
+                            val msg = resourceProvider.getString(R.string.text_noti_retry_phone_number)
                             setEffect { AttendanceHomeContract.Effect.ShowToast(msg) }
                             return@collect
                         }
@@ -78,8 +77,7 @@ class AttendanceHomeViewModel @Inject constructor(
                         if (checkAlreadyAttendance(user)) { //오늘 이미 출석을 한 회원이라면
                             val maxAttendanceCount = uiState.value.adminData?.maxAttendance ?: 0
                             if (checkExceedAttendanceCount(maxAttendanceCount, user)) {
-                                val msg =
-                                    resourceProvider.getString(R.string.text_noti_already_attendance_user)
+                                val msg = resourceProvider.getString(R.string.text_noti_already_attendance_user)
                                 setEffect { AttendanceHomeContract.Effect.ShowToast(msg) }
                             } else {
                                 user.attendanceCountOfToday += 1
