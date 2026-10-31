@@ -25,7 +25,7 @@
 - Multi Module
 - MVI
 - Compose
-- Coroutine
+- Coroutines
 - Flow
 - Hilt
 - LiveData
