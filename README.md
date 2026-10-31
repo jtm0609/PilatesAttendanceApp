@@ -21,14 +21,10 @@
 
 ## 기술 스택
 - Kotlin
-- Clean Architecture
-- Multi Module
-- MVI
-- Compose
-- Coroutines
-- Flow
+- Jetpack Compose
+- Clean Architecture, Multi-Module, MVI
+- Coroutines, Flow
 - Hilt
-- LiveData
 - Room
 - Navigation
 
