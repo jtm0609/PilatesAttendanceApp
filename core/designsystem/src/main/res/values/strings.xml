@@ -1,4 +1,10 @@
 <resources>
     <string name="text_setting_button">설정</string>
     <string name="msg_guide_selection_duration">이용 기간을 선택해주세요.</string>
+    <string name="text_confirm_button">확인</string>
+    <string name="text_cancel_button">취소</string>
+    <string name="text_select_placeholder">선택</string>
+    <string name="text_owned_mileage">보유 마일리지</string>
+    <string name="text_mileage_point">%d점</string>
+    <string name="cd_back">뒤로</string>
 </resources>

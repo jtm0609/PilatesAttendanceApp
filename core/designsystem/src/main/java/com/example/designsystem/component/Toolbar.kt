@@ -1,6 +1,5 @@
 package com.example.designsystem.component
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,37 +11,53 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.R
+import com.example.designsystem.theme.PilatesTheme
 import com.example.designsystem.theme.Typography
-import com.example.designsystem.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Toolbar(navController: NavHostController, titleText: String) {
+fun Toolbar(
+    title: String,
+    onBack: () -> Unit
+) {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = PilatesTheme.colors.background,
+            titleContentColor = PilatesTheme.colors.textPrimary,
+            navigationIconContentColor = PilatesTheme.colors.textPrimary
+        ),
         title = {
             Text(
-                text = titleText,
-                color = White,
-                style = Typography.headlineLargeSB,
-                textAlign = TextAlign.Center
+                text = title,
+                color = PilatesTheme.colors.textPrimary,
+                style = Typography.headlineSmallM
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkGray),
         navigationIcon = {
-            IconButton(onClick = {
-                navController.popBackStack()
-            }) {
+            IconButton(
+                modifier = Modifier.size(56.dp),
+                onClick = onBack
+            ) {
                 Icon(
-                    Icons.Filled.ArrowBack, "backIcon", tint = White,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .padding(end = 10.dp)
+                    modifier = Modifier.size(28.dp),
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.cd_back),
+                    tint = PilatesTheme.colors.textPrimary
                 )
             }
-        },
+        }
     )
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun ToolbarPreview() {
+    ComponentPreview {
+        Toolbar(title = "회원 관리", onBack = {})
+    }
 }
