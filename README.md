@@ -57,16 +57,16 @@ MVI는 다음과 같은 흐름으로 동작합니다.
 
 ## 스크린 샷
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/cca4337b-d77c-45a2-87fc-3ab52142ce51" width="49%" />
-  <img src="https://github.com/user-attachments/assets/4c4a8752-3413-4dbb-8297-6ab721b647d0" width="49%" /> 
+  <img src="https://github.com/user-attachments/assets/062f4d4a-50a6-4641-beb4-17fe4c092da8" width="49%" />
+  <img src="https://github.com/user-attachments/assets/530c18a1-f3fe-4244-a0f2-cd6f68aa25b6" width="49%" /> 
 </p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e2f6fde8-4f9e-432a-bf36-5058315bbdb5" width="49%" />
-  <img src="https://github.com/user-attachments/assets/a94ee53a-23a4-44d3-9762-a98c69574a7b" width="49%" /> 
+  <img src="https://github.com/user-attachments/assets/f98e1642-fa83-4f12-8b7c-3c9fd2f12ce3" width="49%" />
+  <img src="https://github.com/user-attachments/assets/70f22a80-adec-42cf-9f12-aa39b46a77ec" width="49%" />   
 </p>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/9b71a8d3-753d-4161-9d75-5ee213afb42c" width="49%" />
-  <img src="https://github.com/user-attachments/assets/23796b8e-27e8-41cc-a4d2-c98d108d47f7" width="49%" /> 
+<p align="center">  
+  <img src="https://github.com/user-attachments/assets/9bec9094-0877-4b35-8616-b497eb3d9035" width="49%" />
+  <img src="https://github.com/user-attachments/assets/a7b057d2-cbe7-45eb-942e-ff5c84829701" width="49%" /> 
 </p>
 
 ## 기타
