@@ -150,7 +150,7 @@ private fun DurationOption(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun DurationPickerDialogPreview() {
-    ComponentPreview {
+    PilatesTheme {
         DurationPickerDialog(
             isShow = true,
             durationState = "4주",

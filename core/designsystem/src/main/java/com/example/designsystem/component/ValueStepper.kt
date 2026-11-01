@@ -130,7 +130,7 @@ private fun StepButton(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun ValueStepperPreview() {
-    ComponentPreview {
+    PilatesTheme {
         ValueStepper(
             title = "하루 최대 출석 횟수",
             value = 1,

@@ -80,7 +80,7 @@ fun LabeledPickerField(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun LabeledPickerFieldPreview() {
-    ComponentPreview {
+    PilatesTheme {
         Column {
             LabeledPickerField(
                 titleText = "이용 기간",

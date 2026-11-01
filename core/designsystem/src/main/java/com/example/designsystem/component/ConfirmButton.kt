@@ -47,7 +47,7 @@ fun ConfirmButton(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun ConfirmButtonPreview() {
-    ComponentPreview {
+    PilatesTheme {
         Column {
             ConfirmButton(text = "저장", onClick = {})
             Spacer(modifier = Modifier.height(16.dp))

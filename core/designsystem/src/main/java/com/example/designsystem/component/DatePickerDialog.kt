@@ -71,7 +71,7 @@ fun DatePickerDialog(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun DatePickerDialogPreview() {
-    ComponentPreview {
+    PilatesTheme {
         DatePickerDialog(
             isShow = true,
             startYear = 2026,

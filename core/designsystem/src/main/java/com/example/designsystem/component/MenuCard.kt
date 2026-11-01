@@ -96,7 +96,7 @@ fun MenuCard(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun MenuCardPreview() {
-    ComponentPreview {
+    PilatesTheme {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

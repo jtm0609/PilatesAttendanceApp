@@ -71,7 +71,7 @@ fun LabeledTextField(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun LabeledTextFieldPreview() {
-    ComponentPreview {
+    PilatesTheme {
         Column {
             LabeledTextField(
                 titleText = "성명",

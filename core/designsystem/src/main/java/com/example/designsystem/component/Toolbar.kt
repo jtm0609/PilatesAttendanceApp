@@ -57,7 +57,7 @@ fun Toolbar(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun ToolbarPreview() {
-    ComponentPreview {
+    PilatesTheme {
         Toolbar(title = "회원 관리", onBack = {})
     }
 }

@@ -41,7 +41,7 @@ fun Progress() {
 @Preview(device = Devices.TABLET)
 @Composable
 private fun ProgressPreview() {
-    ComponentPreview {
+    PilatesTheme {
         Progress()
     }
 }
