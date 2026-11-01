@@ -1,0 +1,22 @@
+package com.example.member.mileage.navigation
+
+import android.content.Context
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import com.example.navigation.Route
+import com.example.member.mileage.ChangeUserMileageScreen
+
+fun NavGraphBuilder.changeUserMileageNavGraph(
+    navController: NavHostController,
+    context: Context
+) {
+    composable<Route.ChangeUserMileage>(
+        typeMap = Route.ChangeUserMileage.typeMap
+    ) {
+        ChangeUserMileageScreen(
+            navController = navController,
+            context = context
+        )
+    }
+}

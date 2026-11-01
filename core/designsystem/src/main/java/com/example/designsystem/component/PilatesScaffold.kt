@@ -60,27 +60,25 @@ fun PilatesScaffold(
     }
 }
 
+@Preview(device = Devices.TABLET)
 @Composable
-private fun PilatesScaffoldSample(isLoading: Boolean = false) {
-    PilatesScaffold(
-        title = "마일리지 변경",
-        isLoading = isLoading,
-        onBack = {}
-    ) {
-        MemberSummary(name = "김하늘", phone = "01012345678")
+private fun PilatesScaffoldPreview() {
+    PilatesTheme {
+        PilatesScaffold(
+            title = "마일리지 변경",
+            onBack = {}
+        ) {
+            ValueStepper(
+                title = "김하늘님의 마일리지",
+                value = 12,
+                unit = "점",
+                onIncrease = {},
+                onDecrease = {}
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        ValueStepper(
-            title = "김하늘님의 마일리지",
-            value = 12,
-            unit = "점",
-            onIncrease = {},
-            onDecrease = {}
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        ConfirmButton(text = "저장", onClick = {})
+            ConfirmButton(text = "저장", onClick = {})
+        }
     }
 }

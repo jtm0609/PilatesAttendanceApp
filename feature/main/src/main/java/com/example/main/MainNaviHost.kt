@@ -5,16 +5,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.example.admin.attendance.navigation.changeAttendanceCountNavGraph
+import com.example.admin.menu.navigation.adminMenuNavGraph
 import com.example.attendance.complete.navigation.attendanceCompleteNavGraph
 import com.example.attendance.home.navigation.attendanceHomeNavGraph
+import com.example.member.manage.navigation.userManageNavGraph
+import com.example.member.mileage.navigation.changeUserMileageNavGraph
+import com.example.member.register.navigation.registerUserNavGraph
+import com.example.member.reregister.navigation.reRegisterUserNavGraph
+import com.example.member.search.navigation.searchUserNavGraph
 import com.example.navigation.Route
-import com.example.manage.attendance.navigation.changeAttendanceCountNavGraph
-import com.example.manage.mileage.navigation.changeUserMileageNavGraph
-import com.example.registration.register.navigation.registerUserNavGraph
-import com.example.registration.reregister.navigation.reRegisterUserNavGraph
-import com.example.search.navigation.searchUserNavGraph
-import com.example.setting.navigation.adminSettingNavGraph
-import com.example.setting.navigation.userManageNavGraph
 
 @Composable
 fun MainNaviHost(
@@ -32,7 +32,7 @@ fun MainNaviHost(
 
         attendanceCompleteNavGraph(navController)
 
-        adminSettingNavGraph(navController)
+        adminMenuNavGraph(navController)
 
         changeAttendanceCountNavGraph(navController, context)
 

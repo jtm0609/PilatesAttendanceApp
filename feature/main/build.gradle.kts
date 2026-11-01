@@ -5,9 +5,7 @@ android {
     namespace = "com.example.feature.main"
 }
 dependencies {
-    implementation(project(":feature:registration"))
-    implementation(project(":feature:search"))
-    implementation(project(":feature:manage"))
-    implementation(project(":feature:setting"))
+    implementation(project(":feature:member"))
+    implementation(project(":feature:admin"))
     implementation(project(":feature:attendance"))
 }
