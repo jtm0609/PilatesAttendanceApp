@@ -49,7 +49,7 @@ fun SearchUserScreen(
         }
     }
 
-    PhoneNumberInputScreen(
+    SearchUserContent(
         state = state,
         onBack = { navController.popBackStack() },
         onPhoneChange = { phoneNumber ->
@@ -64,7 +64,7 @@ fun SearchUserScreen(
 }
 
 @Composable
-private fun PhoneNumberInputScreen(
+private fun SearchUserContent(
     state: SearchUserContract.State,
     onBack: () -> Unit,
     onPhoneChange: (String) -> Unit,

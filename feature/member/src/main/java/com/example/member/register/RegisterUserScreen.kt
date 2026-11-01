@@ -38,7 +38,7 @@ fun RegisterUserScreen(
         }
     }
 
-    UserRegistrationScreen(
+    RegisterUserContent(
         state = state,
         onBack = { navController.popBackStack() },
         onNameChange = { name ->
@@ -77,7 +77,7 @@ fun RegisterUserScreen(
 }
 
 @Composable
-private fun UserRegistrationScreen(
+private fun RegisterUserContent(
     state: RegisterUserContract.State,
     onBack: () -> Unit,
     onNameChange: (String) -> Unit,

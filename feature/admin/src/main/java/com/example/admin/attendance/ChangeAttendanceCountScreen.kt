@@ -39,7 +39,7 @@ fun ChangeAttendanceCountScreen(
         }
     }
 
-    AttendanceCountScreen(
+    ChangeAttendanceCountContent(
         attendanceCount = state.attendanceCount,
         isLoading = state.isLoading,
         onBack = { navController.popBackStack() },
@@ -52,7 +52,7 @@ fun ChangeAttendanceCountScreen(
 }
 
 @Composable
-private fun AttendanceCountScreen(
+private fun ChangeAttendanceCountContent(
     attendanceCount: Int,
     isLoading: Boolean,
     onBack: () -> Unit,

@@ -47,7 +47,7 @@ fun ChangeUserMileageScreen(
     }
 
     state.user?.let { user ->
-        MileageChangeScreen(
+        ChangeUserMileageContent(
             user = user,
             isLoading = state.isLoading,
             onBack = { navController.popBackStack() },
@@ -66,7 +66,7 @@ fun ChangeUserMileageScreen(
 }
 
 @Composable
-private fun MileageChangeScreen(
+private fun ChangeUserMileageContent(
     user: User,
     isLoading: Boolean,
     onBack: () -> Unit,
