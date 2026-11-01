@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "cmong_pilates_attendance_project"
+rootProject.name = "PilatesAttendanceApp"
 include(":app")
 include(":data")
 include(":domain")

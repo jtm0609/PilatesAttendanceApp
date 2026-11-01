@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project
+package com.example.pilates
 
 import org.junit.Assert.*
 import org.junit.runner.RunWith

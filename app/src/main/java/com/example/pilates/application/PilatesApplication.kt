@@ -1,4 +1,4 @@
-package com.example.cmong_pilates_attendance_project.application
+package com.example.pilates.application
 
 import android.app.Application
 import com.orhanobut.logger.AndroidLogAdapter

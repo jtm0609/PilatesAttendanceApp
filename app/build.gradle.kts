@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cmong_pilates_attendance_project"
+    namespace = "com.example.pilates"
     compileSdk = Config.compileSdk
 
     defaultConfig {
@@ -17,7 +17,7 @@ android {
         versionCode = Releases.versionCode
         versionName = Releases.versionName
 
-        testInstrumentationRunner = "com.example.cmong_pilates_attendance_project.CustomTestRunner"
+        testInstrumentationRunner = "com.example.pilates.CustomTestRunner"
     }
 
     buildTypes {
