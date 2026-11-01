@@ -1,27 +1,21 @@
 package com.example.registration.register
 
 import android.content.Context
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -30,14 +24,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.common.showToast
 import com.example.designsystem.component.ConfirmButton
+import com.example.designsystem.component.PilatesScaffold
 import com.example.designsystem.component.DatePickerDialog
-import com.example.designsystem.component.DurationSettingBox
-import com.example.designsystem.component.Toolbar
-import com.example.designsystem.component.InputTextField
-import com.example.designsystem.component.InputText
-import com.example.designsystem.component.Progress
-import com.example.designsystem.theme.DarkGray
-import com.example.designsystem.theme.LightGray
+import com.example.designsystem.component.DurationPickerDialog
+import com.example.designsystem.component.LabeledPickerField
+import com.example.designsystem.component.LabeledTextField
+import com.example.domain.model.Duration
 import com.example.feature.registration.R
 
 @Composable
@@ -64,8 +56,8 @@ fun RegisterUserScreen(
     }
 
     UserRegistrationScreen(
-        navController = navController,
         state = state,
+        onBack = { navController.popBackStack() },
         onNameChange = { name ->
             viewModel.setEvent(RegisterUserContract.Event.OnChangedName(name))
         },
@@ -80,12 +72,7 @@ fun RegisterUserScreen(
         },
         onSaveClick = { name, phone, duration, startDate ->
             viewModel.setEvent(
-                RegisterUserContract.Event.ClickedSave(
-                    name,
-                    phone,
-                    duration,
-                    startDate
-                )
+                RegisterUserContract.Event.ClickedSave(name, phone, duration, startDate)
             )
         },
         onDateSet = { year, month, day ->
@@ -106,52 +93,34 @@ fun RegisterUserScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UserRegistrationScreen(
-    navController: NavHostController,
     state: RegisterUserContract.State,
+    onBack: () -> Unit,
     onNameChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
     onDurationClick: () -> Unit,
     onStartDateClick: () -> Unit,
-    onSaveClick: (String, String, String, String) -> Unit,
+    onSaveClick: (String, String, Duration?, String) -> Unit,
     onDateSet: (Int, Int, Int) -> Unit,
     onDateDismiss: () -> Unit,
-    onDurationSelected: (String) -> Unit,
+    onDurationSelected: (Duration) -> Unit,
     onDurationDismiss: () -> Unit,
-    onDurationChange: (String) -> Unit
+    onDurationChange: (Duration) -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        containerColor = DarkGray,
-        topBar = { Toolbar(navController, stringResource(R.string.text_menu_register_user)) }
-    ) { paddingValues ->
-        if (state.isLoading) {
-            Progress()
-        }
-
-        Box(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(paddingValues)
-                .fillMaxWidth()
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) { }
-        ) {
-            UserInputForm(
-                state = state,
-                dividerColor = LightGray,
-                onNameChange = onNameChange,
-                onPhoneChange = onPhoneChange,
-                onDurationClick = onDurationClick,
-                onStartDateClick = onStartDateClick,
-                onSaveClick = onSaveClick
-            )
-        }
+    PilatesScaffold(
+        title = stringResource(R.string.text_menu_register_user),
+        isLoading = state.isLoading,
+        onBack = onBack
+    ) {
+        UserInputForm(
+            state = state,
+            onNameChange = onNameChange,
+            onPhoneChange = onPhoneChange,
+            onDurationClick = onDurationClick,
+            onStartDateClick = onStartDateClick,
+            onSaveClick = onSaveClick
+        )
     }
 
     DatePickerDialog(
@@ -163,139 +132,88 @@ private fun UserRegistrationScreen(
         onDismissEvent = onDateDismiss
     )
 
-    DurationSettingBox(
+    DurationPickerDialog(
         isShow = state.isShowDurationView,
+        durationState = state.durationState,
+        durationList = state.durationValues,
+        label = { it.label },
         onClickDurationEvent = onDurationSelected,
         onDismissEvent = onDurationDismiss,
-        onValueChange = onDurationChange,
-        durationState = state.durationState,
-        durationList = state.durationValues
+        onValueChange = onDurationChange
     )
 }
 
+/** Two columns: who the member is on the left, when they can come on the right. */
 @Composable
 private fun UserInputForm(
     state: RegisterUserContract.State,
-    dividerColor: Color,
     onNameChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
     onDurationClick: () -> Unit,
     onStartDateClick: () -> Unit,
-    onSaveClick: (String, String, String, String) -> Unit
+    onSaveClick: (String, String, Duration?, String) -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.Start
-    ) {
-        Divider(
-            color = dividerColor,
-            thickness = 1.dp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 15.dp)
-        )
+    val fieldsEnabled = !state.isShowDurationView
 
-        NameInputField(
-            name = state.name,
-            onNameChange = onNameChange,
-            isEnabled = !state.isShowDurationView
-        )
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(28.dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                LabeledTextField(
+                    titleText = stringResource(R.string.text_input_name),
+                    hintText = stringResource(R.string.text_input_hint_name),
+                    keyboardType = KeyboardType.Text,
+                    enabled = fieldsEnabled,
+                    content = state.name,
+                    onValueChange = onNameChange
+                )
+                LabeledTextField(
+                    titleText = stringResource(R.string.text_input_phone_number),
+                    hintText = stringResource(R.string.text_input_hint_phone_number),
+                    keyboardType = KeyboardType.Number,
+                    enabled = fieldsEnabled,
+                    content = state.phone,
+                    onValueChange = onPhoneChange
+                )
+            }
 
-        PhoneInputField(
-            phone = state.phone,
-            onPhoneChange = onPhoneChange,
-            isEnabled = !state.isShowDurationView
-        )
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                LabeledPickerField(
+                    titleText = stringResource(id = R.string.text_input_duration),
+                    imageVector = Icons.Filled.List,
+                    contentText = state.selectedDuration?.label ?: "",
+                    onClick = onDurationClick
+                )
+                LabeledPickerField(
+                    titleText = stringResource(id = R.string.text_input_start_date),
+                    imageVector = Icons.Filled.DateRange,
+                    contentText = state.startDateText,
+                    onClick = onStartDateClick
+                )
+            }
+        }
 
-        DurationSelectionField(
-            durationText = state.durationText,
-            onDurationClick = onDurationClick
-        )
-
-        StartDateSelectionField(
-            startDateText = state.startDateText,
-            onStartDateClick = onStartDateClick
-        )
+        Spacer(modifier = Modifier.height(36.dp))
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
+            modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            SaveButton(
-                onSaveClick = {
-                    onSaveClick(state.name, state.phone, state.durationText, state.startDateText)
+            ConfirmButton(
+                modifier = Modifier.width(360.dp),
+                text = stringResource(R.string.text_save_button),
+                onClick = {
+                    onSaveClick(state.name, state.phone, state.selectedDuration, state.startDateText)
                 }
             )
         }
     }
-}
-
-@Composable
-private fun NameInputField(
-    name: String,
-    onNameChange: (String) -> Unit,
-    isEnabled: Boolean
-) {
-    InputTextField(
-        titleText = stringResource(R.string.text_input_name),
-        hintText = stringResource(R.string.text_input_hint_name),
-        keyboardType = KeyboardType.Text,
-        content = name,
-        onValueChange = onNameChange,
-        enabled = isEnabled
-    )
-}
-
-@Composable
-private fun PhoneInputField(
-    phone: String,
-    onPhoneChange: (String) -> Unit,
-    isEnabled: Boolean
-) {
-    InputTextField(
-        titleText = stringResource(R.string.text_input_phone_number),
-        hintText = stringResource(R.string.text_input_hint_phone_number),
-        keyboardType = KeyboardType.Number,
-        content = phone,
-        onValueChange = onPhoneChange,
-        enabled = isEnabled
-    )
-}
-
-@Composable
-private fun DurationSelectionField(
-    durationText: String,
-    onDurationClick: () -> Unit
-) {
-    InputText(
-        titleText = stringResource(id = R.string.text_input_duration),
-        imageVector = Icons.Filled.List,
-        contentText = durationText,
-        handleOnClick = onDurationClick
-    )
-}
-
-@Composable
-private fun StartDateSelectionField(
-    startDateText: String,
-    onStartDateClick: () -> Unit
-) {
-    InputText(
-        titleText = stringResource(id = R.string.text_input_start_date),
-        imageVector = Icons.Filled.DateRange,
-        contentText = startDateText,
-        handleOnClick = onStartDateClick
-    )
-}
-
-@Composable
-private fun SaveButton(
-    onSaveClick: () -> Unit
-) {
-    ConfirmButton(
-        text = stringResource(R.string.text_save_button),
-        onClick = onSaveClick
-    )
 }

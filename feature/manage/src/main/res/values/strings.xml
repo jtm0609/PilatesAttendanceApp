@@ -1,12 +1,15 @@
 <resources>
     <string name="text_menu_change_attendance_count">출석 횟수 변경</string>
     <string name="text_max_attendance_count">하루 최대 출석 횟수</string>
+    <string name="text_max_attendance_count_helper">한 회원이 같은 날 이 횟수까지 출석할 수 있습니다</string>
     <string name="text_attendance_count">%d회</string>
+    <string name="text_unit_count">회</string>
+    <string name="text_unit_point">점</string>
     <string name="text_save_button">저장</string>
     <string name="text_complete_change_mileage">마일리지 변경 완료 !</string>
     <string name="text_fail_change_mileage">마일리지 변경 실패 !</string>
     <string name="text_menu_change_mileage">마일리지 변경</string>
-    <string name="text_user_mileage">\"%s\"님의 마일리지</string>
+    <string name="text_user_mileage">%s님의 마일리지</string>
     <string name="text_user_score">%d점</string>
     <string name="text_complete_change_attendance_count">출석 횟수 변경 완료 !</string>
 </resources>

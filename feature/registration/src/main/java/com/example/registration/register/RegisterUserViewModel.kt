@@ -1,5 +1,6 @@
 package com.example.registration.register
 
+import com.example.domain.model.Duration
 import com.example.domain.model.User
 import com.example.domain.usecase.InsertUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +13,6 @@ import com.example.common.toTimestamp
 import com.example.domain.dataresource.DataResource
 import com.example.feature.registration.R
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,7 +46,7 @@ class RegisterUserViewModel @Inject constructor(
             is RegisterUserContract.Event.OnCompleteSetDuration -> {
                 setState {
                     this.copy(
-                        durationText = event.duration,
+                        selectedDuration = event.duration,
                         isShowDurationView = false
                     )
                 }
@@ -79,13 +78,8 @@ class RegisterUserViewModel @Inject constructor(
 
             is RegisterUserContract.Event.ClickedSave -> {
                 val msg: String
-                if (isEmptyInputFields(
-                        event.name,
-                        event.phone,
-                        event.durationText,
-                        event.startDateText
-                    )
-                ) {
+                val duration = event.duration
+                if (duration == null || isEmptyInputFields(event.name, event.phone, event.startDateText)) {
                     msg = resourceProvider.getString(R.string.msg_text_empty)
                     setEffect { RegisterUserContract.Effect.ShowToast(msg) }
                 } else {
@@ -96,7 +90,7 @@ class RegisterUserViewModel @Inject constructor(
                         val user = createUser(
                             event.name,
                             event.phone,
-                            event.durationText,
+                            duration,
                             event.startDateText
                         )
                         addUser(user)
@@ -164,53 +158,26 @@ class RegisterUserViewModel @Inject constructor(
     private fun isEmptyInputFields(
         name: String,
         phone: String,
-        durationText: String,
         startDateText: String
     ): Boolean {
-        return name.isBlank() || phone.isBlank() || durationText.isBlank() || startDateText.isBlank()
-    }
-
-    private fun getEndDateTimeMilli(startDate: Long, duration: String): Long {
-        val instant = Instant.ofEpochMilli(startDate)
-        var endDate: Instant? = null
-        when (duration) {
-            "2주" -> {
-                endDate = instant.plus(15, ChronoUnit.DAYS)
-            }
-
-            "4주" -> {
-                endDate = instant.plus(29, ChronoUnit.DAYS)
-            }
-
-            "8주" -> {
-                endDate = instant.plus(57, ChronoUnit.DAYS)
-            }
-
-            "12주" -> {
-                endDate = instant.plus(85, ChronoUnit.DAYS)
-            }
-        }
-
-        return endDate?.toEpochMilli() ?: 0
+        return name.isBlank() || phone.isBlank() || startDateText.isBlank()
     }
 
     private fun createUser(
         name: String,
         phone: String,
-        durationText: String,
+        duration: Duration,
         startDateText: String
     ): User {
         val startDateTime = startDateText.toTimestamp()
-        val userEndDateTime =
-            getEndDateTimeMilli(startDateTime, durationText)
 
         return User(
             id = 0,
             name = name,
             phoneNumber = phone,
-            duration = durationText,
+            duration = duration.label,
             startDateTime = startDateTime,
-            endDateTime = userEndDateTime,
+            endDateTime = duration.endDateTime(startDateTime),
             mileage = 0,
             attendanceCountOfToday = 0,
             attendanceDate = 0

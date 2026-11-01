@@ -2,6 +2,7 @@ package com.example.registration.reregister
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
+import com.example.domain.model.Duration
 import com.example.domain.model.User
 import com.example.domain.usecase.UpdateUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,8 +15,6 @@ import com.example.common.toTimestamp
 import com.example.domain.dataresource.DataResource
 import com.example.feature.registration.R
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,7 +43,9 @@ class ReRegisterUserViewModel @Inject constructor(
         when (event) {
             is ReRegisterUserContract.Event.ClickedSave -> {
                 val user = event.user
-                user.endDateTime = getEndDateTimeMilli(user.startDateTime, user.duration)
+                user.endDateTime = Duration.fromLabel(user.duration)
+                    ?.endDateTime(user.startDateTime)
+                    ?: user.endDateTime
                 reRegisterUser(user)
             }
 
@@ -67,7 +68,7 @@ class ReRegisterUserViewModel @Inject constructor(
             is ReRegisterUserContract.Event.OnCompleteSetDuration -> {
                 setState {
                     this.copy(
-                        user = user?.copy(duration = event.duration),
+                        user = user?.copy(duration = event.duration.label),
                         isShowDurationView = false
                     )
                 }
@@ -76,7 +77,7 @@ class ReRegisterUserViewModel @Inject constructor(
             is ReRegisterUserContract.Event.OnChangedDuration -> {
                 setState {
                     this.copy(
-                        user = user?.copy(duration = event.duration)
+                        user = user?.copy(duration = event.duration.label)
                     )
                 }
             }
@@ -129,29 +130,5 @@ class ReRegisterUserViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun getEndDateTimeMilli(startDate: Long, duration: String): Long {
-        val instant = Instant.ofEpochMilli(startDate)
-        var endDate: Instant? = null
-        when (duration) {
-            "2주" -> {
-                endDate = instant.plus(15, ChronoUnit.DAYS)
-            }
-
-            "4주" -> {
-                endDate = instant.plus(29, ChronoUnit.DAYS)
-            }
-
-            "8주" -> {
-                endDate = instant.plus(57, ChronoUnit.DAYS)
-            }
-
-            "12주" -> {
-                endDate = instant.plus(85, ChronoUnit.DAYS)
-            }
-        }
-
-        return endDate?.toEpochMilli() ?: 0
     }
 }

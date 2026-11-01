@@ -3,13 +3,14 @@ package com.example.registration.reregister
 import com.example.base.UiEffect
 import com.example.base.UiEvent
 import com.example.base.UiState
+import com.example.domain.model.Duration
 import com.example.domain.model.User
 
 class ReRegisterUserContract {
 
     sealed class Event : UiEvent {
-        data class OnChangedDuration(val duration: String) : Event()
-        data class OnCompleteSetDuration(val duration: String) : Event()
+        data class OnChangedDuration(val duration: Duration) : Event()
+        data class OnCompleteSetDuration(val duration: Duration) : Event()
         data class OnCompleteStartDate(val year: Int, val month: Int, val day: Int) :
             Event()
 
@@ -26,7 +27,7 @@ class ReRegisterUserContract {
     data class State(
         val isLoading: Boolean = false,
         val user: User? = null,
-        val durationValues: List<String> = listOf("2주", "4주", "8주", "12주"),
+        val durationValues: List<Duration> = Duration.entries,
         val isShowDurationView: Boolean = false,
         val isShowStartDateView: Boolean = false,
     ) : UiState
