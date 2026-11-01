@@ -10,6 +10,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.theme.PilatesTheme
 
@@ -27,5 +29,13 @@ fun CheckMark(modifier: Modifier = Modifier) {
             contentDescription = null,
             tint = PilatesTheme.colors.onPrimary
         )
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun CheckMarkPreview() {
+    PilatesTheme {
+        CheckMark()
     }
 }

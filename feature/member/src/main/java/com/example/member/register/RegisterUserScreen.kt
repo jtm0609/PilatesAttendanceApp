@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -11,6 +13,7 @@ import com.example.common.showToast
 import com.example.designsystem.component.DatePickerDialog
 import com.example.designsystem.component.DurationPickerDialog
 import com.example.designsystem.component.PilatesScaffold
+import com.example.designsystem.theme.PilatesTheme
 import com.example.domain.model.Duration
 import com.example.feature.member.R
 import com.example.member.register.component.UserInputForm
@@ -124,4 +127,25 @@ private fun RegisterUserContent(
         onDismissEvent = onDurationDismiss,
         onValueChange = onDurationChange
     )
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun RegisterUserPreview() {
+    PilatesTheme {
+        RegisterUserContent(
+            state = RegisterUserContract.State(),
+            onBack = {},
+            onNameChange = {},
+            onPhoneChange = {},
+            onDurationClick = {},
+            onStartDateClick = {},
+            onSaveClick = { _, _, _, _ -> },
+            onDateSet = { _, _, _ -> },
+            onDateDismiss = {},
+            onDurationSelected = {},
+            onDurationDismiss = {},
+            onDurationChange = {}
+        )
+    }
 }

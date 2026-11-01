@@ -13,10 +13,13 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.designsystem.component.PilatesScaffold
 import com.example.designsystem.component.MenuCard
+import com.example.designsystem.component.PilatesScaffold
+import com.example.designsystem.theme.PilatesTheme
 import com.example.feature.admin.R
 import com.example.navigation.Route
 
@@ -76,5 +79,18 @@ private fun AdminMenuContent(
                 onClick = onChangeAttendanceCountClick,
             )
         }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun AdminMenuPreview() {
+    PilatesTheme {
+        AdminMenuContent(
+            onBack = {},
+            onRegisterUserClick = {},
+            onManageUserClick = {},
+            onChangeAttendanceCountClick = {}
+        )
     }
 }

@@ -13,6 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.theme.PilatesTheme
 
@@ -37,4 +39,12 @@ fun AutoReturnBar(
         trackColor = PilatesTheme.colors.outline,
         progress = { progress }
     )
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun AutoReturnBarPreview() {
+    PilatesTheme {
+        AutoReturnBar(durationMillis = 3000)
+    }
 }

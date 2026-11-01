@@ -13,15 +13,18 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.designsystem.component.PilatesScaffold
-import com.example.member.component.MemberSummary
 import com.example.designsystem.component.MenuCard
+import com.example.designsystem.component.PilatesScaffold
+import com.example.designsystem.theme.PilatesTheme
 import com.example.feature.member.R
-import com.example.navigation.Route
+import com.example.member.component.MemberSummary
 import com.example.member.search.SearchUserViewModel
+import com.example.navigation.Route
 
 @Composable
 fun UserManageScreen(
@@ -91,5 +94,20 @@ private fun UserManageContent(
                 onClick = onChangeMileageClick,
             )
         }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun UserManagePreview() {
+    PilatesTheme {
+        UserManageContent(
+            memberName = "김하늘",
+            memberPhone = "01012345678",
+            memberMileage = 12,
+            onBack = {},
+            onReRegisterClick = {},
+            onChangeMileageClick = {}
+        )
     }
 }

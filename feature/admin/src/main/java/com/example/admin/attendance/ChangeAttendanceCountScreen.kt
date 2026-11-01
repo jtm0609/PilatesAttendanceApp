@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -15,6 +17,7 @@ import com.example.common.showToast
 import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.PilatesScaffold
 import com.example.designsystem.component.ValueStepper
+import com.example.designsystem.theme.PilatesTheme
 import com.example.feature.admin.R
 
 @Composable
@@ -80,6 +83,21 @@ private fun ChangeAttendanceCountContent(
         ConfirmButton(
             text = stringResource(R.string.text_save_button),
             onClick = { onSave(attendanceCount) }
+        )
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun ChangeAttendanceCountPreview() {
+    PilatesTheme {
+        ChangeAttendanceCountContent(
+            attendanceCount = 2,
+            isLoading = false,
+            onBack = {},
+            onCountUp = {},
+            onCountDown = {},
+            onSave = {}
         )
     }
 }

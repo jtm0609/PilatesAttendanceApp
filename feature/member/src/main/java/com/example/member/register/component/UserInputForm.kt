@@ -16,10 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.LabeledPickerField
 import com.example.designsystem.component.LabeledTextField
+import com.example.designsystem.theme.PilatesTheme
 import com.example.domain.model.Duration
 import com.example.feature.member.R
 import com.example.member.register.RegisterUserContract
@@ -96,5 +99,25 @@ fun UserInputForm(
                 }
             )
         }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun UserInputFormPreview() {
+    PilatesTheme {
+        UserInputForm(
+            state = RegisterUserContract.State(
+                name = "김하늘",
+                phone = "01012345678",
+                selectedDuration = Duration.FOUR_WEEKS,
+                startDateText = "2026-01-01"
+            ),
+            onNameChange = {},
+            onPhoneChange = {},
+            onDurationClick = {},
+            onStartDateClick = {},
+            onSaveClick = { _, _, _, _ -> }
+        )
     }
 }

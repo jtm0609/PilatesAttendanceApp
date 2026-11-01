@@ -4,10 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.designsystem.theme.PilatesTheme
 import com.example.feature.attendance.R
 
 private val keyGap = 10.dp
@@ -68,5 +73,21 @@ fun NumberKeypad(
                 onClick = onEnterClick,
             )
         }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun NumberKeypadPreview() {
+    PilatesTheme {
+        NumberKeypad(
+            modifier = Modifier
+                .width(420.dp)
+                .height(400.dp),
+            enterEnabled = true,
+            onNumberClick = {},
+            onBackspaceClick = {},
+            onEnterClick = {}
+        )
     }
 }

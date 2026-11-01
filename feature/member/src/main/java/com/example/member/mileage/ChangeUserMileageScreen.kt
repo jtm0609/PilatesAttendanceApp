@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -14,12 +16,13 @@ import androidx.navigation.NavHostController
 import com.example.common.showToast
 import com.example.designsystem.component.ConfirmButton
 import com.example.designsystem.component.PilatesScaffold
-import com.example.member.component.MemberSummary
 import com.example.designsystem.component.ValueStepper
+import com.example.designsystem.theme.PilatesTheme
 import com.example.domain.model.User
 import com.example.feature.member.R
-import com.example.navigation.Route
+import com.example.member.component.MemberSummary
 import com.example.member.search.SearchUserViewModel
+import com.example.navigation.Route
 
 @Composable
 fun ChangeUserMileageScreen(
@@ -100,6 +103,31 @@ private fun ChangeUserMileageContent(
         ConfirmButton(
             text = stringResource(R.string.text_save_button),
             onClick = onSave
+        )
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun ChangeUserMileagePreview() {
+    PilatesTheme {
+        ChangeUserMileageContent(
+            user = User(
+                id = 1,
+                name = "김하늘",
+                phoneNumber = "01012345678",
+                duration = "4주",
+                startDateTime = 1_767_225_600_000L,
+                endDateTime = 1_769_731_200_000L,
+                mileage = 12,
+                attendanceCountOfToday = 0,
+                attendanceDate = 0L
+            ),
+            isLoading = false,
+            onBack = {},
+            onMileageUp = {},
+            onMileageDown = {},
+            onSave = {}
         )
     }
 }

@@ -1,7 +1,6 @@
 package com.example.attendance.home
 
 import android.content.Context
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -117,15 +116,17 @@ private fun AttendanceHomeContent(
     }
 }
 
-@Preview(device = Devices.TABLET, uiMode = Configuration.ORIENTATION_LANDSCAPE)
+@Preview(device = Devices.TABLET)
 @Composable
-fun AttendanceHomeScreenPreview() {
-    AttendanceHomeContent(
-        phoneNumber = "1234",
-        isLoading = false,
-        onAdminClick = {},
-        onNumberClick = {},
-        onBackspaceClick = {},
-        onEnterClick = {}
-    )
+private fun AttendanceHomePreview() {
+    PilatesTheme {
+        AttendanceHomeContent(
+            phoneNumber = "1234",
+            isLoading = false,
+            onAdminClick = {},
+            onNumberClick = {},
+            onBackspaceClick = {},
+            onEnterClick = {}
+        )
+    }
 }

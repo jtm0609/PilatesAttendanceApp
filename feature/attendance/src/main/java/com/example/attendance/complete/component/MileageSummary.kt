@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.theme.PilatesTheme
 import com.example.designsystem.theme.Typography
@@ -60,5 +62,13 @@ fun MileageSummary(
                 style = Typography.titleMediumB.copy(fontWeight = FontWeight.SemiBold)
             )
         }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun MileageSummaryPreview() {
+    PilatesTheme {
+        MileageSummary(mileage = 12)
     }
 }

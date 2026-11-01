@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.attendance.home.AttendanceHomeViewModel.Companion.PHONE_DIGITS
 import com.example.designsystem.theme.PilatesTheme
@@ -50,5 +52,13 @@ fun PhoneNumberDisplay(phoneNumber: String) {
                 maxLines = 1
             )
         }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun PhoneNumberDisplayPreview() {
+    PilatesTheme {
+        PhoneNumberDisplay(phoneNumber = "1234")
     }
 }
