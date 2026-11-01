@@ -40,21 +40,26 @@ class AttendanceHomeViewModel @Inject constructor(
             }
 
             is AttendanceHomeContract.Event.OnClickNumber -> {
-                if(event.number == "←"){
+                if (uiState.value.phoneNumber.length < PHONE_DIGITS) {
                     setState {
-                        this.copy(phoneNumber = phoneNumber.dropLast(1))
+                        this.copy(phoneNumber = phoneNumber + event.number)
                     }
-                }else {
-                    if (uiState.value.phoneNumber.length < 8) {
-                        setState {
-                            this.copy(phoneNumber = phoneNumber + event.number)
-                        }
-                    }
+                }
+            }
+
+            is AttendanceHomeContract.Event.OnClickBackspace -> {
+                setState {
+                    this.copy(phoneNumber = phoneNumber.dropLast(1))
                 }
             }
 
             is AttendanceHomeContract.Event.OnClickOK -> {
                 checkUser("010${event.phoneNumber}")
+            }
+
+            is AttendanceHomeContract.Event.OnScreenEntered -> {
+                // Admin may have changed the daily limit while this ViewModel stayed alive.
+                getAdminData()
             }
         }
     }
@@ -147,6 +152,7 @@ class AttendanceHomeViewModel @Inject constructor(
                         setState {
                             this.copy(
                                 searchedUser = user,
+                                phoneNumber = "",
                                 isLoading = false
                             )
                         }
@@ -181,5 +187,9 @@ class AttendanceHomeViewModel @Inject constructor(
     //하루 출석횟수 초과한 회원인지 체크
     private fun checkExceedAttendanceCount(maxCount: Int, user: User): Boolean {
         return user.attendanceCountOfToday >= maxCount
+    }
+
+    companion object {
+        const val PHONE_DIGITS = 8
     }
 }

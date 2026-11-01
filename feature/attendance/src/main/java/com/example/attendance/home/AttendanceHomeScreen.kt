@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -23,7 +22,8 @@ import com.example.attendance.home.component.AdminButton
 import com.example.attendance.home.component.IntroSection
 import com.example.attendance.home.component.PhoneInputSection
 import com.example.common.showToast
-import com.example.designsystem.theme.DarkGray
+import com.example.designsystem.component.Progress
+import com.example.designsystem.theme.PilatesTheme
 import com.example.navigation.Route
 
 @Composable
@@ -36,6 +36,7 @@ fun AttendanceHomeScreen(
     val effectFlow = viewModel.effect
 
     LaunchedEffect(Unit) {
+        viewModel.setEvent(AttendanceHomeContract.Event.OnScreenEntered)
         effectFlow.collect { effect ->
             when (effect) {
                 is AttendanceHomeContract.Effect.GoAdminPage -> {
@@ -60,16 +61,16 @@ fun AttendanceHomeScreen(
 
     AttendanceHomeContent(
         phoneNumber = state.phoneNumber,
+        isLoading = state.isLoading,
         onAdminClick = { viewModel.setEvent(AttendanceHomeContract.Event.OnClickAdminMenu) },
         onNumberClick = { number ->
-            viewModel.setEvent(
-                AttendanceHomeContract.Event.OnClickNumber(number)
-            )
+            viewModel.setEvent(AttendanceHomeContract.Event.OnClickNumber(number))
+        },
+        onBackspaceClick = {
+            viewModel.setEvent(AttendanceHomeContract.Event.OnClickBackspace)
         },
         onEnterClick = {
-            viewModel.setEvent(
-                AttendanceHomeContract.Event.OnClickOK(state.phoneNumber)
-            )
+            viewModel.setEvent(AttendanceHomeContract.Event.OnClickOK(state.phoneNumber))
         }
     )
 }
@@ -78,22 +79,29 @@ fun AttendanceHomeScreen(
 private fun AttendanceHomeContent(
     modifier: Modifier = Modifier,
     phoneNumber: String,
+    isLoading: Boolean,
     onAdminClick: () -> Unit,
     onNumberClick: (String) -> Unit,
-    onEnterClick: (String) -> Unit
+    onBackspaceClick: () -> Unit,
+    onEnterClick: () -> Unit
 ) {
     Box(
-        modifier = modifier.background(DarkGray)
+        modifier = modifier
+            .fillMaxSize()
+            .background(PilatesTheme.colors.background)
     ) {
-        Row {
+        Row(modifier = Modifier.fillMaxSize()) {
             IntroSection(
                 modifier = Modifier.weight(1f)
             )
 
             PhoneInputSection(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 28.dp, horizontal = 24.dp),
                 phoneNumber = phoneNumber,
                 onNumberClick = onNumberClick,
+                onBackspaceClick = onBackspaceClick,
                 onEnterClick = onEnterClick
             )
         }
@@ -102,17 +110,22 @@ private fun AttendanceHomeContent(
             modifier = Modifier.align(Alignment.TopStart),
             onAdminClick = onAdminClick
         )
+
+        if (isLoading) {
+            Progress()
+        }
     }
 }
-
 
 @Preview(device = Devices.TABLET, uiMode = Configuration.ORIENTATION_LANDSCAPE)
 @Composable
 fun AttendanceHomeScreenPreview() {
     AttendanceHomeContent(
-        phoneNumber = "010-1234-5678",
+        phoneNumber = "1234",
+        isLoading = false,
         onAdminClick = {},
         onNumberClick = {},
+        onBackspaceClick = {},
         onEnterClick = {}
     )
 }
